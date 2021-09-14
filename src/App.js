@@ -22,13 +22,13 @@ function App() {
     }}>
       <Router>
         <Switch>
-          <Route exact path="/login" component={Login}/>
-          <Route exact path="/signup" component={SignUp}/>
+          <Route exact path="/" component={Login}/>
+          <Route exact path="/sign-up" component={SignUp}/>
           <Route exact path="/timeline" component={Timeline}/>
-          <Route exact path="/myposts" component={MyPosts}/>
-          <Route exact path="/usersposts" component={UsersPosts}/>
-          <Route exact path="/hashtag" component={Hashtag}/>
-          <Route exact path="/mylikes" component={MyLikes}/>
+          <Route exact path="/my-posts" component={MyPosts}/>
+          <Route exact path="/user/:id" component={UsersPosts}/>
+          <Route exact path="/hashtag/:hashtag" component={Hashtag}/>
+          <Route exact path="/my-likes" component={MyLikes}/>
         </Switch>
       </Router>
     </UserContext.Provider>
