@@ -25,24 +25,31 @@ function Hashtag() {
             .catch(alert(`Can't find any posts with the hashtag ${hashtag}`))
     }
 
-    useEffect(() => renderHashtagPosts(hashtag, config), [])
+   // useEffect(() => renderHashtagPosts(hashtag, config), [])
 
     return (
         <>
             {/*NavBar*/}
+            <Ola>
+                <PostsContainer>
+                    <PageTitle># {hashtag}</PageTitle>
+                    {/* hashtagsPosts.map(post => (
+                    // post
+                    )) */}
+                </PostsContainer>
 
-            <PageTitle># {hashtag}</PageTitle>
-
-            <PostsContainer>
-                {/* hashtagsPosts.map(post => (
-                   // post
-                )) */}
-            </PostsContainer>
-
-            {/*sidebar*/}
+                {/*sidebar*/}
+            </Ola>
         </>
     )
 }
+
+
+const Ola = styled.div`
+    width:100vw;
+    height: 100vh;
+    background-color: #333333;
+`
 
 const PageTitle = styled.h1`
     font-weight: bold;
@@ -50,7 +57,7 @@ const PageTitle = styled.h1`
     color: #FFFFFF;
 `
 
-const PageContainer = styled.div`
+const PostsContainer = styled.div`
     display: flex;
     flex-direction: column;
 `
