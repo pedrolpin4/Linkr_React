@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom"
 import styled from "styled-components"
 import UserContext from "../context/UserContext"
 import { getHashtagsPosts } from "../service/auth"
-import TrendingBar from "../components/TrendingBar"
+import BaseLayout from "../components/BaseLayout"
 
 function Hashtag() {
     const { hashtag } = useParams()
@@ -26,23 +26,13 @@ function Hashtag() {
 
    useEffect(() => renderHashtagPosts(config, hashtag), [])
 
+    const children = () => {
+        return (<h1>oi</h1>)
+    }
+
     return (
-        <>
-            {/*navbar*/}
-            <PageTitle># {hashtag}</PageTitle>
-            {hashtagPosts.map(post => (
-                //post
-                <h1>Me apague</h1>
-            ))}
-            <TrendingBar />
-        </>
+       <BaseLayout children = {children} title = {`# ${hashtag}`} />
     )
 }
-
-const PageTitle = styled.h1`
-
-`
-
-// está faltando só encaixar no basic layout que o Yohan está fazendo
 
 export default Hashtag;
