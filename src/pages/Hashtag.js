@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import styled from "styled-components"
-import {getHashtagsPosts} from "../service/auth"
+import UserContext from "../context/UserContext"
+import { getHashtagsPosts } from "../service/auth"
 import TrendingBar from "../components/TrendingBar"
 
 function Hashtag() {
-    const testToken = "09622c1e-d975-46a4-8b15-14063223e383"
     const { hashtag } = useParams()
     const [hashtagPosts, setHashtagPosts] = useState([])
-    // const { userData } = useContext(UserContext)
+    const { userData } = useContext(UserContext)
     
     const config = {
         headers: {
-            "Authorization": `Bearer ${testToken}` 
+            "Authorization": `Bearer ${userData.token}` 
         }
     }
 
@@ -28,11 +28,14 @@ function Hashtag() {
 
     return (
         <>
+            {/*navbar*/}
             <PageTitle># {hashtag}</PageTitle>
             {hashtagPosts.map(post => (
-                <h2>olá</h2>
+                //post
+                <h1>Me apague</h1>
             ))}
             <TrendingBar />
+            {/*sidebar*/}
         </>
     )
 }

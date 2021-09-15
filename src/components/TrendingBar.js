@@ -8,12 +8,11 @@ const TrendingBar = () => {
     const { 
         userData
     } = useContext(UserContext)
-    const testToken = "09622c1e-d975-46a4-8b15-14063223e383"
     const [trendings, setTrendings] = useState([])
     
     const config = {
         headers: {
-            "Authorization": `Bearer ${testToken}` 
+            "Authorization": `Bearer ${userData.token}` 
         }
     }
 
