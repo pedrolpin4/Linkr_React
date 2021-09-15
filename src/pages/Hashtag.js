@@ -1,5 +1,5 @@
 function Hashtag() {
-    return (
+    return(
         <div>Hashtag</div>
     )
 }
