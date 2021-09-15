@@ -31,13 +31,15 @@ function Timeline() {
                 ? <Loading spinnerSize={30}/>
                 : posts.length === 0
                     ? "Nenhum pos encontrado :("
-                    : posts.map(post => <Post username={post.user.username} 
-                                          text={post.text}
-                                          link={post.link}
-                                          profilePic={post.user.avatar}
-                                          prevTitle={post.linkTitle}
-                                          prevImage={post.linkImage}
-                                          prevDescription={post.linkDescription} />)
+                    : posts.map((post) => <Post username={post.user.username} 
+                                                text={post.text}
+                                                link={post.link}
+                                                profilePic={post.user.avatar}
+                                                prevTitle={post.linkTitle}
+                                                prevImage={post.linkImage}
+                                                prevDescription={post.linkDescription}
+                                                likes={post.likes}
+                                                userId={post.user.id} />)
         }</BaseLayout>
     )
 }

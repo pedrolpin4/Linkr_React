@@ -2,11 +2,11 @@ import styled from 'styled-components';
 
 export default function Preview({ title, description, link, img }) {
     return (
-        <PreviewContainer>
+        <PreviewContainer href={link} target="_blank">
             <LeftSection>
                 <h1>{title}</h1>
                 <p>{description}</p>
-                <a href={link}>{link}</a>
+                <p className="link" href={link}>{link}</p>
             </LeftSection>
 
             <RightSection img={img}/>
@@ -22,6 +22,9 @@ const PreviewContainer = styled.a`
     justify-content: space-between;
     border-radius: 10px;
     height: 155px;
+    z-index: 10;
+    overflow: hidden;
+
 `
 
 const LeftSection = styled.div`
@@ -32,17 +35,28 @@ const LeftSection = styled.div`
 
     h1 {
         font-size: 16px;
+        margin: 10px 0px 20px 0px;
+        word-wrap: break-word;
     }
 
     p {
         font-size: 11px;
+        margin-bottom: 10px;
+        word-wrap: break-word;
+        color: #9B9595;
+        height: 55px;
     }
 
-    a {
+    .link {
         font-size: 11px;
         text-decoration: none;
         color: #fff;
         border: none;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin-bottom: 0;
+        line-height: 20px;
     }
 `
 
@@ -52,4 +66,5 @@ const RightSection = styled.div`
     border-radius: 0px 10px 10px 0px;
     background-size: contain;
     background-image: url(${props => props.img});
+    z-index: 5;
 `

@@ -12,7 +12,9 @@ export default function Post({ profilePic,
                                liked,
                                prevTitle,
                                prevDescription,
-                               prevImage  })
+                               prevImage,
+                               likes,
+                               userId  })
 {
     const [ isLiked, setIsLiked ] = useState(liked);
 
@@ -20,25 +22,27 @@ export default function Post({ profilePic,
     return (
         <PostContainer>
             <LeftSection>
-                <img src={profilePic} />
+                <a href={`/user/${userId}`}><img src={profilePic} /></a>
                 {
                     liked
-                        ? <AiFillHeart color="#ff0000" size={15} />
-                        : <AiOutlineHeart color="#fff" size={15} />
+                        ? <AiFillHeart color="#ff0000" size={25} />
+                        : <AiOutlineHeart color="#fff" size={25} />
                 }
-                <p>10</p>
+                <p className="likes">
+                    {`${likes.length} ${likes.length === 1 ? "like" : "likes"}`}
+                </p>
             </LeftSection>
 
             <RightSection>
                 <header>
                     <p className="username">{username}</p>
                     <FaTrash size={12} />
+                    <p className="description"> {text}</p>
                 </header>
-                <p className="description"> {text}</p>
                 <Preview title={prevTitle}
                          description={prevDescription}
                          img={prevImage}
-                         link={link}/>
+                         link={link} />
             </RightSection>
         </PostContainer>
     )
@@ -51,7 +55,7 @@ const PostContainer = styled.div`
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
-    padding: 10px;
+    padding: 15px;
     min-height: 220px;
     position: relative;
 `
@@ -68,7 +72,12 @@ const LeftSection = styled.div`
         width: 50px;
         height: 50px;
         border-radius: 25px;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
+    }
+
+    .likes {
+        font-size: 12px;
+        margin-top: 5px;
     }
 `
 
@@ -79,7 +88,7 @@ const RightSection = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     height: 100%;
-    padding-left: 10px;
+    padding-left: 20px;
 
     svg {
         position: absolute;
@@ -94,6 +103,7 @@ const RightSection = styled.div`
     .description {
         color: #B7B7B7;
         margin-bottom: 10px;
+        min-height: 16px;
     }
 `
 
