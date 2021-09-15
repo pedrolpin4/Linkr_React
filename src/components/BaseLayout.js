@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Title } from '../SharedStyles/StyledComponents';
 import TrendingBar from '../components/TrendingBar';
 
 export default function BaseLayout({ children,
@@ -25,6 +24,8 @@ export default function BaseLayout({ children,
 
 const Title = styled.h1`
     font-family: 'Oswald', sans-serif;
+    font-size: 43px;
+    font-weight: bold;
 `
 
 const BaseLayoutContainer = styled.div`
@@ -40,7 +41,7 @@ const BaseLayoutContainer = styled.div`
     h1 {
         width: 932px;
         text-align: left;
-        margin: 30px 0px;
+        margin: 53px 0px;
     }
 `
 

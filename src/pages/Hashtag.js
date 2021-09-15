@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import styled from "styled-components"
 import UserContext from "../context/UserContext"
 import { getHashtagsPosts } from "../service/auth"
 import BaseLayout from "../components/BaseLayout"
+import NavBar from "../components/NavBar"
 
 function Hashtag() {
     const { hashtag } = useParams()
-    const [hashtagPosts, setHashtagPosts] = useState([])
+    const [hashtagsPosts, setHashtagsPosts] = useState([])
     const { userData } = useContext(UserContext)
     
     const config = {
@@ -19,7 +19,7 @@ function Hashtag() {
     function renderHashtagPosts (config, hashtag){
         getHashtagsPosts(config, hashtag)
             .then(res => {
-                setHashtagPosts([...res.data.posts])
+                setHashtagsPosts([...res.data.posts])
             })
             .catch(() => alert(`There was an error while finding the posts with the hashtag ${hashtag}`))
     }
@@ -31,7 +31,10 @@ function Hashtag() {
     }
 
     return (
-       <BaseLayout children = {children} title = {`# ${hashtag}`} />
+        <>
+        <NavBar />
+        <BaseLayout children = {children} title = {`# ${hashtag}`} />
+       </>
     )
 }
 
