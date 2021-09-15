@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { Title } from '../SharedStyles/StyledComponents';
 
 export default function BaseLayout({ children,
-                                     trends,
                                      title })
 {
 
@@ -16,9 +15,7 @@ export default function BaseLayout({ children,
                 </LeftSection>
 
                 <RightSection>
-                    <TrendsContainer>{
-                        trends.map((trend, index) => <p key={index}>{trend.name}</p>)
-                    }</TrendsContainer>
+                    
                 </RightSection>
             </MainContentContainer>
         </BaseLayoutContainer>
