@@ -2,26 +2,45 @@ import styled from "styled-components";
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import { useState } from "react";
-import API from "../service/auth";
+import { API } from "../service/auth";
 
 function SignUp() {
 
+  const history = useHistory();
   const [createEmail, setCreateEmail] = useState("");
   const [createPassword, setCreatePassword] = useState("");
   const [createUsername, setCreateUsername] = useState("");
   const [createImage, setCreateImage] = useState("");
+  const [enabled, setEnabled] = useState(true);
 
-  function signUpSuccess() {
-
+  function signUpSuccess(response) {
 
   }
 
-  function signUpFailure() {
-    
+  function signUpFailure(response) {
+
   }
 
   function createAccount (e) {
+    e.preventDefault();
+    setEnabled(false);
 
+    const body = {
+      "email": createEmail,
+      "password": createPassword,
+      "username": createUsername,
+      "pictureUrl": createImage
+    }
+    
+    if (createEmail === "" || createPassword === "" || createUsername === "" || createImage === "") {
+      alert("Please, fill out the fields below.");
+    } else {
+
+      console.log(body);
+      API.post("/sign-up", body)
+        .then(signUpSuccess)
+        .catch(signUpFailure);
+    }
   }
 
 
@@ -40,7 +59,7 @@ function SignUp() {
             placeholder="e-mail"
             value={createEmail}
             onChange={(e) => setCreateEmail(e.target.value)}
-            // required
+            required
           />
           <input
             type="password"
@@ -63,7 +82,12 @@ function SignUp() {
             onChange={(e) => setCreateImage(e.target.value)}
             // required
           />
-          <button type="submit">Sign Up</button>
+          <EnterButton
+            clickable={enabled}
+            type="submit"
+          >
+            Sign Up
+          </EnterButton>
         </form>
         <Link to="/">
           <p>Switch back to log in</p>
@@ -163,20 +187,6 @@ const LoginForm = styled.div`
     color: #9f9f9f;
   }
 
-  button {
-    font-family: "Oswald", sans-serif;
-    width: 429px;
-    height: 65px;
-    background: #1877f2;
-    border-radius: 6px;
-    border: none;
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 27px;
-    line-height: 40px;
-    color: #ffffff;
-  }
-
   p {
     font-family: "Lato", sans-serif;
     font-size: 20px;
@@ -206,18 +216,34 @@ const LoginForm = styled.div`
       margin-bottom: 11px;
     }
 
-    button {
-      width: 330px;
-      height: 55px;
-      font-size: 22px;
-      line-height: 33px;
-    }
-
     p {
       font-size: 17px;
       line-height: 20px;
       margin-top: 18px;
     }
+  }
+`;
+
+const EnterButton = styled.button`
+  font-family: "Oswald", sans-serif;
+  width: 429px;
+  height: 65px;
+  background: #1877f2;
+  border-radius: 6px;
+  border: none;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 27px;
+  line-height: 40px;
+  color: #ffffff;
+  pointer-events: ${(props) => props.clickable ? 'auto' : 'none'};
+  opacity: ${(props) => props.clickable ? 1 : 0.7};
+
+  @media (max-width: 600px) {
+    width: 330px;
+    height: 55px;
+    font-size: 22px;
+    line-height: 33px;
   }
 `;
 
