@@ -35,7 +35,6 @@ function Hashtag() {
                 <h1>Me apague</h1>
             ))}
             <TrendingBar />
-            {/*sidebar*/}
         </>
     )
 }
@@ -43,5 +42,7 @@ function Hashtag() {
 const PageTitle = styled.h1`
 
 `
+
+// está faltando só encaixar no basic layout que o Yohan está fazendo
 
 export default Hashtag;
