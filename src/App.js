@@ -11,7 +11,6 @@ import MyLikes from "./pages/MyLikes";
 import MyPosts from "./pages/MyPosts";
 import Timeline from "./pages/Timeline";
 import UsersPosts from "./pages/UsersPosts";
-
 import BaseLayout from "./components/BaseLayout";
 
 function App() {

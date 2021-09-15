@@ -52,7 +52,8 @@ const PostContainer = styled.div`
     justify-content: space-between;
     margin-bottom: 20px;
     padding: 10px;
-    min-height: 200px;
+    min-height: 220px;
+    position: relative;
 `
 
 const LeftSection = styled.div`
