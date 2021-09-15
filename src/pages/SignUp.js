@@ -34,6 +34,10 @@ const EnterContainer = styled.div`
   background-color: #333333;
   color: #ffffff;
   font-family: "Oswald", sans-serif;
+
+  @media(max-width: 600px) {
+    flex-direction: column;
+  }
 `;
 
 const LogoHolder = styled.div`
@@ -58,6 +62,27 @@ const LogoHolder = styled.div`
     font-size: 43px;
     line-height: 64px;
     font-weight: 700;
+  }
+
+  @media (max-width: 600px) {
+    width: 100%;
+    height: 175px;
+
+    div {
+      margin: 10px auto 27px;
+      width: 237px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 76px;
+      line-height: 84px;
+    }
+
+    h2 {
+      font-size: 23px;
+      line-height: 34px;
+    }
   }
 `;
 
@@ -116,6 +141,37 @@ const LoginForm = styled.div`
 
   a {
     color: inherit;
+  }
+
+  @media (max-width: 600px) {
+    width: 100%;
+    height: unset;
+
+    form {
+      margin: 40px auto 0;
+    }
+
+    input {
+      font-size: 22px;
+      line-height: 33px;
+      width: 330px;
+      height: 55px;
+      padding: 10px 17px 12px;
+      margin-bottom: 11px;
+    }
+
+    button {
+      width: 330px;
+      height: 55px;
+      font-size: 22px;
+      line-height: 33px;
+    }
+
+    p {
+      font-size: 17px;
+      line-height: 20px;
+      margin-top: 18px;
+    }
   }
 `;
 
