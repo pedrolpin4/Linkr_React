@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { FaTrash } from 'react-icons/fa';
+import ReactHashtag from "react-hashtag";
 
 import Preview from './Preview';
 
@@ -37,7 +38,14 @@ export default function Post({ profilePic,
                 <header>
                     <p className="username">{username}</p>
                     <FaTrash size={12} />
-                    <p className="description"> {text}</p>
+                    <ReactHashtag onHashtagClick={val => alert(val)}
+                                  renderHashtag={hashtag => (
+                                    <a className="hashtag" key={hashtag}  href={`/hashtag/${hashtag.substr(1)}`}>
+                                        {hashtag}
+                                    </a>
+                                  )}>
+                        {text}
+                    </ReactHashtag>
                 </header>
                 <Preview title={prevTitle}
                          description={prevDescription}
@@ -96,14 +104,23 @@ const RightSection = styled.div`
         top: 10px;
     }
 
-    .username {
+    header {
         margin-bottom: 10px;
+        color: #cecece;
+        line-height: 20px;
+        font-size: 17px;
     }
 
-    .description {
-        color: #B7B7B7;
+    .username {
         margin-bottom: 10px;
-        min-height: 16px;
+        line-height: unset;
+        color: #fff;
+        font-size: 19px;
+    }
+
+    .hashtag {
+        font-weight: bolder;
+        color: #fff;
     }
 `
 
