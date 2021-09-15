@@ -9,7 +9,7 @@ function getHashtags (config) {
 }
 
 function getHashtagsPosts (config, hashtag){
-    return API.get(`/hashtag/${hashtag}/posts`)
+    return API.get(`/hashtags/${hashtag}/posts`, config)
 }
 
 export{
