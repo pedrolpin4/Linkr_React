@@ -3,7 +3,7 @@ import { useState } from "react"; // importar useContext
 import axios from "axios";
 //import UserContext from "../context/UserContext";
 
-function PostBox() {
+function PostBox() {  
   const [url, setUrl] = useState("");
   const [text, setText] = useState("");
   //const user = useContext(UserContext);
@@ -30,6 +30,7 @@ function PostBox() {
         console.log(resp);
         setUrl("");
         setText("");
+        setClicked(false);
       });
       req.catch((error) => {
         console.log(error);
@@ -39,8 +40,8 @@ function PostBox() {
       });
     } else {
       alert("An URL must be defined.");
+      setClicked(false);
     }
-    setClicked(false);
   }
 
   return (
@@ -84,9 +85,9 @@ const CreatePostBox = styled.div`
   height: 209px;
   border-radius: 16px;
   background-color: #fff;
-  position: fixed;
-  top: 232px;
-  left: 241px;
+  //position: fixed;
+  //top: 232px;
+  //left: 241px;
   display: flex;
   padding: 20px;
 `;
