@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import { useState } from "react";
 import { API } from "../service/auth";
@@ -14,11 +13,29 @@ function SignUp() {
   const [enabled, setEnabled] = useState(true);
 
   function signUpSuccess(response) {
-
+    if (response.status === 200 || response.status === 201) {
+      console.log("resp1", response);
+      alert(
+        "You account has been created! Now you only need to log in to start having fun! :D"
+      );
+      setEnabled(true);
+      setCreateEmail("");
+      setCreatePassword("");
+      setCreateUsername("");
+      setCreateImage("");
+      history.push("/");
+    }
   }
 
   function signUpFailure(response) {
-
+    if (response.response.status === 403) {
+      console.log("resp1", response);
+      console.log(response.response);
+      alert("This e-mail has already been used to create an account. Please, log in or try to use another e-mail address.");
+    } else {
+      alert("Something went wrong. Please, check the fields and try again.");
+    }
+    setEnabled(true);
   }
 
   function createAccount (e) {
@@ -35,14 +52,11 @@ function SignUp() {
     if (createEmail === "" || createPassword === "" || createUsername === "" || createImage === "") {
       alert("Please, fill out the fields below.");
     } else {
-
-      console.log(body);
       API.post("/sign-up", body)
         .then(signUpSuccess)
         .catch(signUpFailure);
     }
   }
-
 
   return (
     <EnterContainer>
@@ -54,38 +68,39 @@ function SignUp() {
       </LogoHolder>
       <LoginForm onSubmit={createAccount}>
         <form>
-          <input
+          <EnterInput
             type="email"
             placeholder="e-mail"
             value={createEmail}
             onChange={(e) => setCreateEmail(e.target.value)}
+            clickable={enabled}
             required
           />
-          <input
+          <EnterInput
             type="password"
             placeholder="password"
             value={createPassword}
             onChange={(e) => setCreatePassword(e.target.value)}
+            clickable={enabled}
             // required
           />
-          <input
+          <EnterInput
             type="text"
             placeholder="username"
             value={createUsername}
             onChange={(e) => setCreateUsername(e.target.value)}
+            clickable={enabled}
             // required
           />
-          <input
+          <EnterInput
             type="url"
             placeholder="picture url"
             value={createImage}
             onChange={(e) => setCreateImage(e.target.value)}
+            clickable={enabled}
             // required
           />
-          <EnterButton
-            clickable={enabled}
-            type="submit"
-          >
+          <EnterButton clickable={enabled} type="submit">
             Sign Up
           </EnterButton>
         </form>
@@ -134,7 +149,7 @@ const LogoHolder = styled.div`
     font-weight: 700;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 1000px) {
     width: 100%;
     height: 175px;
 
@@ -169,24 +184,6 @@ const LoginForm = styled.div`
     flex-direction: column;
   }
 
-  input {
-    font-family: "Oswald", sans-serif;
-    font-weight: 700;
-    font-size: 27px;
-    line-height: 40px;
-    width: 429px;
-    height: 65px;
-    color: #9f9f9f;
-    padding: 12px 17px 13px;
-    margin-bottom: 13px;
-    border: none;
-    border-radius: 6px;
-  }
-
-  input::placeholder {
-    color: #9f9f9f;
-  }
-
   p {
     font-family: "Lato", sans-serif;
     font-size: 20px;
@@ -199,21 +196,12 @@ const LoginForm = styled.div`
     color: inherit;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 1000px) {
     width: 100%;
     height: unset;
 
     form {
       margin: 40px auto 0;
-    }
-
-    input {
-      font-size: 22px;
-      line-height: 33px;
-      width: 330px;
-      height: 55px;
-      padding: 10px 17px 12px;
-      margin-bottom: 11px;
     }
 
     p {
@@ -239,11 +227,40 @@ const EnterButton = styled.button`
   pointer-events: ${(props) => props.clickable ? 'auto' : 'none'};
   opacity: ${(props) => props.clickable ? 1 : 0.7};
 
-  @media (max-width: 600px) {
+  @media (max-width: 1000px) {
     width: 330px;
     height: 55px;
     font-size: 22px;
     line-height: 33px;
+  }
+`;
+
+const EnterInput = styled.input`
+  font-family: "Oswald", sans-serif;
+  font-weight: 700;
+  font-size: 27px;
+  line-height: 40px;
+  width: 429px;
+  height: 65px;
+  color: #9f9f9f;
+  padding: 12px 17px 13px;
+  margin-bottom: 13px;
+  border: none;
+  border-radius: 6px;
+  background-color: ${(props) => (props.clickable ? "#FFFFFF" : "#d4d2d2")};
+  pointer-events: ${(props) => props.clickable ? 'auto' : 'none'};
+
+  &::placeholder {
+    color: #9f9f9f;
+  }
+
+  @media (max-width: 1000px) {
+    font-size: 22px;
+    line-height: 33px;
+    width: 330px;
+    height: 55px;
+    padding: 10px 17px 12px;
+    margin-bottom: 11px;
   }
 `;
 
