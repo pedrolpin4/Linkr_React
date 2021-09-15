@@ -1,8 +1,30 @@
 import styled from "styled-components";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useState } from "react";
+import API from "../service/auth";
 
 function SignUp() {
+
+  const [createEmail, setCreateEmail] = useState("");
+  const [createPassword, setCreatePassword] = useState("");
+  const [createUsername, setCreateUsername] = useState("");
+  const [createImage, setCreateImage] = useState("");
+
+  function signUpSuccess() {
+
+
+  }
+
+  function signUpFailure() {
+    
+  }
+
+  function createAccount (e) {
+
+  }
+
+
   return (
     <EnterContainer>
       <LogoHolder>
@@ -11,13 +33,37 @@ function SignUp() {
           <h2>save, share and discover the best links on the web</h2>
         </div>
       </LogoHolder>
-      <LoginForm>
+      <LoginForm onSubmit={createAccount}>
         <form>
-          <input type="email" placeholder="e-mail" />
-          <input type="password" placeholder="password" />
-          <input type="text" placeholder="username" />
-          <input type="url" placeholder="picture url" />
-          <button>Sign Up</button>
+          <input
+            type="email"
+            placeholder="e-mail"
+            value={createEmail}
+            onChange={(e) => setCreateEmail(e.target.value)}
+            // required
+          />
+          <input
+            type="password"
+            placeholder="password"
+            value={createPassword}
+            onChange={(e) => setCreatePassword(e.target.value)}
+            // required
+          />
+          <input
+            type="text"
+            placeholder="username"
+            value={createUsername}
+            onChange={(e) => setCreateUsername(e.target.value)}
+            // required
+          />
+          <input
+            type="url"
+            placeholder="picture url"
+            value={createImage}
+            onChange={(e) => setCreateImage(e.target.value)}
+            // required
+          />
+          <button type="submit">Sign Up</button>
         </form>
         <Link to="/">
           <p>Switch back to log in</p>
