@@ -19,7 +19,7 @@ const TrendingBar = () => {
     function pickTrendings(config){
         getHashtags(config)
             .then(res => setTrendings([...res.data.hashtags]))
-            .catch(res => console.log(res))
+            .catch(res => alert("There was an error while getting the trending topics of the day"))
     }
 
     useEffect(() => pickTrendings(config), [])
