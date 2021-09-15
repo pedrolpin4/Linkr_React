@@ -4,10 +4,15 @@ export const API = axios.create({
     baseURL: "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr",
 })
 
-function getHashtagsPosts(hashtag, config) {
-   return API.get(`/hashtags/${hashtag}/posts`, config)
+function getHashtags (config) {
+    return API.get("/hashtags/trending", config)
 }
 
-export {
+function getHashtagsPosts (config, hashtag){
+    return API.get(`/hashtag/${hashtag}/posts`)
+}
+
+export{
+    getHashtags,
     getHashtagsPosts
 }

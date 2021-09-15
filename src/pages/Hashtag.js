@@ -1,18 +1,15 @@
-import { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
-import styled from "styled-components";
-import UserContext from "../context/UserContext";
-import { getHashtagsPosts } from "../service/auth";
-
+import { useEffect } from "react"
+import {getHashtagsPosts} from "../service/auth"
 
 function Hashtag() {
+    const testToken = "09622c1e-d975-46a4-8b15-14063223e383"
     const { hashtag } = useParams()
     const [hashtagPosts, setHashtagPosts] = useState([])
     const { userData } = useContext(UserContext)
     
     const config = {
         headers: {
-            "Authorization": `Bearer ${userData.token}` 
+            "Authorization": `Bearer ${testToken}` 
         }
     }
 
@@ -25,7 +22,7 @@ function Hashtag() {
             .catch(alert(`Can't find any posts with the hashtag ${hashtag}`))
     }
 
-   // useEffect(() => renderHashtagPosts(hashtag, config), [])
+   useEffect(() => renderHashtagPosts(hashtag, config), [])
 
     return (
         <>
@@ -44,23 +41,5 @@ function Hashtag() {
         </>
     )
 }
-
-
-const Ola = styled.div`
-    width:100vw;
-    height: 100vh;
-    background-color: #333333;
-`
-
-const PageTitle = styled.h1`
-    font-weight: bold;
-    font-size: 43px;
-    color: #FFFFFF;
-`
-
-const PostsContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-`
 
 export default Hashtag;
