@@ -7,7 +7,7 @@ import { getHashtagsPosts } from "../service/auth";
 
 function Hashtag() {
     const { hashtag } = useParams()
-    const [hashtagsPosts, setHashtagsPosts] = useState([])
+    const [hashtagPosts, setHashtagPosts] = useState([])
     const { userData } = useContext(UserContext)
     
     const config = {
@@ -20,7 +20,7 @@ function Hashtag() {
         getHashtagsPosts(hashtag, config)
             .then(res => {
                 console.log(res.data);
-                setHashtagsPosts([...res.data.posts])
+                setHashtagPosts([...res.data.posts])
             })
             .catch(alert(`Can't find any posts with the hashtag ${hashtag}`))
     }
@@ -33,9 +33,10 @@ function Hashtag() {
             <Ola>
                 <PostsContainer>
                     <PageTitle># {hashtag}</PageTitle>
-                    {/* hashtagsPosts.map(post => (
-                    // post
-                    )) */}
+                    {hashtagPosts.map(post => (
+                     //post
+                     <h2>olá</h2>
+                    ))}
                 </PostsContainer>
 
                 {/*sidebar*/}
