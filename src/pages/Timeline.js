@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { getPosts } from "../service/auth";
 
 import BaseLayout from "../components/BaseLayout";
 import Loading from "../components/Loading";
 import Post from '../components/Post';
+import service from '../service/auth';
 
 function Timeline() {
     const [ isLoading, setIsLoading ] = useState(true);
@@ -12,7 +12,7 @@ function Timeline() {
     useEffect(() => {
         async function getPostsData() {
             const token = "09622c1e-d975-46a4-8b15-14063223e383"; // Only in development
-            const response = await getPosts(token);
+            const response = await service.getPosts(token);
 
             if(response) setPosts(response.posts)
             else if(response === false) alert("Desculpe, o servidor saiu pra almoço, por favor atualize a página")

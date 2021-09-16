@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Service from "../service/auth"
+import service from "../service/auth"
 import UserContext from "../context/UserContext"
 
 const TrendingBar = () => {
@@ -12,7 +12,7 @@ const TrendingBar = () => {
     
 
     function pickTrendings(config){
-        Service.getHashtags(config)
+        service.getHashtags(config)
             .then(res => setTrendings([...res.data.hashtags]))
             .catch(res => alert("There was an error while getting the trending topics of the day"))
     }

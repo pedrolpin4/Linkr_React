@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import UserContext from "../context/UserContext"
-import Service from "../service/auth"
+import service from "../service/auth"
 import BaseLayout from "../components/BaseLayout"
 
 function Hashtag() {
@@ -16,7 +16,7 @@ function Hashtag() {
     }
 
     function renderHashtagPosts (config, hashtag){
-        Service.getHashtagsPosts(config, hashtag)
+        service.getHashtagsPosts(config, hashtag)
             .then(res => {
                 setHashtagsPosts([...res.data.posts])
             })
