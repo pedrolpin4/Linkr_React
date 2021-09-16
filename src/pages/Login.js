@@ -1,5 +1,5 @@
 import { Link, useHistory } from "react-router-dom";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import UserContext from "../context/UserContext";
 import { API } from "../service/auth";
 import {
@@ -10,7 +10,7 @@ import {
   EnterInput,
 } from "../SharedStyles/LogInSignUp";
 
-function Login() {
+function Login({ userLogin }) {
   const history = useHistory();
   const [loginEmail, setloginEmail] = useState("");
   const [loginPassword, setloginPassword] = useState("");
@@ -18,9 +18,18 @@ function Login() {
 
   const { setUserData } = useContext(UserContext);
 
+  const checkRedirection = (userLogin) => {
+    if (userLogin) {
+      history.push("/timeline");
+    }
+  };
+
+  useEffect(() => checkRedirection(userLogin), []);
+
   function logInSuccess(response) {
     if (response.status === 200 || response.status === 201) {
       setUserData(response.data);
+      localStorage.setItem("userLogin", JSON.stringify(response.data));
       history.push("/timeline");
       setEnabled(true);
       setloginEmail("");
@@ -29,7 +38,7 @@ function Login() {
   }
 
   function logInFailure(response) {
-    console.log(response.response)
+    console.log(response.response);
     if (response.response.status === 403) {
       alert(
         "Invalid e-mail and/or password. Please, check the fields and try again."
@@ -46,7 +55,7 @@ function Login() {
 
     const body = {
       email: loginEmail,
-      password: loginPassword
+      password: loginPassword,
     };
 
     if (loginEmail === "" || loginPassword === "") {
