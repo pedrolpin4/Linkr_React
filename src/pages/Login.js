@@ -1,5 +1,6 @@
 import { Link, useHistory } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import UserContext from "../context/UserContext";
 import { API } from "../service/auth";
 import {
   EnterContainer,
@@ -15,26 +16,27 @@ function Login() {
   const [loginPassword, setloginPassword] = useState("");
   const [enabled, setEnabled] = useState(true);
 
+  const { setUserData } = useContext(UserContext);
+
   function logInSuccess(response) {
     if (response.status === 200 || response.status === 201) {
-    //   alert(
-    //     "You account has been logind! Now you only need to log in to start having fun! :D"
-    //   );
+      setUserData(response.data);
+      history.push("/timeline");
       setEnabled(true);
-    //   setloginEmail("");
-    //   setloginPassword("");
-    //   // history.push("/");
+      setloginEmail("");
+      setloginPassword("");
     }
   }
 
   function logInFailure(response) {
-    // if (response.response.status === 403) {
-    //   alert(
-    //     "This e-mail has already been used to create an account. Please, log in or try to use another e-mail address."
-    //   );
-    // } else {
-    //   alert("Something went wrong. Please, check the fields and try again.");
-    // }
+    console.log(response.response)
+    if (response.response.status === 403) {
+      alert(
+        "Invalid e-mail and/or password. Please, check the fields and try again."
+      );
+    } else {
+      alert("Something went wrong. Please, check the fields and try again.");
+    }
     setEnabled(true);
   }
 

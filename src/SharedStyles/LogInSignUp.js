@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const EnterContainer = styled.div`
   display: flex;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   background-color: #333333;
   color: #ffffff;
@@ -10,13 +10,14 @@ const EnterContainer = styled.div`
 
   @media (max-width: 1000px) {
     flex-direction: column;
+    height: 100%;
   }
 `;
 
 const LogoHolder = styled.div`
   background: #151515;
   width: 65vw;
-  height: 100vh;
+  height: 100%;
   padding: 20vh 10%;
 
   div {
@@ -62,7 +63,7 @@ const LogoHolder = styled.div`
 
 const LoginForm = styled.div`
   width: 35vw;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -90,7 +91,7 @@ const LoginForm = styled.div`
     height: unset;
 
     div {
-      margin: 40px auto 0;
+      margin: 40px auto 40px;
     }
 
     form {
@@ -158,4 +159,10 @@ const EnterInput = styled.input`
   }
 `;
 
-export { EnterContainer, LogoHolder, LoginForm, EnterButton, EnterInput };
+export {
+  EnterContainer,
+  LogoHolder,
+  LoginForm,
+  EnterButton,
+  EnterInput
+}
