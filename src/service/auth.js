@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const API = axios.create({
-    baseURL: "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr",
+    baseURL: "https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr",
 })
 
 function head(token) {
@@ -28,10 +28,15 @@ function getHashtagsPosts (config, hashtag){
     return API.get(`/hashtags/${hashtag}/posts`, config)
 }
 
+function getUserPosts (config, userId){
+    return API.get(`/users/${userId}/posts`, config)
+}
+
 const service =  {
     getHashtags,
     getHashtagsPosts,
-    getPosts
+    getPosts,
+    getUserPosts
 }
 
 export default service;
