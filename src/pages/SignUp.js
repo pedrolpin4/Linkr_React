@@ -14,7 +14,6 @@ function SignUp() {
 
   function signUpSuccess(response) {
     if (response.status === 200 || response.status === 201) {
-      console.log("resp1", response);
       alert(
         "You account has been created! Now you only need to log in to start having fun! :D"
       );
@@ -29,8 +28,6 @@ function SignUp() {
 
   function signUpFailure(response) {
     if (response.response.status === 403) {
-      console.log("resp1", response);
-      console.log(response.response);
       alert("This e-mail has already been used to create an account. Please, log in or try to use another e-mail address.");
     } else {
       alert("Something went wrong. Please, check the fields and try again.");

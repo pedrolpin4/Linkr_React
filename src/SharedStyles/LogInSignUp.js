@@ -85,10 +85,6 @@ const LoginForm = styled.div`
     margin-top: 22px;
   }
 
-  a {
-    color: inherit;
-  }
-
   @media (max-width: 1000px) {
     width: 100%;
     height: unset;
