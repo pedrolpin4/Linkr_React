@@ -109,7 +109,7 @@ section {
 }
 body {
   line-height: 1;
-  font-family: "Lexend Deca", sans-serif;
+  box-sizing: border-box;
 }
 ol,
 ul {
@@ -137,4 +137,5 @@ table {
 
 a {
   text-decoration: none;
+  color: inherit;
 }
