@@ -5,6 +5,7 @@ import { getHashtags } from "../service/auth"
 import UserContext from "../context/UserContext"
 
 const TrendingBar = () => {
+    const testToken = "09622c1e-d975-46a4-8b15-14063223e383"
     const { 
         userData
     } = useContext(UserContext)
@@ -12,7 +13,7 @@ const TrendingBar = () => {
     
     const config = {
         headers: {
-            "Authorization": `Bearer ${userData.token}` 
+            "Authorization": `Bearer ${testToken}` 
         }
     }
 
@@ -28,7 +29,7 @@ const TrendingBar = () => {
             <TrendingsBarTitle>trending</TrendingsBarTitle>
             <HorizontalLine />
                 {trendings.map(trending =>(
-                    <HashtagsName>
+                    <HashtagsName key = {trending.id}>
                         <Link to = {`/hashtag/${trending.name}`}>
                             # {trending.name}                     
                         </Link>    
@@ -39,6 +40,7 @@ const TrendingBar = () => {
 }
 
 const TrendingsContainer = styled.div`
+    margin-top: 232px;
     padding: 9px 0px 30px 0px;
     width: 301px;
     background: #171717;

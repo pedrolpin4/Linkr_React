@@ -3,16 +3,16 @@ import { useParams } from "react-router-dom"
 import UserContext from "../context/UserContext"
 import { getHashtagsPosts } from "../service/auth"
 import BaseLayout from "../components/BaseLayout"
-import NavBar from "../components/NavBar"
 
 function Hashtag() {
+    const testToken = "09622c1e-d975-46a4-8b15-14063223e383"
     const { hashtag } = useParams()
     const [hashtagsPosts, setHashtagsPosts] = useState([])
     const { userData } = useContext(UserContext)
     
     const config = {
         headers: {
-            "Authorization": `Bearer ${userData.token}` 
+            "Authorization": `Bearer ${testToken}` 
         }
     }
 
@@ -26,15 +26,17 @@ function Hashtag() {
 
    useEffect(() => renderHashtagPosts(config, hashtag), [])
 
-    const children = () => {
-        return (<h1>oi</h1>)
+    function HashtagsChildren() {
+       return (
+        <>
+            {hashtagsPosts.map( post => <h1 key = {post.id}>{post.text}</h1>)}
+            {/* substituir pelos psts passando o parãmetro post*/}
+        </>
+        )
     }
 
     return (
-        <>
-        <NavBar />
-        <BaseLayout children = {children} title = {`# ${hashtag}`} />
-       </>
+        <BaseLayout children = {<HashtagsChildren/>} title = {`# ${hashtag}`} />
     )
 }
 

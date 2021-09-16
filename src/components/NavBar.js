@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import styled from "styled-components";
 import UserContext from "../context/UserContext";
+import { MdKeyboardArrowDown as ArrowDown} from "react-icons/md"
 
 
 export default function NavBar () {
@@ -12,7 +13,7 @@ export default function NavBar () {
         <NavBarContainer>
             <NavBarTitle>linkr</NavBarTitle>
             <div>
-               <ion-icon name = "checkbox-outline"/>
+               <ArrowDown color = "#FFFFFF" size = {40}/>
                <ProfileImg src = {userData.avatar} />
             </div>
         </NavBarContainer>
@@ -20,6 +21,9 @@ export default function NavBar () {
 }
 
 const NavBarContainer = styled.div`
+    position: fixed;
+    top: 0px;
+    left: 0px;
     background: #151515;
     height: 72px;
     width: 100vw;
@@ -37,6 +41,7 @@ const NavBarTitle = styled.h1`
 `
 
 const ProfileImg = styled.img`
+    margin-left: 10px;
     width: 53px;
     height: 53px;
     border-radius: 26.5px;
