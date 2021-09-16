@@ -6,10 +6,10 @@ import { EnterContainer, LogoHolder, LoginForm, EnterButton, EnterInput } from "
 function SignUp() {
 
   const history = useHistory();
-  const [createEmail, setCreateEmail] = useState("");
-  const [createPassword, setCreatePassword] = useState("");
-  const [createUsername, setCreateUsername] = useState("");
-  const [createImage, setCreateImage] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [image, setImage] = useState("");
   const [enabled, setEnabled] = useState(true);
 
   function signUpSuccess(response) {
@@ -18,10 +18,10 @@ function SignUp() {
         "You account has been created! Now you only need to log in to start having fun! :D"
       );
       setEnabled(true);
-      setCreateEmail("");
-      setCreatePassword("");
-      setCreateUsername("");
-      setCreateImage("");
+      setEmail("");
+      setPassword("");
+      setUsername("");
+      setImage("");
       history.push("/");
     }
   }
@@ -40,13 +40,13 @@ function SignUp() {
     setEnabled(false);
 
     const body = {
-      "email": createEmail,
-      "password": createPassword,
-      "username": createUsername,
-      "pictureUrl": createImage
+      email: email,
+      password: password,
+      username: username,
+      pictureUrl: image
     }
     
-    if (createEmail === "" || createPassword === "" || createUsername === "" || createImage === "") {
+    if (email === "" || password === "" || username === "" || image === "") {
       alert("Please, fill out the fields below.");
       setEnabled(true);
     } else {
@@ -70,29 +70,29 @@ function SignUp() {
             <EnterInput
               type="email"
               placeholder="e-mail"
-              value={createEmail}
-              onChange={(e) => setCreateEmail(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               clickable={enabled}
             />
             <EnterInput
               type="password"
               placeholder="password"
-              value={createPassword}
-              onChange={(e) => setCreatePassword(e.target.value)}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               clickable={enabled}
             />
             <EnterInput
               type="text"
               placeholder="username"
-              value={createUsername}
-              onChange={(e) => setCreateUsername(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               clickable={enabled}
             />
             <EnterInput
               type="url"
               placeholder="picture url"
-              value={createImage}
-              onChange={(e) => setCreateImage(e.target.value)}
+              value={image}
+              onChange={(e) => setImage(e.target.value)}
               clickable={enabled}
             />
             <EnterButton clickable={enabled} type="submit">
