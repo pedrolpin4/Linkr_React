@@ -34,7 +34,7 @@ const PageTitle = styled.h1`
 `
 
 const BaseLayoutContainer = styled.div`
-    width: 100vw;
+    width: 100%;
     background-color: #333333;
     min-height: 100vh;
     color: #fff;
