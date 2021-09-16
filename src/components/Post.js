@@ -56,6 +56,8 @@ export default function Post({ profilePic,
     )
 }
 
+
+
 const PostContainer = styled.div`
     background-color: #171717;
     border-radius: 15px;
