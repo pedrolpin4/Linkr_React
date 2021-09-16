@@ -13,7 +13,7 @@ function Timeline() {
         async function getPostsData() {
             const token = "09622c1e-d975-46a4-8b15-14063223e383"; // Only in development
             const response = await getPosts(token);
-            console.log(response.posts)
+
             if(response) setPosts(response.posts)
             else if(response === false) alert("Desculpe, o servidor saiu pra almoço, por favor atualize a página")
 

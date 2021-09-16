@@ -13,13 +13,12 @@ function head(token) {
     return head;
 }
 
-async function getPosts(token) {
+export async function getPosts(token) {
     const response = await API.get("/posts", head(token)).catch(() => false);
 
     if(response) return response.data;
     else return false;
 }
-
 function getHashtags (config) {
     return API.get("/hashtags/trending", config)
 }
@@ -28,8 +27,9 @@ function getHashtagsPosts (config, hashtag){
     return API.get(`/hashtags/${hashtag}/posts`, config)
 }
 
-const Service = {
-    getPosts,
+const Service =  {
     getHashtags,
     getHashtagsPosts
 }
+
+export default Service;

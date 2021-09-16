@@ -31,6 +31,7 @@ const NavBarContainer = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0px 7px 0px 28px;
+    z-index: 100;
 `
 
 const NavBarTitle = styled.h1`

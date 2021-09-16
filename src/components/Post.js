@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState } from "react";
+/* import { useState } from "react"; */
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { FaTrash } from 'react-icons/fa';
 import ReactHashtag from "react-hashtag";
@@ -17,13 +17,13 @@ export default function Post({ profilePic,
                                likes,
                                userId  })
 {
-    const [ isLiked, setIsLiked ] = useState(liked);
+    /* const [ isLiked, setIsLiked ] = useState(liked); */
 
 
     return (
         <PostContainer>
             <LeftSection>
-                <a href={`/user/${userId}`}><img src={profilePic} /></a>
+                <a href={`/user/${userId}`}><img src={profilePic} alt="" /></a>
                 {
                     liked
                         ? <AiFillHeart color="#ff0000" size={25} />
@@ -125,5 +125,3 @@ const RightSection = styled.div`
         color: #fff;
     }
 `
-
-const Like = styled.p``
