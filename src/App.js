@@ -11,6 +11,7 @@ import MyLikes from "./pages/MyLikes";
 import MyPosts from "./pages/MyPosts";
 import Timeline from "./pages/Timeline";
 import UsersPosts from "./pages/UsersPosts";
+import BaseLayout from "./components/BaseLayout";
 
 function App() {
   const [ userData, setUserData ] = useState({});
@@ -29,6 +30,7 @@ function App() {
           <Route exact path="/user/:id" component={UsersPosts}/>
           <Route exact path="/hashtag/:hashtag" component={Hashtag}/>
           <Route exact path="/my-likes" component={MyLikes}/>
+          <Route exact path="/baselayout" component={() => <BaseLayout title="teste" trends={[{name: "yoyooo"}]}><p>oiee</p></BaseLayout>} />
         </Switch>
       </Router>
     </UserContext.Provider>
