@@ -27,14 +27,12 @@ function PostBox({newPosts, setNewPosts}) {
       );
 
       req.then((resp) => {
-        console.log(resp);
         setUrl("");
         setText("");
         setClicked(false);
         setNewPosts(newPosts + 1);
       });
       req.catch((error) => {
-        console.log(error);
         alert("There was an error posting your link.");
         setUrl("");
         setText("");

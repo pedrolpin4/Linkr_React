@@ -7,7 +7,6 @@ import axios from "axios";
 
 function UsersPosts() {
   const { id } = useParams();
-  console.log(id);
   const [userPosts, setUserPosts] = useState([]);
   //const { userData } = useContext(UserContext);
   const [username, setUsername] = useState("");
