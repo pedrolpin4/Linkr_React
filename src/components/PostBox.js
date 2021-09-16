@@ -13,12 +13,12 @@ function PostBox({newPosts, setNewPosts}) {
     setClicked(true);
     const config = {
       headers: {
-        Authorization: `Bearer ae2d9f20-2ff3-4db8-8690-ddfe4b4392f2`, //substituir por ${user.token}
+        Authorization: `Bearer 5f8eb824-09fe-4ef6-a5ed-a26dbcb1bc10`, //substituir por ${user.token}
       },
     };
     if (url !== "") {
       const req = axios.post(
-        "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts",
+        "https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts",
         {
           text,
           link: url,
