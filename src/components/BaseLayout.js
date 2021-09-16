@@ -2,11 +2,8 @@ import styled from "styled-components";
 import TrendingBar from '../components/TrendingBar';
 import NavBar from "./NavBar";
 
-export default function BaseLayout({ children,
-                                     title })
-{
-
-    return (
+export default function BaseLayout({ children,title }){
+    return(    
         <>
             <NavBar />
             <BaseLayoutContainer>
