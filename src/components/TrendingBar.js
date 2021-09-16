@@ -5,7 +5,6 @@ import { getHashtags } from "../service/auth"
 import UserContext from "../context/UserContext"
 
 const TrendingBar = () => {
-    const testToken = "09622c1e-d975-46a4-8b15-14063223e383"
     const { 
         userData
     } = useContext(UserContext)
@@ -13,7 +12,7 @@ const TrendingBar = () => {
     
     const config = {
         headers: {
-            "Authorization": `Bearer ${testToken}` 
+            "Authorization": `Bearer ${userData.token}` 
         }
     }
 

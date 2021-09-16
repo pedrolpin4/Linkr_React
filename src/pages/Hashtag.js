@@ -5,14 +5,13 @@ import { getHashtagsPosts } from "../service/auth"
 import BaseLayout from "../components/BaseLayout"
 
 function Hashtag() {
-    const testToken = "09622c1e-d975-46a4-8b15-14063223e383"
     const { hashtag } = useParams()
     const [hashtagsPosts, setHashtagsPosts] = useState([])
     const { userData } = useContext(UserContext)
     
     const config = {
         headers: {
-            "Authorization": `Bearer ${testToken}` 
+            "Authorization": `Bearer ${userData.token}` 
         }
     }
 
@@ -30,7 +29,7 @@ function Hashtag() {
        return (
         <>
             {hashtagsPosts.map( post => <h1 key = {post.id}>{post.text}</h1>)}
-            {/* substituir pelos psts passando o parãmetro post*/}
+            {/* substituir pelos posts passando como parâmetro "post"*/}
         </>
         )
     }
