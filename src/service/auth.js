@@ -8,6 +8,11 @@ function getHashtags (config) {
     return API.get("/hashtags/trending", config)
 }
 
+function getHashtagsPosts (config, hashtag){
+    return API.get(`/hashtags/${hashtag}/posts`, config)
+}
+
 export{
-    getHashtags
+    getHashtags,
+    getHashtagsPosts
 }
