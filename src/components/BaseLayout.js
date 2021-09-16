@@ -22,6 +22,7 @@ export default function BaseLayout({ children,title }){
 
 const PageTitle = styled.h1`
     font-family: 'Oswald', sans-serif;
+    text-overflow: ellipsis;
     font-size: 43px;
     margin: 125px 0 63px 0;
     font-weight: bold;
@@ -55,7 +56,8 @@ const LeftSection = styled.section`
     width: 611px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; 
+    justify-content: flex-start;
+    overflow-x: hidden;
     @media(max-width: 611px){
         width: 100vw;
     }

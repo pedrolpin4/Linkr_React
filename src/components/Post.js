@@ -1,12 +1,12 @@
 import styled from "styled-components";
-/* import { useState } from "react"; */
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { FaTrash } from 'react-icons/fa';
 import ReactHashtag from "react-hashtag";
+import LikesComponent from "./LikesComponent";
 
 import Preview from './Preview';
 
 export default function Post({ profilePic,
+                               id,
                                link,
                                username,
                                text,
@@ -17,21 +17,11 @@ export default function Post({ profilePic,
                                likes,
                                userId  })
 {
-    /* const [ isLiked, setIsLiked ] = useState(liked); */
-
-
     return (
         <PostContainer>
             <LeftSection>
                 <a href={`/user/${userId}`}><img src={profilePic} alt="" /></a>
-                {
-                    liked
-                        ? <AiFillHeart color="#ff0000" size={25} />
-                        : <AiOutlineHeart color="#fff" size={25} />
-                }
-                <p className="likes">
-                    {`${likes.length} ${likes.length === 1 ? "like" : "likes"}`}
-                </p>
+                <LikesComponent liked = {liked} likes ={likes} id ={id}/>
             </LeftSection>
 
             <RightSection>

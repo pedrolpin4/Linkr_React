@@ -3,17 +3,20 @@ import { useParams } from "react-router-dom"
 import UserContext from "../context/UserContext"
 import service from "../service/auth"
 import BaseLayout from "../components/BaseLayout"
+import Post from "../components/Post"
+import styled from "styled-components"
 
 function Hashtag() {
     const { hashtag } = useParams()
     const [hashtagsPosts, setHashtagsPosts] = useState([])
     const { userData } = useContext(UserContext)
-    
+    const testToken = "5f8eb824-09fe-4ef6-a5ed-a26dbcb1bc10"
     const config = {
         headers: {
-            "Authorization": `Bearer ${userData.token}` 
+            "Authorization": `Bearer ${testToken}` 
         }
-    }
+    } 
+
 
     function renderHashtagPosts (config, hashtag){
         service.getHashtagsPosts(config, hashtag)
@@ -25,11 +28,16 @@ function Hashtag() {
 
    useEffect(() => renderHashtagPosts(config, hashtag), [])
 
+    console.log(hashtagsPosts);
     return (
-        <BaseLayout title = {`# ${hashtag}`}>
-            {hashtagsPosts.map( (post,index) => {
+        <BaseLayout title = {`#${hashtag}`}>
+            {hashtagsPosts.length
+            ?
+            <>
+            {hashtagsPosts.map( (post,index) => (
                 <Post
                     key={index}
+                    id = {post.id}
                     username={post.user.username} 
                     text={post.text}
                     link={post.link}
@@ -40,9 +48,19 @@ function Hashtag() {
                     likes={post.likes}
                     userId={post.user.id}
                 /> 
-            })}
+            ))}
+            </>
+            :
+            <ErrorMessage>Looks like there are no posts with the #{hashtag}</ErrorMessage>
+            }
         </BaseLayout>
     )
 }
 
-export default Hashtag;
+const ErrorMessage = styled.h1`
+    font-family: 'Lato', sans-serif;
+    font-size: 23px;
+    word-wrap: break-word;
+`
+
+export default Hashtag
