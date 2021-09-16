@@ -3,7 +3,7 @@ import { useState } from "react"; // importar useContext
 import axios from "axios";
 //import UserContext from "../context/UserContext";
 
-function PostBox() {  
+function PostBox({newPosts, setNewPosts}) {  
   const [url, setUrl] = useState("");
   const [text, setText] = useState("");
   //const user = useContext(UserContext);
@@ -31,6 +31,7 @@ function PostBox() {
         setUrl("");
         setText("");
         setClicked(false);
+        setNewPosts(newPosts + 1);
       });
       req.catch((error) => {
         console.log(error);
@@ -90,6 +91,8 @@ const CreatePostBox = styled.div`
   //left: 241px;
   display: flex;
   padding: 20px;
+  margin-bottom: 20px;
+  font-family: Lato;
 `;
 
 const ImageUser = styled.div`
@@ -128,16 +131,21 @@ const URL = styled.input`
   border: none;
   margin: 5px auto;
   padding-left: 10px;
+  font-family: Lato;
 `;
 
-const Text = styled.input`
+const Text = styled.textarea`
   width: 503px;
   height: 66px;
   background: #efefef;
   border-radius: 5px;
   border: none;
   margin: 0 auto 5px auto;
-  padding-left: 10px;
+  padding: 10px;
+  word-break: break-word;
+  word-break: break-all;
+  resize: none;
+  font-family: Lato;
 `;
 
 const ButtonDiv = styled.div`
@@ -152,7 +160,7 @@ const PublishButton = styled.button`
   background: #1877F2;
   border-radius: 5px;
   color: #fff;
-  //font-family: Lato;
+  font-family: Lato;
   font-weight: bold;
   font-size: 14px;
   display: flex;
