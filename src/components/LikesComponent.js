@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import service from "../service/auth"; 
+import Tippy from "@tippy.js/react"
 
 
 export default function LikesComponent ( {liked, likes, id}) {
