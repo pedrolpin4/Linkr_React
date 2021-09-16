@@ -18,7 +18,7 @@ function MyPosts() {
         const { token, user } = userData;
         async function getPosts() {
             const response = await service.getMyPosts("5f8eb824-09fe-4ef6-a5ed-a26dbcb1bc10", 3 /* change for user.id */ );
-            console.log(response)
+
             if(response && !unmounted) setPosts(response.posts);
             else alert("Desculpe, nossas rotas estão engarrafadas no momento :(")
             setIsLoading(false);
