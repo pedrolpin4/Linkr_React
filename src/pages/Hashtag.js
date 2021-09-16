@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import UserContext from "../context/UserContext"
-import { getHashtagsPosts } from "../service/auth"
+import service from "../service/auth"
 import BaseLayout from "../components/BaseLayout"
 
 function Hashtag() {
@@ -16,7 +16,7 @@ function Hashtag() {
     }
 
     function renderHashtagPosts (config, hashtag){
-        getHashtagsPosts(config, hashtag)
+        service.getHashtagsPosts(config, hashtag)
             .then(res => {
                 setHashtagsPosts([...res.data.posts])
             })
@@ -24,15 +24,6 @@ function Hashtag() {
     }
 
    useEffect(() => renderHashtagPosts(config, hashtag), [])
-
-    function HashtagsChildren() {
-       return (
-        <>
-            {hashtagsPosts.map( post => <h1 key = {post.id}>{post.text}</h1>)}
-            {/* substituir pelos posts passando como parâmetro "post"*/}
-        </>
-        )
-    }
 
     return (
         <BaseLayout title = {`# ${hashtag}`}>
