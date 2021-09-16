@@ -16,15 +16,15 @@ function Login() {
   const [enabled, setEnabled] = useState(true);
 
   function logInSuccess(response) {
-    // if (response.status === 200 || response.status === 201) {
+    if (response.status === 200 || response.status === 201) {
     //   alert(
     //     "You account has been logind! Now you only need to log in to start having fun! :D"
     //   );
-    //   setEnabled(true);
+      setEnabled(true);
     //   setloginEmail("");
     //   setloginPassword("");
     //   // history.push("/");
-    // }
+    }
   }
 
   function logInFailure(response) {
@@ -35,23 +35,24 @@ function Login() {
     // } else {
     //   alert("Something went wrong. Please, check the fields and try again.");
     // }
-    // setEnabled(true);
+    setEnabled(true);
   }
 
   function logIntoAccount(e) {
-    // e.preventDefault();
-    // setEnabled(false);
+    e.preventDefault();
+    setEnabled(false);
 
-    // const body = {
-    //   email: loginEmail,
-    //   password: loginPassword
-    // };
+    const body = {
+      email: loginEmail,
+      password: loginPassword
+    };
 
-    // if (loginEmail === "" || loginPassword === "") {
-    //   alert("Please, fill out the fields below.");
-    // } else {
-    //   API.post("/sign-in", body).then(signUpSuccess).catch(signUpFailure);
-    // }
+    if (loginEmail === "" || loginPassword === "") {
+      alert("Please, fill out the fields below.");
+      setEnabled(true);
+    } else {
+      API.post("/sign-in", body).then(logInSuccess).catch(logInFailure);
+    }
   }
 
   return (
