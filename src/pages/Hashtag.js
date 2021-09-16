@@ -27,8 +27,20 @@ function Hashtag() {
 
     return (
         <BaseLayout title = {`# ${hashtag}`}>
-            {hashtagsPosts.map( post => <h1 key = {post.id}>{post.text}</h1>)}
-            {/* substituir pelos posts passando como parâmetro "post"*/}
+            {hashtagsPosts.map( (post,index) => {
+                <Post
+                    key={index}
+                    username={post.user.username} 
+                    text={post.text}
+                    link={post.link}
+                    profilePic={post.user.avatar}
+                    prevTitle={post.linkTitle}
+                    prevImage={post.linkImage}
+                    prevDescription={post.linkDescription}
+                    likes={post.likes}
+                    userId={post.user.id}
+                /> 
+            })}
         </BaseLayout>
     )
 }

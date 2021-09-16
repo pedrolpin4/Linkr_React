@@ -30,7 +30,7 @@ function Timeline() {
             isLoading
                 ? <Loading spinnerSize={30}/>
                 : posts.length === 0
-                    ? "Nenhum pos encontrado :("
+                    ? "Nenhum post encontrado :("
                     : posts.map((post, index) => <Post key={index}
                                                        username={post.user.username} 
                                                        text={post.text}
