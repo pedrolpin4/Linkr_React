@@ -2,24 +2,24 @@ import styled from "styled-components";
 
 const EnterContainer = styled.div`
   display: flex;
-  position: fixed;
-  inset: 0 0 0 0;
+  width: 100vw;
+  height: 100vh;
   background-color: #333333;
   color: #ffffff;
   font-family: "Oswald", sans-serif;
 
-  @media (max-width: 600px) {
+  @media (max-width: 1000px) {
     flex-direction: column;
   }
 `;
 
 const LogoHolder = styled.div`
   background: #151515;
-  width: 62.85%;
-  height: 100%;
+  width: 65vw;
+  height: 100vh;
+  padding: 20vh 10%;
 
   div {
-    margin: 301px 0 0 144px;
     width: 442px;
   }
 
@@ -39,10 +39,11 @@ const LogoHolder = styled.div`
 
   @media (max-width: 1000px) {
     width: 100%;
-    height: 175px;
+    padding: 2vh 1%;
+    height: unset;
 
     div {
-      margin: 10px auto 27px;
+      margin: 0 auto;
       width: 237px;
       text-align: center;
     }
@@ -60,16 +61,20 @@ const LogoHolder = styled.div`
 `;
 
 const LoginForm = styled.div`
-  width: 37.15%;
-  height: 100%;
+  width: 35vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  align-items: center;
 
-  form {
-    margin: 317px auto 0;
+  div {
+    width: 80%;
+    height: 60vh;
     display: flex;
     flex-direction: column;
+    align-items: center;
   }
 
   p {
@@ -88,8 +93,13 @@ const LoginForm = styled.div`
     width: 100%;
     height: unset;
 
-    form {
+    div {
       margin: 40px auto 0;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
     }
 
     p {
@@ -102,7 +112,7 @@ const LoginForm = styled.div`
 
 const EnterButton = styled.button`
   font-family: "Oswald", sans-serif;
-  width: 429px;
+  width: 100%;
   height: 65px;
   background: #1877f2;
   border-radius: 6px;
@@ -116,7 +126,7 @@ const EnterButton = styled.button`
   opacity: ${(props) => (props.clickable ? 1 : 0.7)};
 
   @media (max-width: 1000px) {
-    width: 330px;
+    width: 100%;
     height: 55px;
     font-size: 22px;
     line-height: 33px;
@@ -128,7 +138,7 @@ const EnterInput = styled.input`
   font-weight: 700;
   font-size: 27px;
   line-height: 40px;
-  width: 429px;
+  width: 100%;
   height: 65px;
   color: #9f9f9f;
   padding: 12px 17px 13px;
@@ -145,7 +155,7 @@ const EnterInput = styled.input`
   @media (max-width: 1000px) {
     font-size: 22px;
     line-height: 33px;
-    width: 330px;
+    width: 100%;
     height: 55px;
     padding: 10px 17px 12px;
     margin-bottom: 11px;
