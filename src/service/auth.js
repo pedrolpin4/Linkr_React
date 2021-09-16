@@ -39,10 +39,15 @@ function getHashtagsPosts (config, hashtag){
     return API.get(`/hashtags/${hashtag}/posts`, config)
 }
 
+function getUserPosts (config, userId){
+    return API.get(`/users/${userId}/posts`, config)
+}
+
 const service =  {
     getHashtags,
     getHashtagsPosts,
     getPosts,
+    getUserPosts,
     getMyPosts
 }
 
