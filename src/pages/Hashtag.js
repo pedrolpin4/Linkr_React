@@ -25,15 +25,6 @@ function Hashtag() {
 
    useEffect(() => renderHashtagPosts(config, hashtag), [])
 
-    function HashtagsChildren() {
-       return (
-        <>
-            {hashtagsPosts.map( post => <h1 key = {post.id}>{post.text}</h1>)}
-            {/* substituir pelos posts passando como parâmetro "post"*/}
-        </>
-        )
-    }
-
     return (
         <BaseLayout title = {`# ${hashtag}`}>
             {hashtagsPosts.map( post => <h1 key = {post.id}>{post.text}</h1>)}
