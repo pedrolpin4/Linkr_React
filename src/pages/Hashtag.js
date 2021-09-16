@@ -35,7 +35,10 @@ function Hashtag() {
     }
 
     return (
-        <BaseLayout children = {<HashtagsChildren/>} title = {`# ${hashtag}`} />
+        <BaseLayout title = {`# ${hashtag}`}>
+            {hashtagsPosts.map( post => <h1 key = {post.id}>{post.text}</h1>)}
+            {/* substituir pelos posts passando como parâmetro "post"*/}
+        </BaseLayout>
     )
 }
 
