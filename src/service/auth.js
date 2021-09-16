@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const API = axios.create({
-    baseURL: "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr",
+    baseURL: "https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr",
 })
 
 function head(token) {
@@ -20,6 +20,17 @@ async function getPosts(token) {
     else return false;
 }
 
+/** 
+ * @author Yohan Lopes
+*/
+async function getMyPosts(token, userId) {
+    const response = await API.get(`/users/${userId}/posts`, head(token))
+        .catch(() => false);
+
+    if(response) return response.data;
+    else return false;
+}
+
 function getHashtags (config) {
     return API.get("/hashtags/trending", config)
 }
@@ -31,7 +42,8 @@ function getHashtagsPosts (config, hashtag){
 const service =  {
     getHashtags,
     getHashtagsPosts,
-    getPosts
+    getPosts,
+    getMyPosts
 }
 
 export default service;

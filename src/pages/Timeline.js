@@ -25,7 +25,6 @@ function Timeline() {
     return (
         <BaseLayout
             title="timeline"
-            trends={[{name: "timeline"}]}
         >{
             isLoading
                 ? <Loading spinnerSize={30}/>
