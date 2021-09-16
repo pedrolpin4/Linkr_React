@@ -48,6 +48,7 @@ function SignUp() {
     
     if (createEmail === "" || createPassword === "" || createUsername === "" || createImage === "") {
       alert("Please, fill out the fields below.");
+      setEnabled(true);
     } else {
       API.post("/sign-up", body)
         .then(signUpSuccess)
