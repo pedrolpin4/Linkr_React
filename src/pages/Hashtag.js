@@ -28,7 +28,6 @@ function Hashtag() {
 
    useEffect(() => renderHashtagPosts(config, hashtag), [])
 
-    console.log(hashtagsPosts);
     return (
         <BaseLayout title = {`#${hashtag}`}>
             {hashtagsPosts.length

@@ -10,7 +10,6 @@ export default function Post({ profilePic,
                                link,
                                username,
                                text,
-                               liked,
                                prevTitle,
                                prevDescription,
                                prevImage,
@@ -21,7 +20,7 @@ export default function Post({ profilePic,
         <PostContainer>
             <LeftSection>
                 <a href={`/user/${userId}`}><img src={profilePic} alt="" /></a>
-                <LikesComponent liked = {liked} likes ={likes} id ={id}/>
+                <LikesComponent likes ={likes} id ={id} userId = {userId}/>
             </LeftSection>
 
             <RightSection>

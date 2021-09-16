@@ -49,7 +49,7 @@ const TrendingsContainer = styled.div`
     width: 301px;
     background: #171717;
     border-radius: 16px;
-    height: 406px;
+    height: 456px;
     position: -webkit-sticky;
     position: sticky;
     top: 90px;

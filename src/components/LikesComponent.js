@@ -1,12 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import service from "../service/auth"; 
 import Tippy from "@tippyjs/react"
 import "tippy.js/dist/tippy.css"
 
-export default function LikesComponent ( {liked, likes, id}) {
-    const [ isLiked, setIsLiked ] = useState(liked);
-    console.log(likes);
+export default function LikesComponent ( { id, userId}) {
+    const [ isLiked, setIsLiked ] = useState(false);
+    const likes = [
+        {
+            userId: 10,
+            username: "teste"
+        },
+        {
+            userId: 4,
+            username: "lalalabanana"
+        }
+    ]
+
+    const [ tooltipContent, setTooltipContent ] = useState("Você, João das Neves e outras 10 pessoas")
 
     const testToken = "5f8eb824-09fe-4ef6-a5ed-a26dbcb1bc10"
 
@@ -16,12 +27,15 @@ export default function LikesComponent ( {liked, likes, id}) {
         }
     } 
 
+    useEffect(() => {
+       const liked = likes.some(like => like.userId === userId);
+       console.log(liked);
+       setIsLiked(liked)
+    },[])
 
     function likePost(config, id) {
         service.postingLikes(config, id)
-            .then(() =>{
-                setIsLiked(true)
-            })
+            .then(() => setIsLiked(true))
             .catch(() => alert("The server is not okay today, maybe he's got a flu"))
     }
 
@@ -44,7 +58,7 @@ export default function LikesComponent ( {liked, likes, id}) {
             }
             
         
-            <Tippy content = "likes" placement = "bottom">
+            <Tippy content = {tooltipContent} placement = "bottom">
                 <p className="likes">
                     {`${likes.length} ${likes.length === 1 ? "like" : "likes"}`}
                 </p>
