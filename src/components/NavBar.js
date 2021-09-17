@@ -10,18 +10,26 @@ export default function NavBar () {
     userData
   } = useContext(UserContext)
 
-  const [showMenu, setShowMenu] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(false);
+
+  function toggleMenu () {
+    setOpenDropdown(!openDropdown);
+  }
+
 
   return (
     <NavBarContainer>
       <NavBarTitle>linkr</NavBarTitle>
       <div>
-        {showMenu ? <ArrowDown color="#FFFFFF" size={40} /> :
-        <ArrowUp color="#FFFFFF" size={40} />}
-        
-        <ProfileImg src={userData.avatar} />
+        {openDropdown ? (
+          <ArrowUp color="#FFFFFF" size={40} onClick={toggleMenu} />
+        ) : (
+          <ArrowDown color="#FFFFFF" size={40} onClick={toggleMenu} />
+        )}
+
+        <ProfileImg src={userData.user.avatar} onClick={toggleMenu} />
       </div>
-      <DropdownMenu>
+      <DropdownMenu openDropdown={openDropdown}>
         <Link to="/my-posts">
           <p>My posts</p>
         </Link>
@@ -78,6 +86,7 @@ const DropdownMenu = styled.div`
   letter-spacing: 0.05em;
   color: #ffffff;
   text-align: center;
+  display: ${(props) => props.openDropdown ? 'block' : 'none'};
 
   p {
     margin-bottom: 11px;
