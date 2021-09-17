@@ -20,6 +20,17 @@ async function getPosts(token) {
     else return false;
 }
 
+/** 
+ * @author Yohan Lopes
+*/
+async function getMyPosts(token, userId) {
+    const response = await API.get(`/users/${userId}/posts`, head(token))
+        .catch(() => false);
+
+    if(response) return response.data;
+    else return false;
+}
+
 function getHashtags (config) {
     return API.get("/hashtags/trending", config)
 }
@@ -36,7 +47,8 @@ const service =  {
     getHashtags,
     getHashtagsPosts,
     getPosts,
-    getUserPosts
+    getUserPosts,
+    getMyPosts
 }
 
 export default service;

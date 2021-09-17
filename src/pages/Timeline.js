@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import BaseLayout from "../components/BaseLayout";
 import Loading from "../components/Loading";
 import Post from '../components/Post';
@@ -44,7 +43,10 @@ function Timeline() {
                                                        prevImage={post.linkImage}
                                                        prevDescription={post.linkDescription}
                                                        likes={post.likes}
-                                                       userId={post.user.id} />)
+                                                       userId={post.user.id}
+                                                       id={post.id}
+                                                       setNewPosts={setNewPosts}
+                                                       newPosts={newPosts} />)
         }</BaseLayout>
     )
 }
