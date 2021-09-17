@@ -12,20 +12,22 @@ function Timeline() {
     const [ isLoading, setIsLoading ] = useState(true);
     const [ posts, setPosts ] = useState([]);
     const [ newPosts, setNewPosts ] = useState(0);
-    console.log(userData);
 
     useEffect(() => {
+        let unmounted = false;
+
         async function getPostsData() {
             const { token } = userData;
+            console.log(token)
             const response = await service.getPosts(token);
 
-            if(response) setPosts(response.posts)
+            if(response && !unmounted) setPosts(response.posts)
             else if(response === false) alert("Desculpe, o servidor saiu pra almoço, por favor atualize a página")
 
             setIsLoading(false);
         }
-        getPostsData();
-    },[newPosts])
+        if(userData.token) getPostsData();
+    },[newPosts, userData])
 
     return (
         <BaseLayout
