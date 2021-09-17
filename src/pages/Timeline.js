@@ -4,10 +4,12 @@ import BaseLayout from "../components/BaseLayout";
 import Loading from "../components/Loading";
 import Post from '../components/Post';
 import service from '../service/auth';
+import PostBox from "../components/PostBox";
 
 function Timeline() {
     const [ isLoading, setIsLoading ] = useState(true);
     const [ posts, setPosts ] = useState([]);
+    const [ newPosts, setNewPosts ] = useState(0);
 
     useEffect(() => {
         async function getPostsData() {
@@ -20,13 +22,15 @@ function Timeline() {
             setIsLoading(false);
         }
         getPostsData();
-    },[])
+    },[newPosts])
 
     return (
         <BaseLayout
             title="timeline"
-            trends={[{name: "timeline"}]}
-        >{
+            trends={[{name: "timeline"}]}            
+        >
+            <PostBox setNewPosts={setNewPosts} newPosts={newPosts}/>
+            {
             isLoading
                 ? <Loading spinnerSize={30}/>
                 : posts.length === 0

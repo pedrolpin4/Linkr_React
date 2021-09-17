@@ -25,7 +25,7 @@ export default function Post({ profilePic,
 
             <RightSection>
                 <header>
-                    <p className="username">{username}</p>
+                    <p className="username"><a href={`/user/${userId}`}>{username}</a></p>
                     <FaTrash size={12} />
                     <ReactHashtag onHashtagClick={val => alert(val)}
                                   renderHashtag={hashtag => (

@@ -37,6 +37,10 @@ const LeftSection = styled.div`
         font-size: 16px;
         margin: 10px 0px 20px 0px;
         word-wrap: break-word;
+        max-height: 32px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
     p {
@@ -64,7 +68,9 @@ const RightSection = styled.div`
     width: 155px;
     height: inherit;
     border-radius: 0px 10px 10px 0px;
-    background-size: contain;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
     background-image: url(${props => props.img});
     z-index: 5;
 `

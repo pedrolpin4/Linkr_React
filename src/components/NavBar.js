@@ -14,12 +14,12 @@ export default function NavBar () {
             <NavBarTitle>linkr</NavBarTitle>
             <div>
                <ArrowDown color = "#FFFFFF" size = {40}/>
-               <ProfileImg src = {userData.avatar} />
+               <ProfileImg src = "http://cbissn.ibict.br/images/phocagallery/galeria2/thumbs/phoca_thumb_l_image03_grd.png" />
             </div>
         </NavBarContainer>
     )
 }
-
+//{userData.avatar}
 const NavBarContainer = styled.div`
     position: fixed;
     top: 0px;
@@ -30,7 +30,7 @@ const NavBarContainer = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0px 7px 0px 28px;
+    padding: 0px 25px 0px 28px;
     z-index: 100;
 `
 
