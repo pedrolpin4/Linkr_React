@@ -47,7 +47,10 @@ function Timeline() {
                                                        prevImage={post.linkImage}
                                                        prevDescription={post.linkDescription}
                                                        likes={post.likes}
-                                                       userId={post.user.id} />)
+                                                       userId={post.user.id}
+                                                       id={post.id}
+                                                       setNewPosts={setNewPosts}
+                                                       newPosts={newPosts} />)
         }</BaseLayout>
     )
 }
