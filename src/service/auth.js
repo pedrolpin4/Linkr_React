@@ -20,6 +20,13 @@ async function getPosts(token) {
     else return false;
 }
 
+async function getLikedPosts(token) {
+    const response = await API.get("/posts/liked", head(token))
+        .catch(() => false);
+
+    if(response) return response.data;
+    else return false;
+}
 /** 
  * @author Yohan Lopes
 */
@@ -39,6 +46,14 @@ function getHashtagsPosts (config, hashtag){
     return API.get(`/hashtags/${hashtag}/posts`, config)
 }
 
+function postingLikes (config, id){
+    return API.post(`/posts/${id}/like`, {}, config)
+}
+
+function deletingLikes (config, id){
+    return API.post(`/posts/${id}/dislike`, {}, config)
+}
+
 function getUserPosts (config, userId){
     return API.get(`/users/${userId}/posts`, config)
 }
@@ -47,8 +62,11 @@ const service =  {
     getHashtags,
     getHashtagsPosts,
     getPosts,
+    postingLikes,
+    deletingLikes,
     getUserPosts,
-    getMyPosts
+    getMyPosts,
+    getLikedPosts
 }
 
 export default service;

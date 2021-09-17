@@ -1,27 +1,31 @@
 import styled from "styled-components";
-import TrendingBar from '../components/TrendingBar';
+import TrendingBar from "../components/TrendingBar";
 import NavBar from "./NavBar";
 
-export default function BaseLayout({ children,title }){
-    return(    
-        <>
-            <NavBar />
-            <BaseLayoutContainer>
-                <MainContentContainer>
-                    <LeftSection>
-                        <PageTitle>{title}</PageTitle>
-                        {children}
-                    </LeftSection>
 
-                    <TrendingBar />
-                </MainContentContainer>
-            </BaseLayoutContainer>
-        </>
-    )
+export default function BaseLayout({ children, title }) {
+    
+  return (
+    <>
+      <NavBar />
+      <BaseLayoutContainer>
+        <MainContentContainer>
+          <LeftSection>
+            <PageTitle>{title}</PageTitle>
+            {children}
+          </LeftSection>
+          <TrendingBar />
+        </MainContentContainer>        
+      </BaseLayoutContainer>
+    </>
+  );
 }
 
 const PageTitle = styled.h1`
+    line-height: 64px;
     font-family: 'Oswald', sans-serif;
+    overflow-x: hidden;
+    text-overflow: ellipsis;    
     font-size: 43px;
     margin: 125px 0 63px 0;
     font-weight: bold;
@@ -34,28 +38,29 @@ const PageTitle = styled.h1`
 `
 
 const BaseLayoutContainer = styled.div`
-    width: 100%;
-    background-color: #333333;
-    min-height: 100vh;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-`
+  width: 100%;
+  background-color: #333333;
+  min-height: 100vh;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+`;
 
 const MainContentContainer = styled.div`
-    display: flex;
-    margin-left: 0 auto;
-    justify-content: center;
-    gap: 0px 20px;
-`
+  display: flex;
+  margin-left: 0 auto;
+  justify-content: center;
+  gap: 0px 20px;
+`;
 
-const LeftSection = styled.section`
+const LeftSection = styled.section` 
     width: 611px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; 
+    justify-content: flex-start;
+    overflow-x: hidden;
     @media(max-width: 611px){
         width: 100vw;
     }
