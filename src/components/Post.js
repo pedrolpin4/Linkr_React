@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useState, useContext } from "react";
 import { FaTrash } from 'react-icons/fa';
 import ReactHashtag from "react-hashtag";
 import LikesComponent from "./LikesComponent";
