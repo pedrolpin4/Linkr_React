@@ -9,24 +9,19 @@ const TrendingBar = () => {
         userData
     } = useContext(UserContext)
     const [trendings, setTrendings] = useState([])
-    const testToken = "5f8eb824-09fe-4ef6-a5ed-a26dbcb1bc10"
-
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${userData.token}` 
+        }
+    }
 
     function pickTrendings(config){
         service.getHashtags(config)
             .then(res => setTrendings([...res.data.hashtags]))
-            .catch(res => alert("There was an error while getting the trending topics of the day"))
+            .catch(() => alert("There was an error while getting the trending topics of the day"))
     }
 
-    useEffect(() => {
-        const config = {
-            headers: {
-                "Authorization": `Bearer ${testToken}` 
-            }
-        }
-
-        pickTrendings(config)
-    }, [userData])
+    useEffect(() => pickTrendings(config), [userData])
     
     return(
         <TrendingsContainer>
