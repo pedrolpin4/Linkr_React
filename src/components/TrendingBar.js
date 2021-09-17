@@ -8,13 +8,13 @@ const TrendingBar = () => {
     const { 
         userData
     } = useContext(UserContext)
+
     const [trendings, setTrendings] = useState([])
-    
 
     function pickTrendings(config){
         service.getHashtags(config)
             .then(res => setTrendings([...res.data.hashtags]))
-            .catch(res => alert("There was an error while getting the trending topics of the day"))
+            .catch(() => alert("There was an error while getting the trending topics of the day"))
     }
 
     useEffect(() => {
@@ -23,9 +23,7 @@ const TrendingBar = () => {
                 "Authorization": `Bearer ${userData.token}` 
             }
         }
-
-        pickTrendings(config)
-    }, [userData])
+        pickTrendings(config)}, [userData])
     
     return(
         <TrendingsContainer>
@@ -34,7 +32,7 @@ const TrendingBar = () => {
                 {trendings.map(trending =>(
                     <HashtagsName key = {trending.id}>
                         <Link to = {`/hashtag/${trending.name}`}>
-                            # {trending.name}                     
+                            #{trending.name}                     
                         </Link>    
                     </HashtagsName>
                 ))}
@@ -44,15 +42,15 @@ const TrendingBar = () => {
 
 const TrendingsContainer = styled.div`
     margin-top: 232px;
-    padding: 9px 0px 30px 0px;
+    padding: 15px 0px 30px 0px;
     width: 301px;
     background: #171717;
     border-radius: 16px;
-    height: 406px;
+    height: 456px;
     position: -webkit-sticky;
     position: sticky;
     top: 90px;
-
+    overflow-x: hidden;
     @media (max-width: 1000px){
         display: none;
     }
@@ -75,6 +73,9 @@ const TrendingsBarTitle = styled.h1`
 const HashtagsName = styled.p`
     font-family: 'Lato', sans-serif;
     color: #FAFAFA;
+    overflow: hidden;
+    text-overflow: ellipsis;    
+    height: 25px;
     margin-left: 16px;
     font-weight: bold;
     font-size: 19px;
