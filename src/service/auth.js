@@ -4,10 +4,51 @@ export const API = axios.create({
     baseURL: "https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr",
 })
 
+function head(token) {
+    const head = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    return head;
+}
+
+async function getPosts(token) {
+    const response = await API.get("/posts", head(token)).catch(() => false);
+
+    if(response) return response.data;
+    else return false;
+}
+
+/** 
+ * @author Yohan Lopes
+*/
+async function getMyPosts(token, userId) {
+    const response = await API.get(`/users/${userId}/posts`, head(token))
+        .catch(() => false);
+
+    if(response) return response.data;
+    else return false;
+}
+
 function getHashtags (config) {
     return API.get("/hashtags/trending", config)
 }
 
-export{
-    getHashtags
+function getHashtagsPosts (config, hashtag){
+    return API.get(`/hashtags/${hashtag}/posts`, config)
 }
+
+function getUserPosts (config, userId){
+    return API.get(`/users/${userId}/posts`, config)
+}
+
+const service =  {
+    getHashtags,
+    getHashtagsPosts,
+    getPosts,
+    getUserPosts,
+    getMyPosts
+}
+
+export default service;

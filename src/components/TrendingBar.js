@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { getHashtags } from "../service/auth"
+import service from "../service/auth"
 import UserContext from "../context/UserContext"
 
 const TrendingBar = () => {
@@ -10,25 +10,29 @@ const TrendingBar = () => {
     } = useContext(UserContext)
     const [trendings, setTrendings] = useState([])
     
-    const config = {
-        headers: {
-            "Authorization": `Bearer ${userData.token}` 
-        }
-    }
 
     function pickTrendings(config){
-        getHashtags(config)
+        service.getHashtags(config)
             .then(res => setTrendings([...res.data.hashtags]))
             .catch(res => alert("There was an error while getting the trending topics of the day"))
     }
 
-    useEffect(() => pickTrendings(config), [])
+    useEffect(() => {
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${userData.token}` 
+            }
+        }
+
+        pickTrendings(config)
+    }, [userData])
+    
     return(
         <TrendingsContainer>
             <TrendingsBarTitle>trending</TrendingsBarTitle>
             <HorizontalLine />
                 {trendings.map(trending =>(
-                    <HashtagsName>
+                    <HashtagsName key = {trending.id}>
                         <Link to = {`/hashtag/${trending.name}`}>
                             # {trending.name}                     
                         </Link>    
@@ -39,10 +43,16 @@ const TrendingBar = () => {
 }
 
 const TrendingsContainer = styled.div`
+    margin-top: 232px;
     padding: 9px 0px 30px 0px;
     width: 301px;
     background: #171717;
     border-radius: 16px;
+    height: 406px;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 90px;
+
     @media (max-width: 1000px){
         display: none;
     }

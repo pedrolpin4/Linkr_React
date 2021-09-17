@@ -7,6 +7,7 @@ const EnterContainer = styled.div`
   background-color: #333333;
   color: #ffffff;
   font-family: "Oswald", sans-serif;
+
   @media (max-width: 1000px) {
     flex-direction: column;
   }
@@ -17,9 +18,11 @@ const LogoHolder = styled.div`
   width: 65vw;
   height: 100vh;
   padding: 20vh 10%;
+
   div {
     width: 442px;
   }
+
   h1 {
     font-family: "Passion One", cursive;
     font-size: 106px;
@@ -27,11 +30,13 @@ const LogoHolder = styled.div`
     line-height: 117px;
     letter-spacing: 0.05em;
   }
+
   h2 {
     font-size: 43px;
     line-height: 64px;
     font-weight: 700;
   }
+
   @media (max-width: 1000px) {
     width: 100%;
     padding: 2vh 1%;
@@ -60,6 +65,7 @@ const LoginForm = styled.div`
   align-items: center;
   justify-content: center;
   align-items: center;
+
   div {
     width: 80%;
     height: 60vh;
@@ -74,16 +80,20 @@ const LoginForm = styled.div`
     text-decoration-line: underline;
     margin-top: 22px;
   }
+
   @media (max-width: 1000px) {
     width: 100%;
     height: unset;
+
     div {
       margin: 40px auto 0;
     }
+
     form {
       display: flex;
       flex-direction: column;
     }
+
     p {
       font-size: 17px;
       line-height: 20px;
@@ -106,6 +116,7 @@ const EnterButton = styled.button`
   color: #ffffff;
   pointer-events: ${(props) => (props.clickable ? "auto" : "none")};
   opacity: ${(props) => (props.clickable ? 1 : 0.7)};
+
   @media (max-width: 1000px) {
     width: 100%;
     height: 55px;
@@ -128,9 +139,11 @@ const EnterInput = styled.input`
   border-radius: 6px;
   background-color: ${(props) => (props.clickable ? "#FFFFFF" : "#d4d2d2")};
   pointer-events: ${(props) => (props.clickable ? "auto" : "none")};
+
   &::placeholder {
     color: #9f9f9f;
   }
+
   @media (max-width: 1000px) {
     font-size: 22px;
     line-height: 33px;
@@ -141,10 +154,4 @@ const EnterInput = styled.input`
   }
 `;
 
-export { 
-  EnterContainer, 
-  LogoHolder, 
-  LoginForm, 
-  EnterButton, 
-  EnterInput 
-};
+export { EnterContainer, LogoHolder, LoginForm, EnterButton, EnterInput };
