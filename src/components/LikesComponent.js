@@ -4,20 +4,11 @@ import service from "../service/auth";
 import Tippy from "@tippyjs/react"
 import "tippy.js/dist/tippy.css"
 
-export default function LikesComponent ( { id, userId}) {
-    const [ isLiked, setIsLiked ] = useState(false);
-    const likes = [
-        {
-            userId: 10,
-            username: "teste"
-        },
-        {
-            userId: 4,
-            username: "lalalabanana"
-        }
-    ]
+export default function LikesComponent ( { likes, id, userId}) {
+    const [ isLiked, setIsLiked ] = useState(likes.some(like => like.userId === userId));
+    console.log(likes);
 
-    const [ tooltipContent, setTooltipContent ] = useState("Você, João das Neves e outras 10 pessoas")
+    const [ tooltipContent, setTooltipContent ] = useState("");
 
     const testToken = "5f8eb824-09fe-4ef6-a5ed-a26dbcb1bc10"
 
@@ -27,25 +18,43 @@ export default function LikesComponent ( { id, userId}) {
         }
     } 
 
-    useEffect(() => {
-       const liked = likes.some(like => like.userId === userId);
-       console.log(liked);
-       setIsLiked(liked)
-    },[])
-
     function likePost(config, id) {
         service.postingLikes(config, id)
             .then(() => setIsLiked(true))
             .catch(() => alert("The server is not okay today, maybe he's got a flu"))
     }
 
-    function unLikePost(){
+    function unLikePost(config, id){
         service.deletingLikes(config, id)
             .then(() => {
                 setIsLiked(false)
             })
             .catch(() => alert("Err... You have to keep liking this post"))
     }
+
+    useEffect(() => {
+        isLiked
+        ?
+        setTooltipContent(
+            likes.length === 1
+            ?
+            "You're the first to like it"
+            :
+                likes.length === 2 
+                ? 
+                `You and ${likes[0].username} liked it`
+                :
+                `You, ${likes[0].username} and ${likes.length-2} other people`
+            )
+        :
+        setTooltipContent(
+            likes.length 
+            ? 
+            `${likes[0].username}, ${likes[1].username} and ${likes.length-2} other people` 
+            : 
+            "Be the first to like it"
+        )
+    })
 
     return (
         <>

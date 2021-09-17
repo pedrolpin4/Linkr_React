@@ -11,7 +11,7 @@ function Timeline() {
 
     useEffect(() => {
         async function getPostsData() {
-            const token = "09622c1e-d975-46a4-8b15-14063223e383"; // Only in development
+            const token = "5f8eb824-09fe-4ef6-a5ed-a26dbcb1bc10"; // Only in development
             const response = await service.getPosts(token);
 
             if(response) setPosts(response.posts)
@@ -32,6 +32,7 @@ function Timeline() {
                 : posts.length === 0
                     ? "Nenhum post encontrado :("
                     : posts.map((post, index) => <Post key={index}
+                                                       id = {post.id}
                                                        username={post.user.username} 
                                                        text={post.text}
                                                        link={post.link}

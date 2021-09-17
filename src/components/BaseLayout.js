@@ -21,8 +21,10 @@ export default function BaseLayout({ children,title }){
 }
 
 const PageTitle = styled.h1`
+    line-height: 64px;
     font-family: 'Oswald', sans-serif;
-    text-overflow: ellipsis;
+    overflow-x: hidden;
+    text-overflow: ellipsis;    
     font-size: 43px;
     margin: 125px 0 63px 0;
     font-weight: bold;

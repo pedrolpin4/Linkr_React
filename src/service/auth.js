@@ -29,11 +29,11 @@ function getHashtagsPosts (config, hashtag){
 }
 
 function postingLikes (config, id){
-    return API.post(`/posts/${id}/like`, config)
+    return API.post(`/posts/${id}/like`, {}, config)
 }
 
 function deletingLikes (config, id){
-    return API.post(`/posts/${id}/like`, config)
+    return API.post(`/posts/${id}/dislike`, {}, config)
 }
 
 const service =  {

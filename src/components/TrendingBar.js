@@ -53,7 +53,6 @@ const TrendingsContainer = styled.div`
     position: -webkit-sticky;
     position: sticky;
     top: 90px;
-    word-wrap: nowrap;
     overflow-x: hidden;
     @media (max-width: 1000px){
         display: none;
@@ -77,7 +76,8 @@ const TrendingsBarTitle = styled.h1`
 const HashtagsName = styled.p`
     font-family: 'Lato', sans-serif;
     color: #FAFAFA;
-    word-break: keep-all;
+    overflow: hidden;
+    text-overflow: ellipsis;    
     height: 25px;
     margin-left: 16px;
     font-weight: bold;

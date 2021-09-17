@@ -17,7 +17,6 @@ function Hashtag() {
         }
     } 
 
-
     function renderHashtagPosts (config, hashtag){
         service.getHashtagsPosts(config, hashtag)
             .then(res => {
