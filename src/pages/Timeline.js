@@ -1,19 +1,22 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import BaseLayout from "../components/BaseLayout";
 import Loading from "../components/Loading";
 import Post from '../components/Post';
 import service from '../service/auth';
 import PostBox from "../components/PostBox";
+import UserContext from "../context/UserContext";
 
 function Timeline() {
+    const { userData } = useContext(UserContext);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ posts, setPosts ] = useState([]);
     const [ newPosts, setNewPosts ] = useState(0);
+    console.log(userData);
 
     useEffect(() => {
         async function getPostsData() {
-            const token = "5f8eb824-09fe-4ef6-a5ed-a26dbcb1bc10"; // Only in development
+            const { token } = userData;
             const response = await service.getPosts(token);
 
             if(response) setPosts(response.posts)
