@@ -41,18 +41,15 @@ const LogoHolder = styled.div`
     width: 100%;
     padding: 2vh 1%;
     height: unset;
-
     div {
       margin: 0 auto;
       width: 237px;
       text-align: center;
     }
-
     h1 {
       font-size: 76px;
       line-height: 84px;
     }
-
     h2 {
       font-size: 23px;
       line-height: 34px;
@@ -76,7 +73,6 @@ const LoginForm = styled.div`
     flex-direction: column;
     align-items: center;
   }
-
   p {
     font-family: "Lato", sans-serif;
     font-size: 20px;
@@ -158,10 +154,4 @@ const EnterInput = styled.input`
   }
 `;
 
-export {
-  EnterContainer,
-  LogoHolder,
-  LoginForm,
-  EnterButton,
-  EnterInput
-}
+export { EnterContainer, LogoHolder, LoginForm, EnterButton, EnterInput };

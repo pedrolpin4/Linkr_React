@@ -1,7 +1,7 @@
 import { BrowserRouter as Router,
          Switch,
          Route } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import UserContext from "./context/UserContext";
 import Hashtag from './pages/Hashtag';
@@ -16,20 +16,36 @@ import BaseLayout from "./components/BaseLayout";
 function App() {
   const [ userData, setUserData ] = useState({});
 
+  const userLogin = JSON.parse(localStorage.getItem("userLogin"));
+
+  const verifyStorage = (userLogin) => {
+    if (userLogin) {
+      setUserData(userLogin);
+    }
+  };
+
+  useEffect(() => verifyStorage(userLogin), []);
+
   return (
-    <UserContext.Provider value={{
-      userData,
-      setUserData
-    }}>
+    <UserContext.Provider
+      value={{
+        userData,
+        setUserData,
+      }}
+    >
       <Router>
         <Switch>
-          <Route exact path="/" component={Login}/>
-          <Route exact path="/sign-up" component={SignUp}/>
-          <Route exact path="/timeline" component={Timeline}/>
-          <Route exact path="/my-posts" component={MyPosts}/>
-          <Route exact path="/user/:id" component={UsersPosts}/>
-          <Route exact path="/hashtag/:hashtag" component={Hashtag}/>
-          <Route exact path="/my-likes" component={MyLikes}/>
+          <Route exact path="/">
+            <Login
+              userLogin={userLogin}
+            />
+          </Route>
+          <Route exact path="/sign-up" component={SignUp} />
+          <Route exact path="/timeline" component={Timeline} />
+          <Route exact path="/my-posts" component={MyPosts} />
+          <Route exact path="/user/:id" component={UsersPosts} />
+          <Route exact path="/hashtag/:hashtag" component={Hashtag} />
+          <Route exact path="/my-likes" component={MyLikes} />
           <Route exact path="/baselayout" component={() => <BaseLayout title="teste" trends={[{name: "yoyooo"}]}><p>oiee</p></BaseLayout>} />
         </Switch>
       </Router>
