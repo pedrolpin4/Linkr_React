@@ -1,26 +1,33 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import service from "../service/auth"; 
 import Tippy from "@tippyjs/react"
 import "tippy.js/dist/tippy.css"
+import UserContext from "../context/UserContext";
 
-export default function LikesComponent ( { likes, id, userId}) {
-    const [ isLiked, setIsLiked ] = useState(likes.some(like => like.userId === userId));
+export default function LikesComponent ( { likes, id}) {
+    const{
+        userData
+    } = useContext(UserContext)
+
+    const [ isLiked, setIsLiked ] = useState(likes.some(like => like.userId === userData.id));
+    const [numberOfLikes, setNumberOfLikes] = useState(likes.length);
     console.log(likes);
 
     const [ tooltipContent, setTooltipContent ] = useState("");
 
-    const testToken = "5f8eb824-09fe-4ef6-a5ed-a26dbcb1bc10"
-
     const config = {
         headers: {
-            "Authorization": `Bearer ${testToken}` 
+            "Authorization": `Bearer ${userData.token}` 
         }
     } 
 
     function likePost(config, id) {
         service.postingLikes(config, id)
-            .then(() => setIsLiked(true))
+            .then(() => {
+                setIsLiked(true)
+                setNumberOfLikes(numberOfLikes + 1)
+            })
             .catch(() => alert("The server is not okay today, maybe he's got a flu"))
     }
 
@@ -28,33 +35,42 @@ export default function LikesComponent ( { likes, id, userId}) {
         service.deletingLikes(config, id)
             .then(() => {
                 setIsLiked(false)
+                setNumberOfLikes(numberOfLikes - 1)
             })
             .catch(() => alert("Err... You have to keep liking this post"))
     }
 
-    useEffect(() => {
-        isLiked
-        ?
-        setTooltipContent(
-            likes.length === 1
+    function updateTooltipContent(){
+        {
+            isLiked
             ?
-            "You're the first to like it"
-            :
-                likes.length === 2 
-                ? 
-                `You and ${likes[0].username} liked it`
+            setTooltipContent(
+                numberOfLikes === 1
+                ?
+                "You're the first to like it"
                 :
-                `You, ${likes[0].username} and ${likes.length-2} other people`
+                    numberOfLikes === 2 
+                    ? 
+                    likes[0].userId === userData.id ? `You and ${likes[1].user.username} liked it` : `You and ${likes[0].user.username} liked it`
+                    :
+                    likes[0].userId === userData.id ? `You, ${likes[1].user.username} and ${numberOfLikes-2} other people` : `You, ${likes[0].user.username} and ${numberOfLikes-2} other people`
+                )
+            :
+            setTooltipContent(
+                numberOfLikes
+                ? 
+                    numberOfLikes === 1 
+                    ?
+                    numberOfLikes === 2 ? `${likes[0].user.username}, ${likes[1].user.username} liked it` : `${likes[0].user.username} liked it` 
+                    : 
+                    `${likes[0].user.username}, ${likes[1].user.username} and ${numberOfLikes-2} other people` 
+                : 
+                "Be the first to like it"
             )
-        :
-        setTooltipContent(
-            likes.length 
-            ? 
-            `${likes[0].username}, ${likes[1].username} and ${likes.length-2} other people` 
-            : 
-            "Be the first to like it"
-        )
-    })
+        }
+    }
+
+    useEffect(updateTooltipContent, [])
 
     return (
         <>
@@ -69,7 +85,7 @@ export default function LikesComponent ( { likes, id, userId}) {
         
             <Tippy content = {tooltipContent} placement = "bottom">
                 <p className="likes">
-                    {`${likes.length} ${likes.length === 1 ? "like" : "likes"}`}
+                    {`${numberOfLikes} ${numberOfLikes === 1 ? "like" : "likes"}`}
                 </p>
             </Tippy>
         </>

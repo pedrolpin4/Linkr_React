@@ -10,10 +10,9 @@ function Hashtag() {
     const { hashtag } = useParams()
     const [hashtagsPosts, setHashtagsPosts] = useState([])
     const { userData } = useContext(UserContext)
-    const testToken = "5f8eb824-09fe-4ef6-a5ed-a26dbcb1bc10"
     const config = {
         headers: {
-            "Authorization": `Bearer ${testToken}` 
+            "Authorization": `Bearer ${userData.token}` 
         }
     } 
 
@@ -59,6 +58,7 @@ const ErrorMessage = styled.h1`
     font-family: 'Lato', sans-serif;
     font-size: 23px;
     word-wrap: break-word;
+    text-align: justify;
 `
 
 export default Hashtag
