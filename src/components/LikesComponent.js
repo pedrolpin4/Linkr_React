@@ -12,7 +12,6 @@ export default function LikesComponent ( { likes, id}) {
 
     const [ isLiked, setIsLiked ] = useState(likes.some(like => like.userId === userData.id));
     const [numberOfLikes, setNumberOfLikes] = useState(likes.length);
-    console.log(likes);
 
     const [ tooltipContent, setTooltipContent ] = useState("");
 
@@ -41,7 +40,6 @@ export default function LikesComponent ( { likes, id}) {
     }
 
     function updateTooltipContent(){
-        {
             isLiked
             ?
             setTooltipContent(
@@ -61,16 +59,15 @@ export default function LikesComponent ( { likes, id}) {
                 ? 
                     numberOfLikes === 1 
                     ?
-                    numberOfLikes === 2 ? `${likes[0].user.username}, ${likes[1].user.username} liked it` : `${likes[0].user.username} liked it` 
+                    `${likes[0]["user.username"]} liked it` 
                     : 
-                    `${likes[0].user.username}, ${likes[1].user.username} and ${numberOfLikes-2} other people` 
+                    numberOfLikes === 2 ? `${likes[0]["user.username"]} and ${likes[1]["user.username"]} liked it` : `${likes[0]["user.username"]}, ${likes[1]["user.username"]} and ${numberOfLikes-2} other people` 
                 : 
                 "Be the first to like it"
             )
-        }
     }
 
-    useEffect(updateTooltipContent, [])
+    useEffect(updateTooltipContent, [numberOfLikes])
 
     return (
         <>

@@ -24,7 +24,7 @@ function Hashtag() {
             .catch(() => alert(`There was an error while finding the posts with the hashtag ${hashtag}`))
     }
 
-   useEffect(() => renderHashtagPosts(config, hashtag), []);
+   useEffect(() => renderHashtagPosts(config, hashtag), [hashtag]);
 
     return (
         <BaseLayout title = {`#${hashtag}`}>
