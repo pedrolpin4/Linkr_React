@@ -20,6 +20,13 @@ async function getPosts(token) {
     else return false;
 }
 
+async function getLikedPosts(token) {
+    const response = await API.get("/posts/liked", head(token))
+        .catch(() => false);
+
+    if(response) return response.data;
+    else return false;
+}
 /** 
  * @author Yohan Lopes
 */
@@ -48,7 +55,8 @@ const service =  {
     getHashtagsPosts,
     getPosts,
     getUserPosts,
-    getMyPosts
+    getMyPosts,
+    getLikedPosts
 }
 
 export default service;
