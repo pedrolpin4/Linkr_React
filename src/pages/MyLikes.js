@@ -13,8 +13,8 @@ function MyLikes() {
 
     useEffect(() => {
         let unmounted = false;
-        /* const { token, user } = userData; */
-        const token = "5f8eb824-09fe-4ef6-a5ed-a26dbcb1bc10";
+        const { token } = userData;
+
         async function getLikedPosts() {
             const response = await service.getLikedPosts(token);
 
@@ -25,7 +25,7 @@ function MyLikes() {
             else if(response === false) alert("Hoje é feriado ná terra dos servidores, te respondemos amanhã!");
         }
 
-        getLikedPosts();
+        if(token) getLikedPosts();
         return () => { unmounted = true }
     }, [userData])
 
