@@ -38,7 +38,6 @@ function Login({ userLogin }) {
   }
 
   function logInFailure(response) {
-    console.log(response.response);
     if (response.response.status === 403) {
       alert(
         "Invalid e-mail and/or password. Please, check the fields and try again."
