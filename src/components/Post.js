@@ -7,10 +7,7 @@ import Preview from "./Preview";
 import axios from "axios";
 import UserContext from "../context/UserContext";
 
-import Preview from './Preview';
-
 export default function Post({ profilePic,
-                               id,
                                link,
                                username,
                                text,
@@ -21,8 +18,9 @@ export default function Post({ profilePic,
                                userId,
                                id,
                                setNewPosts,
-                               newPosts  })
+                               newPosts})
 {
+  
   const [isClicked, setIsClicked] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
   const user = useContext(UserContext);
@@ -79,67 +77,71 @@ export default function Post({ profilePic,
   function closeModal() {
     setIsOpen(false);
   }
+    return (
+        <PostContainer>
+            <LeftSection>
+                <a href={`/user/${userId}`}><img src={profilePic} alt="" /></a>
+                <LikesComponent likes ={likes} id ={id} userId = {userId}/>
+            </LeftSection>
 
-  return (
-      <PostContainer>
-          <LeftSection>
-              <a href={`/user/${userId}`}><img src={profilePic} alt="" /></a>
-              <LikesComponent likes ={likes} id ={id} userId = {userId}/>
-          </LeftSection>
-
-          <RightSection>
-              <header>
-                  <p className="username"><a href={`/user/${userId}`}>{username}</a></p>
-                  <FaTrash size={12} />
-                  <ReactHashtag onHashtagClick={val => alert(val)}
-                                renderHashtag={hashtag => (
-                                  <a className="hashtag" key={hashtag}  href={`/hashtag/${hashtag.substr(1)}`}>
-                                      {hashtag}
-                                  </a>
-                                )}>
-                      {text}
-                  </ReactHashtag>
-              </header>
-              <Preview title={prevTitle}
-                        description={prevDescription}
-                        img={prevImage}
-                        link={link} />
-          </RightSection>
-          <Modal
-            isOpen={modalIsOpen}
-            onRequestClose={closeModal}
-            style={customStyles}
-            contentLabel="Example Modal"
-          >
-            <h2
-              style={{
-                color: "white",
-                fontSize: "34px",
-                fontWeight: "bold",
-                width: "358px",
-                fontFamily: "Lato",
-                textAlign: "center",
-              }}
-            >
-              {isClicked
-                ? "Loading..."
-                : "Are you sure you want to delete this post?"}
-            </h2>
-            <ModalButtons>
-              <button disabled={isClicked} onClick={closeModal}>
-                No, return
-              </button>
-              <button
-                className="second"
-                disabled={isClicked}
-                onClick={() => toDeletePost(id)}
-              >
-                Yes, delete it
-              </button>
-            </ModalButtons>
-          </Modal>
-    </PostContainer>
-  );
+            <RightSection>
+                <header>
+                    <p className="username"><a href={`/user/${userId}`}>{username}</a></p>
+                    <FaTrash size={12} />
+                    <ReactHashtag onHashtagClick={val => alert(val)}
+                                  renderHashtag={hashtag => (
+                                    <a className="hashtag" key={hashtag}  href={`/hashtag/${hashtag.substr(1)}`}>
+                                        {hashtag}
+                                    </a>
+                                  )}>
+                        {text}
+                    </ReactHashtag>
+                </header>
+                <Preview title={prevTitle}
+                         description={prevDescription}
+                         img={prevImage}
+                         link={link} />
+            </RightSection>
+             <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                style={customStyles}
+                contentLabel="Example Modal"
+                 >
+                   <h2
+                       style={{
+                       color: "white",
+                       fontSize: "34px",
+                       fontWeight: "bold",
+                       width: "358px",
+                       fontFamily: "Lato",
+                       textAlign: "center",
+                       }}
+                     >
+                     
+                    {
+                    isClicked
+                    ? 
+                    "Loading..."
+                    : 
+                    "Are you sure you want to delete this post?"
+                    }
+                   </h2>
+                   <ModalButtons>
+                        <button disabled={isClicked} onClick={closeModal}>
+                            No, return
+                        </button>
+                        <button
+                            className="second"
+                            disabled={isClicked}
+                            onClick={() => toDeletePost(id)}
+                        >
+                            Yes, delete it
+                        </button>
+                   </ModalButtons>
+              </Modal>
+        </PostContainer>
+    )
 }
 
 const PostContainer = styled.div`
@@ -231,7 +233,3 @@ const ModalButtons = styled.div`
     margin-left: 27px;
   }
 `;
-
-
-
-

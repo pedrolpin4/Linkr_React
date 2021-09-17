@@ -55,7 +55,7 @@ const MainContentContainer = styled.div`
   gap: 0px 20px;
 `;
 
-const LeftSection = styled.section`
+const LeftSection = styled.section` 
     width: 611px;
     display: flex;
     flex-direction: column;
