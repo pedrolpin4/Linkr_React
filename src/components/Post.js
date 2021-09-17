@@ -6,6 +6,7 @@ import ReactHashtag from "react-hashtag";
 import Modal from "react-modal";
 import Preview from "./Preview";
 import axios from "axios";
+import UserContext from "../context/UserContext";
 
 export default function Post({
   profilePic,
@@ -24,6 +25,7 @@ export default function Post({
 }) {
   const [isClicked, setIsClicked] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
+  const user = useContext(UserContext);
 
   const customStyles = {
     content: {
@@ -48,14 +50,13 @@ export default function Post({
   };
 
   function toDeletePost(id) {
-    console.log(id);
     setIsClicked(true);
     axios
       .delete(
         `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/posts/${id}`,
         {
           headers: {
-            Authorization: `Bearer 5f8eb824-09fe-4ef6-a5ed-a26dbcb1bc10`, //substituir por ${user.token}
+            Authorization: `Bearer ${user.token}`,
           },
         }
       )
