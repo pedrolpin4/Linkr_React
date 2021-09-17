@@ -9,10 +9,9 @@ export default function LikesComponent ( { likes, id}) {
     const{
         userData
     } = useContext(UserContext)
-
-    const [ isLiked, setIsLiked ] = useState(likes.some(like => like.userId === userData.id));
+    const [likesArray, setLikesArray] = useState([...likes])
+    const [ isLiked, setIsLiked ] = useState(likesArray.some(like => like.userId === userData.user.id))
     const [numberOfLikes, setNumberOfLikes] = useState(likes.length);
-
     const [ tooltipContent, setTooltipContent ] = useState("");
 
     const config = {
@@ -23,51 +22,54 @@ export default function LikesComponent ( { likes, id}) {
 
     function likePost(config, id) {
         service.postingLikes(config, id)
-            .then(() => {
+            .then(res => {
                 setIsLiked(true)
                 setNumberOfLikes(numberOfLikes + 1)
+                setLikesArray([...res.data.post.likes])
+                updateTooltipContent("userId", "username", true, res.data.post.likes, numberOfLikes + 1)
             })
-            .catch(() => alert("The server is not okay today, maybe he's got a flu"))
     }
 
     function unLikePost(config, id){
         service.deletingLikes(config, id)
-            .then(() => {
+            .then(res => {
                 setIsLiked(false)
                 setNumberOfLikes(numberOfLikes - 1)
+                setLikesArray([...res.data.post.likes])
+                updateTooltipContent("userId", "username", false, res.data.post.likes, numberOfLikes - 1)
             })
-            .catch(() => alert("Err... You have to keep liking this post"))
     }
 
-    function updateTooltipContent(){
-            isLiked
+    function updateTooltipContent(id, name, liked = isLiked, likesList = likesArray, nLikes = numberOfLikes){
+        console.log(isLiked);
+        liked
+        ?
+        setTooltipContent(
+            nLikes === 1
             ?
-            setTooltipContent(
-                numberOfLikes === 1
-                ?
-                "You're the first to like it"
-                :
-                    numberOfLikes === 2 
-                    ? 
-                    likes[0].userId === userData.id ? `You and ${likes[1]["user.username"]} liked it` : `You and ${likes[0]["user.username"]} liked it`
-                    :
-                    likes[0].userId === userData.id ? `You, ${likes[1]["user.username"]} and ${numberOfLikes-2} other people` : `You, ${likes[0]["user.username"]} and ${numberOfLikes-2} other people`
-                )
+            "You're the first to like it"
             :
-            setTooltipContent(
-                numberOfLikes
+                nLikes === 2
                 ? 
-                    numberOfLikes === 1 
-                    ?
-                    `${likes[0]["user.username"]} liked it` 
-                    : 
-                    numberOfLikes === 2 ? `${likes[0]["user.username"]} and ${likes[1]["user.username"]} liked it` : `${likes[0]["user.username"]}, ${likes[1]["user.username"]} and ${numberOfLikes-2} other people` 
-                : 
-                "Be the first to like it"
+                likesList.findIndex(like => like[id] === userData.user.id) ? `You and ${likesList[0][name]} liked it` : `You and ${likesList[1][name]} liked it`
+                :
+                likesList.findIndex(like => like[id] === userData.user.id) ? `You, ${likesList[0][name]} and ${nLikes-2} other people` : `You, ${likesList[1][name]} and ${nLikes-2} other people`
             )
+        :
+        setTooltipContent(
+            nLikes
+            ? 
+                nLikes === 1 
+                ?
+                `${likesList[0][name]} liked it` 
+                : 
+                nLikes === 2 ? `${likesList[0][name]} and ${likesList[1][name]} liked it` : `${likesList[0][name]}, ${likesList[1][name]} and ${nLikes-2} other people` 
+            : 
+            "Be the first to like it"
+        )
     }
 
-    useEffect(updateTooltipContent, [numberOfLikes])
+    useEffect(() => updateTooltipContent("user.id", "user.username"), [])
 
     return (
         <>
