@@ -49,9 +49,9 @@ export default function LikesComponent ( { likes, id}) {
                 :
                     numberOfLikes === 2 
                     ? 
-                    likes[0].userId === userData.id ? `You and ${likes[1].user.username} liked it` : `You and ${likes[0].user.username} liked it`
+                    likes[0].userId === userData.id ? `You and ${likes[1]["user.username"]} liked it` : `You and ${likes[0]["user.username"]} liked it`
                     :
-                    likes[0].userId === userData.id ? `You, ${likes[1].user.username} and ${numberOfLikes-2} other people` : `You, ${likes[0].user.username} and ${numberOfLikes-2} other people`
+                    likes[0].userId === userData.id ? `You, ${likes[1]["user.username"]} and ${numberOfLikes-2} other people` : `You, ${likes[0]["user.username"]} and ${numberOfLikes-2} other people`
                 )
             :
             setTooltipContent(
