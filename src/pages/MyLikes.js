@@ -14,7 +14,7 @@ function MyLikes() {
     useEffect(() => {
         let unmounted = false;
         const { token } = userData;
-        console.log(token)
+
         async function getLikedPosts() {
             const response = await service.getLikedPosts(token);
 

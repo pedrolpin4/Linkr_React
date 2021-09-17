@@ -17,7 +17,6 @@ export default function NavBar () {
         </NavBarContainer>
     )
 }
-//{userData.avatar}
 const NavBarContainer = styled.div`
     position: fixed;
     top: 0px;

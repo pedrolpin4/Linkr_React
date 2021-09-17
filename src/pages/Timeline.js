@@ -18,7 +18,7 @@ function Timeline() {
 
         async function getPostsData() {
             const { token } = userData;
-            console.log(token)
+
             const response = await service.getPosts(token);
 
             if(response && !unmounted) setPosts(response.posts)
