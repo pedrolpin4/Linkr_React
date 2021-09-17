@@ -1,9 +1,11 @@
 import styled from "styled-components";
-import { useState } from "react"; // importar useContext
+import { useContext, useState } from "react"; // importar useContext
 import axios from "axios";
+import UserContext from "../context/UserContext";
 //import UserContext from "../context/UserContext";
 
-function PostBox({newPosts, setNewPosts}) {  
+function PostBox({newPosts, setNewPosts}) {
+  const { userData } = useContext(UserContext);
   const [url, setUrl] = useState("");
   const [text, setText] = useState("");
   //const user = useContext(UserContext);
@@ -11,9 +13,10 @@ function PostBox({newPosts, setNewPosts}) {
 
   function toPublishPost() {
     setClicked(true);
+    const { token } = userData;
     const config = {
       headers: {
-        Authorization: `Bearer 5f8eb824-09fe-4ef6-a5ed-a26dbcb1bc10`, //substituir por ${user.token}
+        Authorization: `Bearer ${token}`, //substituir por ${user.token}
       },
     };
     if (url !== "") {
@@ -47,7 +50,7 @@ function PostBox({newPosts, setNewPosts}) {
       <CreatePostBox>
         <ImageUser>
           <img
-            src="https://img.freepik.com/fotos-gratis/imagem-aproximada-em-tons-de-cinza-de-uma-aguia-careca-americana-em-um-fundo-escuro_181624-31795.jpg?size=626&ext=jpg"
+            src={userData.user.avatar}
             alt=""
           />
         </ImageUser>

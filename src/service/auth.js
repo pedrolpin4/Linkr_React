@@ -46,6 +46,14 @@ function getHashtagsPosts (config, hashtag){
     return API.get(`/hashtags/${hashtag}/posts`, config)
 }
 
+function postingLikes (config, id){
+    return API.post(`/posts/${id}/like`, {}, config)
+}
+
+function deletingLikes (config, id){
+    return API.post(`/posts/${id}/dislike`, {}, config)
+}
+
 function getUserPosts (config, userId){
     return API.get(`/users/${userId}/posts`, config)
 }
@@ -54,6 +62,8 @@ const service =  {
     getHashtags,
     getHashtagsPosts,
     getPosts,
+    postingLikes,
+    deletingLikes,
     getUserPosts,
     getMyPosts,
     getLikedPosts

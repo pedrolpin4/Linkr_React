@@ -1,28 +1,27 @@
 import styled from "styled-components";
 import { useState, useContext } from "react";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { FaTrash } from "react-icons/fa";
+import { FaTrash } from 'react-icons/fa';
 import ReactHashtag from "react-hashtag";
+import LikesComponent from "./LikesComponent";
 import Modal from "react-modal";
 import Preview from "./Preview";
 import axios from "axios";
 import UserContext from "../context/UserContext";
 
-export default function Post({
-  profilePic,
-  link,
-  username,
-  text,
-  liked,
-  prevTitle,
-  prevDescription,
-  prevImage,
-  likes,
-  userId,
-  id,
-  setNewPosts,
-  newPosts,
-}) {
+export default function Post({ profilePic,
+                               link,
+                               username,
+                               text,
+                               prevTitle,
+                               prevDescription,
+                               prevImage,
+                               likes,
+                               userId,
+                               id,
+                               setNewPosts,
+                               newPosts})
+{
+  
   const [isClicked, setIsClicked] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
   const user = useContext(UserContext);
@@ -79,86 +78,71 @@ export default function Post({
   function closeModal() {
     setIsOpen(false);
   }
+    return (
+        <PostContainer>
+            <LeftSection>
+                <a href={`/user/${userId}`}><img src={profilePic} alt="" /></a>
+                <LikesComponent likes ={likes} id ={id} userId = {userId}/>
+            </LeftSection>
 
-  return (
-    <PostContainer>
-      <LeftSection>
-        <a href={`/user/${userId}`}>
-          <img src={profilePic} alt="" />
-        </a>
-        {liked ? (
-          <AiFillHeart color="#ff0000" size={25} />
-        ) : (
-          <AiOutlineHeart color="#fff" size={25} />
-        )}
-        <p className="likes">
-          {`${likes.length} ${likes.length === 1 ? "like" : "likes"}`}
-        </p>
-      </LeftSection>
-      <RightSection>
-        <header>
-          <p className="username">
-            <a href={`/user/${userId}`}>{username}</a>
-          </p>
-          <FaTrash size={12} onClick={openModal} />
-          <ReactHashtag
-            onHashtagClick={(val) => alert(val)}
-            renderHashtag={(hashtag) => (
-              <a
-                className="hashtag"
-                key={hashtag}
-                href={`/hashtag/${hashtag.substr(1)}`}
-              >
-                {hashtag}
-              </a>
-            )}
-          >
-            {text}
-          </ReactHashtag>
-        </header>
-        <Preview
-          title={prevTitle}
-          description={prevDescription}
-          img={prevImage}
-          link={link}
-        />
-      </RightSection>
-
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel="Example Modal"
-      >
-        <h2
-          style={{
-            color: "white",
-            fontSize: "34px",
-            fontWeight: "bold",
-            width: "358px",
-            fontFamily: "Lato",
-            textAlign: "center",
-          }}
-        >
-          {isClicked
-            ? "Loading..."
-            : "Are you sure you want to delete this post?"}
-        </h2>
-        <ModalButtons>
-          <button disabled={isClicked} onClick={closeModal}>
-            No, return
-          </button>
-          <button
-            className="second"
-            disabled={isClicked}
-            onClick={() => toDeletePost(id)}
-          >
-            Yes, delete it
-          </button>
-        </ModalButtons>
-      </Modal>
-    </PostContainer>
-  );
+            <RightSection>
+                <header>
+                    <p className="username"><a href={`/user/${userId}`}>{username}</a></p>
+                    <FaTrash size={12} />
+                    <ReactHashtag onHashtagClick={val => alert(val)}
+                                  renderHashtag={hashtag => (
+                                    <a className="hashtag" key={hashtag}  href={`/hashtag/${hashtag.substr(1)}`}>
+                                        {hashtag}
+                                    </a>
+                                  )}>
+                        {text}
+                    </ReactHashtag>
+                </header>
+                <Preview title={prevTitle}
+                         description={prevDescription}
+                         img={prevImage}
+                         link={link} />
+            </RightSection>
+             <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                style={customStyles}
+                contentLabel="Example Modal"
+                 >
+                   <h2
+                       style={{
+                       color: "white",
+                       fontSize: "34px",
+                       fontWeight: "bold",
+                       width: "358px",
+                       fontFamily: "Lato",
+                       textAlign: "center",
+                       }}
+                     >
+                     
+                    {
+                    isClicked
+                    ? 
+                    "Loading..."
+                    : 
+                    "Are you sure you want to delete this post?"
+                    }
+                   </h2>
+                   <ModalButtons>
+                        <button disabled={isClicked} onClick={closeModal}>
+                            No, return
+                        </button>
+                        <button
+                            className="second"
+                            disabled={isClicked}
+                            onClick={() => toDeletePost(id)}
+                        >
+                            Yes, delete it
+                        </button>
+                   </ModalButtons>
+              </Modal>
+        </PostContainer>
+    )
 }
 
 const PostContainer = styled.div`

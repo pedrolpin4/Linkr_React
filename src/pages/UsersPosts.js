@@ -21,7 +21,6 @@ function UsersPosts() {
       }
     );
     req.then((resp) => {
-      console.log(resp);
       setUsername(resp.data.user.username);
       const req2 = axios.get(
         `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/${resp.data.user.id}/posts`,
