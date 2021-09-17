@@ -1,3 +1,4 @@
+import { AnimatePresence } from "framer-motion";
 import { Link, useHistory } from "react-router-dom";
 import { useState, useContext, useEffect } from "react";
 import UserContext from "../context/UserContext";
@@ -9,12 +10,18 @@ import {
   EnterButton,
   EnterInput,
 } from "../SharedStyles/LogInSignUp";
+import Modal from "../components/Modal";
 
 function Login({ userLogin }) {
   const history = useHistory();
   const [loginEmail, setloginEmail] = useState("");
   const [loginPassword, setloginPassword] = useState("");
   const [enabled, setEnabled] = useState(true);
+
+  const [ modal, setModal ] = useState({
+    shouldRender: false,
+    text: ""
+  });
 
   const { setUserData } = useContext(UserContext);
 
@@ -25,6 +32,14 @@ function Login({ userLogin }) {
   };
 
   useEffect(() => checkRedirection(userLogin), []);
+
+  function closeModal() {
+    setModal({shouldRender: false, text: ""})
+  }
+
+  function openModal(text) {
+    setModal({shouldRender: true, text: text})
+  }
 
   function logInSuccess(response) {
     if (response.status === 200 || response.status === 201) {
@@ -39,11 +54,19 @@ function Login({ userLogin }) {
 
   function logInFailure(response) {
     if (response.response.status === 403) {
-      alert(
+      setModal({
+        shouldRender: true,
+        text: "Invalid e-mail and/or password. Please, check the fields and try again."
+      })
+/*       alert(
         "Invalid e-mail and/or password. Please, check the fields and try again."
-      );
+      ); */
     } else {
-      alert("Something went wrong. Please, check the fields and try again.");
+      setModal({
+        shouldRender: true,
+        text: "Something went wrong. Please, check the fields and try again."
+      })
+      /* alert("Something went wrong. Please, check the fields and try again."); */
     }
     setEnabled(true);
   }
@@ -67,6 +90,13 @@ function Login({ userLogin }) {
 
   return (
     <EnterContainer>
+      <AnimatePresence
+        initial={false}
+        exitBeforeEnter={true}
+      >
+        {modal.shouldRender && <Modal handleClose={closeModal}><p>{modal.text}</p></Modal>}
+      </AnimatePresence>
+
       <LogoHolder>
         <div>
           <h1>linkr</h1>

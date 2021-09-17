@@ -1,0 +1,32 @@
+.modal {
+    width: clamp(50%, 700px, 90%);
+    height: min(50%, 300px);
+
+    margin: auto;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #333333;
+    border: 2px solid #fff;
+    display: flex;
+    align-items: center;
+    border-radius: 15px;
+    font-size: 30px;
+    text-align: center;
+}
+
+.close-button {
+    width: 134px;
+    background-color: #1877F2;
+    color: #fff;
+    height: 37px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    position: absolute;
+    bottom: 20px;
+    left: calc(50% - 67px);
+}
