@@ -23,11 +23,13 @@ export default function Post({ profilePic,
                                setNewPosts,
                                newPosts})
 {
-  
   const [isClicked, setIsClicked] = useState(false);
   const inputRef = useRef(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [currentValue, setCurrentValue] = useState("")
+  const [currentValue, setCurrentValue] = useState(text);
+  const [lastId, setLastId] = useState(id)
+  const [lastValue, setLastValue] = useState(text);
+  const [isDisabled, setIsDisabled] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
   const { userData } = useContext(UserContext);
 
@@ -53,9 +55,28 @@ export default function Post({ profilePic,
     },
   };
 
-  function toEditPost(id) {
-    setIsEditing(true)
-    setCurrentValue(text)
+  function keyEvents (e){
+      if( e.code === "Escape"){
+        setIsEditing(false)
+        setCurrentValue(lastValue)
+      } else if(e.code === "Enter"){
+          setIsDisabled(true)
+          service.editingPost({
+            headers: {
+              Authorization: `Bearer ${userData.token}`,
+            },
+          }, id, currentValue)
+          .then(res => {
+              setIsEditing(false)
+              setLastValue(res.data.post.text)
+              setIsDisabled(false)
+          })
+          .catch(() => {
+            setIsDisabled(false)
+            inputRef.current.focus()
+            alert("deu ruim")
+          })
+      }
   }
 
   function toDeletePost(id) {
@@ -105,19 +126,20 @@ export default function Post({ profilePic,
           <RightSection>
               <header>
                   <p className="username"><a href={`/user/${userId}`}>{username}</a></p>
-                  <FiEdit2 size={16} className = "edit" onClick = {() => toEditPost(id)}/>
+                  <FiEdit2 size={16} className = "edit" onClick = {() => {
+                    if(isEditing){
+                      setIsEditing(false)
+                      setCurrentValue(lastValue)
+                    } else{
+                      setIsEditing(true)
+                    }
+                  }}/>
                   <FaTrash size={16} className = "delete" onClick = {openModal}/>
                   {
                     isEditing
                     ?
-                    <EditInput ref = {inputRef} value = {currentValue} 
-                      onChange = {e => setCurrentValue(e.target.value)} onKeyDown = {e =>{
-                          if( e.code === "Escape"){
-                            setIsEditing(false)
-                          } else if(e.code === "Enter"){
-                              alert("deu bom")
-                          }
-                      }}/>
+                    <EditInput ref = {inputRef} value = {currentValue} disabled = {isDisabled}
+                      onChange = {e => setCurrentValue(e.target.value)} onKeyDown = {e => keyEvents(e)}/>
                     :
                     <ReactHashtag onHashtagClick={val => alert(val)}
                                   renderHashtag={hashtag => (
@@ -125,7 +147,7 @@ export default function Post({ profilePic,
                                         {hashtag}
                                     </a>
                                   )}>
-                          {text}
+                          {currentValue}
                     </ReactHashtag>
                   }
               </header>
@@ -274,12 +296,21 @@ const ModalButtons = styled.div`
   }
 `;
 
-const EditInput = styled.div`
+const EditInput = styled.textarea`
   width: 503px;
-  height: 44px;
+  min-height: 44px;
   background: #FFFFFF;
   border-radius: 7px;
+  padding: 8px 10px;
+  border: none;
   font-size: 14px;
+  line-height: 17px;
+  word-break: break-all;
+  resize: none;
+  color: #4C4C4C;
   font-family: Lato;
   margin-top: 8px;
+  :focus{
+    outline: none
+  }
 `

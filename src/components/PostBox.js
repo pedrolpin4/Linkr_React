@@ -44,7 +44,6 @@ function PostBox({newPosts, setNewPosts}) {
     }
   }
 
-  console.log(userData, userData.user, userData.user.avatar);
   return (
       <CreatePostBox>
         <ImageUser>

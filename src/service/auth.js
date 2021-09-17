@@ -59,7 +59,7 @@ function getUserPosts (config, userId){
 }
 
 function editingPost (config, id, value) {
-    return API.put(`/posts/${id}`, {text: value}, config)
+    return API.put(`/posts/${id}`, {"text": value}, config)
 }
 
 const service =  {
