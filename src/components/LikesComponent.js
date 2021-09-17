@@ -5,10 +5,8 @@ import Tippy from "@tippyjs/react"
 import "tippy.js/dist/tippy.css"
 import UserContext from "../context/UserContext";
 
-export default function LikesComponent ( { likes, id}) {
-    const{
-        userData
-    } = useContext(UserContext)
+export default function LikesComponent ( {likes, id}) {
+    const{userData} = useContext(UserContext)
     const [likesArray, setLikesArray] = useState([...likes])
     const [ isLiked, setIsLiked ] = useState(likesArray.some(like => like.userId === userData.user.id))
     const [numberOfLikes, setNumberOfLikes] = useState(likes.length);
@@ -41,7 +39,6 @@ export default function LikesComponent ( { likes, id}) {
     }
 
     function updateTooltipContent(id, name, liked = isLiked, likesList = likesArray, nLikes = numberOfLikes){
-        console.log(isLiked);
         liked
         ?
         setTooltipContent(
@@ -51,9 +48,17 @@ export default function LikesComponent ( { likes, id}) {
             :
                 nLikes === 2
                 ? 
-                likesList.findIndex(like => like[id] === userData.user.id) ? `You and ${likesList[0][name]} liked it` : `You and ${likesList[1][name]} liked it`
+                    likesList.findIndex(like => like[id] === userData.user.id)
+                    ? 
+                    `You and ${likesList[0][name]} liked it` 
+                    : 
+                    `You and ${likesList[1][name]} liked it`
                 :
-                likesList.findIndex(like => like[id] === userData.user.id) ? `You, ${likesList[0][name]} and ${nLikes-2} other people` : `You, ${likesList[1][name]} and ${nLikes-2} other people`
+                    likesList.findIndex(like => like[id] === userData.user.id) 
+                    ? 
+                    `You, ${likesList[0][name]} and ${nLikes-2} other people` 
+                    : 
+                    `You, ${likesList[1][name]} and ${nLikes-2} other people`
             )
         :
         setTooltipContent(
@@ -63,7 +68,11 @@ export default function LikesComponent ( { likes, id}) {
                 ?
                 `${likesList[0][name]} liked it` 
                 : 
-                nLikes === 2 ? `${likesList[0][name]} and ${likesList[1][name]} liked it` : `${likesList[0][name]}, ${likesList[1][name]} and ${nLikes-2} other people` 
+                    nLikes === 2 
+                    ? 
+                    `${likesList[0][name]} and ${likesList[1][name]} liked it` 
+                    : 
+                    `${likesList[0][name]}, ${likesList[1][name]} and ${nLikes-2} other people` 
             : 
             "Be the first to like it"
         )
@@ -73,14 +82,13 @@ export default function LikesComponent ( { likes, id}) {
 
     return (
         <>
-                
-            {isLiked 
+            {
+                isLiked 
                 ? 
                 <AiFillHeart  onClick = {() => unLikePost(config, id)} color="#ff0000" size={25} /> 
                 : 
                 <AiOutlineHeart onClick = {() => likePost(config, id)} color="#fff" size={25} />
             }
-            
         
             <Tippy content = {tooltipContent} placement = "bottom">
                 <p className="likes">
