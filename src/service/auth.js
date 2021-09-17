@@ -58,6 +58,10 @@ function getUserPosts (config, userId){
     return API.get(`/users/${userId}/posts`, config)
 }
 
+function editingPost (config, id, value) {
+    return API.put(`/posts/${id}`, {text: value}, config)
+}
+
 const service =  {
     getHashtags,
     getHashtagsPosts,
@@ -66,7 +70,8 @@ const service =  {
     deletingLikes,
     getUserPosts,
     getMyPosts,
-    getLikedPosts
+    getLikedPosts,
+    editingPost
 }
 
 export default service;

@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import service from "../service/auth"; 
 import Tippy from "@tippyjs/react"
-import "tippy.js/dist/tippy.css"
+import "../SharedStyles/tippy.css"
 import UserContext from "../context/UserContext";
 
 export default function LikesComponent ( {likes, id}) {
@@ -56,10 +56,18 @@ export default function LikesComponent ( {likes, id}) {
                 :
                     likesList.findIndex(like => like[id] === userData.user.id) 
                     ? 
-                    `You, ${likesList[0][name]} and ${nLikes-2} other people` 
+                        nLikes === 3
+                        ?
+                        `You, ${likesList[0][name]} and ${nLikes-2} other person`
+                        :                    
+                        `You, ${likesList[0][name]} and ${nLikes-2} other people`  
                     : 
-                    `You, ${likesList[1][name]} and ${nLikes-2} other people`
-            )
+                        nLikes === 3
+                        ?
+                        `You, ${likesList[1][name]} and ${nLikes-2} other people`
+                        :                    
+                        `You, ${likesList[1][name]} and ${nLikes-2} other people`
+        )
         :
         setTooltipContent(
             nLikes
@@ -72,7 +80,11 @@ export default function LikesComponent ( {likes, id}) {
                     ? 
                     `${likesList[0][name]} and ${likesList[1][name]} liked it` 
                     : 
-                    `${likesList[0][name]}, ${likesList[1][name]} and ${nLikes-2} other people` 
+                        nLikes === 3
+                        ?
+                        `${likesList[0][name]}, ${likesList[1][name]} and ${nLikes-2} other person`
+                        :
+                        `${likesList[0][name]}, ${likesList[1][name]} and ${nLikes-2} other people` 
             : 
             "Be the first to like it"
         )
