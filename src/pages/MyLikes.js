@@ -5,6 +5,8 @@ import BaseLayout from '../components/BaseLayout';
 import Loading from '../components/Loading';
 import Post from '../components/Post';
 import service from '../service/auth';
+import styled from 'styled-components';
+import FeedbackMessage from '../components/FeedbackMessage';
 
 function MyLikes() {
     const { userData } = useContext(UserContext);
@@ -34,7 +36,7 @@ function MyLikes() {
             isLoading
                 ? <Loading spinnerSize={30}/>
                 : posts.length === 0
-                    ? "Nenhum pos encontrado :("
+                    ? <FeedbackMessage/>
                     : posts.map((post, index) => <Post key={index}
                                                     username={post.user.username} 
                                                     text={post.text}
@@ -50,3 +52,4 @@ function MyLikes() {
 }
 
 export default MyLikes;
+

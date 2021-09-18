@@ -37,6 +37,7 @@ function PostBox({newPosts, setNewPosts}) {
         alert("There was an error posting your link.");
         setUrl("");
         setText("");
+        setClicked(false);
       });
     } else {
       alert("An URL must be defined.");
