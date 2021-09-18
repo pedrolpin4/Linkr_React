@@ -111,6 +111,7 @@ body {
   font-family: Lato;
   line-height: 1;
   box-sizing: border-box;
+  min-height: 528px;
 }
 ol,
 ul {
