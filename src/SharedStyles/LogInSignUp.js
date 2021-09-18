@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 const EnterContainer = styled.div`
   display: flex;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: auto;
   background-color: #333333;
   color: #ffffff;
   font-family: "Oswald", sans-serif;
@@ -16,8 +16,8 @@ const EnterContainer = styled.div`
 const LogoHolder = styled.div`
   background: #151515;
   width: 65vw;
-  height: 100vh;
-  padding: 20vh 10%;
+  height: 100%;
+  padding: 20vh 10% 43.3vh;
 
   div {
     width: 442px;
