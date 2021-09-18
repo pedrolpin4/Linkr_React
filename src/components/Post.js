@@ -263,6 +263,8 @@ const RightSection = styled.div`
     margin-bottom: 10px;
     color: #cecece;
     line-height: 20px;
+    white-space: 'pre-wrap';
+    overflow-wrap: 'break-word';    
     font-size: 17px;
     max-width: 95%;
     overflow: hidden;

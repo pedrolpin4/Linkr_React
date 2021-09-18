@@ -48,7 +48,7 @@ function Hashtag() {
             ))}
             </>
             :
-            <ErrorMessage>Looks like there are no posts with the #{hashtag}</ErrorMessage>
+            <ErrorMessage>#{hashtag} has no posts</ErrorMessage>
             }
         </BaseLayout>
     )
