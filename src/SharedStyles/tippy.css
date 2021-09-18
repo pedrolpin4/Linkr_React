@@ -71,3 +71,9 @@
     padding: 5px 9px;
     z-index: 1;
 }
+
+@media (max-width: 600px) {
+    .tippy-box{
+        font-size: 11px;
+    } 
+}

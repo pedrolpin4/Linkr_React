@@ -108,6 +108,7 @@ section {
   display: block;
 }
 body {
+  font-family: Lato;
   line-height: 1;
   box-sizing: border-box;
 }

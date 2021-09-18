@@ -79,6 +79,9 @@ const NavBarContainer = styled.div`
   align-items: center;
   padding: 0px 15px 0px 28px;
   z-index: 100;
+  @media(max-width: 600px){
+    padding: 0px 16px; 
+  }
 `
 
 const NavBarTitle = styled.h1`
@@ -87,6 +90,9 @@ const NavBarTitle = styled.h1`
   font-size: 49px;
   color: #FFFFFF;
   cursor: pointer;
+  @media(max-width: 600px){
+    font-size: 45px
+  }
 `
 
 const ProfileImg = styled.img`
@@ -98,6 +104,11 @@ const ProfileImg = styled.img`
   -ms-user-select: none;
   user-select: none;
   cursor: pointer;
+  @media(max-width: 600px){
+    width: 44px;
+    height: 44px;
+    border-radius: 22px;
+  }
 `;
 
 const DropdownMenu = styled.div`
@@ -124,5 +135,12 @@ const DropdownMenu = styled.div`
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
+  }
+
+  @media(max-width: 600px){
+    width: 150px;
+    height: 110px;
+    background: #171717;
+    font-size: 15px;
   }
 `;

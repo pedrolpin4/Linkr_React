@@ -33,7 +33,7 @@ const PageTitle = styled.h1`
         font-size: 33px;
     }
     @media (max-width: 611px){
-        margin-left: 17px;
+        margin: 91px 0px 19px 17px
     }
 `
 

@@ -234,6 +234,19 @@ const LeftSection = styled.div`
     font-size: 12px;
     margin-top: 5px;
   }
+
+  @media screen and (max-width: 600px) {
+    .likes{
+      font-size: 10px;
+    }
+
+    img{
+      width: 40px;
+      height: 40px;
+      border-radius: 20px;
+      margin-bottom: 17px;
+    }
+  }
 `;
 
 const RightSection = styled.div`
@@ -280,6 +293,15 @@ const RightSection = styled.div`
   .hashtag {
     font-weight: bolder;
     color: #fff;
+  }
+
+  @media(max-width: 600px){
+    header{
+      font-size: 15px;
+    }
+    .username{
+      font-size: 17px;
+    }
   }
 `;
 
