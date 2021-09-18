@@ -47,8 +47,6 @@ export default function NavBar () {
     history.push("/");
   }
 
-  console.log(userData);
-
   return (
     <NavBarContainer>
       <NavBarTitle>linkr</NavBarTitle>
@@ -58,7 +56,7 @@ export default function NavBar () {
         ) : (
           <ArrowDown color="#FFFFFF" size={40} onClick={toggleMenu} />
         )}
-        <ProfileImg src={userData.user.avatar} onClick={toggleMenu} />
+        <ProfileImg src={userData.user?.avatar} onClick={toggleMenu} />
       </div>
       <DropdownMenu openDropdown={openDropdown} ref={menu}>
         <p onClick={goToMyPosts}>My posts</p>
