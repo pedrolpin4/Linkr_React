@@ -77,7 +77,7 @@ const NavBarContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 25px 0px 28px;
+  padding: 0px 15px 0px 28px;
   z-index: 100;
 `
 
@@ -90,7 +90,7 @@ const NavBarTitle = styled.h1`
 `
 
 const ProfileImg = styled.img`
-  margin: 0 17px 0 15px;
+  margin: 0 7px 0 15px;
   width: 53px;
   height: 53px;
   border-radius: 26.5px;
