@@ -27,7 +27,7 @@ const PageTitle = styled.h1`
     overflow-x: hidden;
     text-overflow: ellipsis;    
     font-size: 43px;
-    margin: 125px 0 63px 0;
+    margin: 125px 0 45px 0;
     font-weight: bold;
     @media (max-width: 1000px){
         font-size: 33px;

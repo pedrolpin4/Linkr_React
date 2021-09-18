@@ -37,6 +37,7 @@ function PostBox({newPosts, setNewPosts}) {
         alert("There was an error posting your link.");
         setUrl("");
         setText("");
+        setClicked(false);
       });
     } else {
       alert("An URL must be defined.");
@@ -128,6 +129,12 @@ const PostContent = styled.div`
     font-size: 20px;
     line-height: 24px;
     color: #707070;
+  }
+
+  @media screen and (max-width: 600px) {
+    h1 {
+      text-align: center;
+  }
   }
 `;
 

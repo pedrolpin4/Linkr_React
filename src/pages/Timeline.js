@@ -6,6 +6,8 @@ import Post from '../components/Post';
 import service from '../service/auth';
 import PostBox from "../components/PostBox";
 import UserContext from "../context/UserContext";
+import FeedbackMessage from '../components/FeedbackMessage';
+
 
 function Timeline() {
     const { userData } = useContext(UserContext);
@@ -39,9 +41,8 @@ function Timeline() {
             isLoading
                 ? <Loading spinnerSize={30}/>
                 : posts.length === 0
-                    ? "Nenhum post encontrado :("
-                    : posts.map(post => <Post          key={post.id}
-                                                       id = {post.id}
+                    ? <FeedbackMessage/>
+                    : posts.map(post => <Post key={post.id}
                                                        username={post.user.username} 
                                                        text={post.text}
                                                        link={post.link}
