@@ -39,7 +39,7 @@ function UsersPosts() {
     <BaseLayout title={`${username}'s posts`}>
       {userPosts.map((post, index) => (
         <Post
-          key={index}
+          key={post.id}
           username={post.user.username}
           text={post.text}
           link={post.link}

@@ -39,6 +39,7 @@ const LeftSection = styled.div`
 
     h1 {
         font-size: 16px;
+        line-height: 22px;
         margin: 10px 0px 20px 0px;
         word-wrap: break-word;
         max-height: 32px;

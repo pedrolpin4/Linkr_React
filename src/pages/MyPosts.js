@@ -5,6 +5,8 @@ import BaseLayout from "../components/BaseLayout";
 import Loading from "../components/Loading";
 import Post from '../components/Post';
 import service from '../service/auth';
+import FeedbackMessage from '../components/FeedbackMessage';
+
 
 
 function MyPosts() {
@@ -32,8 +34,8 @@ function MyPosts() {
             isLoading
                 ? <Loading spinnerSize={30}/>
                 : posts.length === 0
-                    ? "Nenhum post encontrado :("
-                    : posts.map((post, index) => <Post key={index}
+                    ? <FeedbackMessage/>
+                    : posts.map((post) => <Post key={post.id}
                                                        username={post.user.username} 
                                                        text={post.text}
                                                        link={post.link}

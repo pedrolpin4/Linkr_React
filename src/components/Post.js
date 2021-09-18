@@ -9,6 +9,7 @@ import Preview from "./Preview";
 import axios from "axios";
 import UserContext from "../context/UserContext";
 import service from "../service/auth";
+import { Link } from "react-router-dom";
 
 export default function Post({ profilePic,
                                link,
@@ -142,9 +143,9 @@ export default function Post({ profilePic,
                     :
                     <ReactHashtag onHashtagClick={val => alert(val)}
                                   renderHashtag={hashtag => (
-                                    <a className="hashtag" key={hashtag}  href={`/hashtag/${hashtag.substr(1)}`}>
+                                    <Link className="hashtag" key={hashtag}  to={`/hashtag/${hashtag.substr(1)}`}>
                                         {hashtag}
-                                    </a>
+                                    </Link>
                                   )}>
                           {currentValue}
                     </ReactHashtag>
@@ -262,6 +263,8 @@ const RightSection = styled.div`
     margin-bottom: 10px;
     color: #cecece;
     line-height: 20px;
+    white-space: 'pre-wrap';
+    overflow-wrap: 'break-word';    
     font-size: 17px;
     max-width: 95%;
     overflow: hidden;
