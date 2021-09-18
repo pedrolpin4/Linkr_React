@@ -130,6 +130,12 @@ const PostContent = styled.div`
     line-height: 24px;
     color: #707070;
   }
+
+  @media screen and (max-width: 600px) {
+    h1 {
+      text-align: center;
+  }
+  }
 `;
 
 const URL = styled.input`
