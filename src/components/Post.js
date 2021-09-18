@@ -27,7 +27,6 @@ export default function Post({ profilePic,
   const inputRef = useRef(null);
   const [isEditing, setIsEditing] = useState(false);
   const [currentValue, setCurrentValue] = useState(text);
-  const [lastId, setLastId] = useState(id)
   const [lastValue, setLastValue] = useState(text);
   const [isDisabled, setIsDisabled] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
