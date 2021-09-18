@@ -18,6 +18,7 @@ async function getPosts(token) {
 
     if(response) return response.data;
     else return false;
+    return
 }
 
 async function getLikedPosts(token) {

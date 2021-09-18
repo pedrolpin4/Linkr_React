@@ -6,13 +6,13 @@ import { MdKeyboardArrowDown as ArrowDown} from "react-icons/md"
 
 export default function NavBar () {
     const { userData } = useContext(UserContext)
-
+    console.log(userData)
     return(
         <NavBarContainer>
             <NavBarTitle>linkr</NavBarTitle>
             <div>
                <ArrowDown color = "#FFFFFF" size = {40}/>
-               <ProfileImg src = {userData.user.avatar} />
+               <ProfileImg src = {userData.user?.avatar} />
             </div>
         </NavBarContainer>
     )

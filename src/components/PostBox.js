@@ -48,7 +48,7 @@ function PostBox({newPosts, setNewPosts}) {
       <CreatePostBox>
         <ImageUser>
           <img
-            src={userData.user.avatar}
+            src={userData.user?.avatar}
             alt=""
           />
         </ImageUser>
