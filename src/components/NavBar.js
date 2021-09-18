@@ -1,23 +1,30 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "../context/UserContext";
 import { MdKeyboardArrowDown as ArrowDown, MdKeyboardArrowUp as ArrowUp} from "react-icons/md"
-
 
 export default function NavBar () {
   const {
     userData
   } = useContext(UserContext);
 
-  console.log(userData)
-
   const history = useHistory();
+  const menu = useRef(null);
   const [openDropdown, setOpenDropdown] = useState(false);
+
+  useEffect(() => {
+    function handler(e) {
+      if(openDropdown && menu.current !== e.target) {
+        setOpenDropdown(false);
+      }
+    }
+    window.addEventListener('click', handler);
+    return () => window.removeEventListener('click', handler);
+  }, [openDropdown]);
 
   function toggleMenu () {
     setOpenDropdown(!openDropdown);
-    console.log("aqui2");
   }
 
   function clearStorage () {
@@ -30,7 +37,6 @@ export default function NavBar () {
     history.push("/");
   }
 
-
   return (
     <NavBarContainer>
       <NavBarTitle>linkr</NavBarTitle>
@@ -40,15 +46,14 @@ export default function NavBar () {
         ) : (
           <ArrowDown color="#FFFFFF" size={40} onClick={toggleMenu} />
         )}
-
         <ProfileImg src={userData.user.avatar} onClick={toggleMenu} />
       </div>
-      <DropdownMenu openDropdown={openDropdown} /*ref={menu}*/>
+      <DropdownMenu openDropdown={openDropdown} ref={menu}>
         <Link to="/my-posts">
-          <p>My posts</p>
+          <p onClick={toggleMenu}>My posts</p>
         </Link>
         <Link to="/my-likes">
-          <p>My likes</p>
+          <p onClick={toggleMenu}>My likes</p>
         </Link>
         <p onClick={logOut}>Logout</p>
       </DropdownMenu>
@@ -86,6 +91,7 @@ const ProfileImg = styled.img`
   -ms-user-select: none;
   user-select: none;
 `;
+
 const DropdownMenu = styled.div`
   position: fixed;
   top: 72px;
