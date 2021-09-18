@@ -74,7 +74,7 @@ export default function Post({ profilePic,
           .catch(() => {
             setIsDisabled(false)
             inputRef.current.focus()
-            alert("deu ruim")
+            alert("Something went wrong while editing your post")
           })
       }
   }

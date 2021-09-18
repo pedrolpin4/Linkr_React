@@ -12,7 +12,6 @@ function Timeline() {
     const [ isLoading, setIsLoading ] = useState(true);
     const [ posts, setPosts ] = useState([]);
     const [ newPosts, setNewPosts ] = useState(0);
-    console.log(posts);
     useEffect(() => {
         let unmounted = false;
 
