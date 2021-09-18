@@ -35,7 +35,7 @@ function MyLikes() {
                 ? <Loading spinnerSize={30}/>
                 : posts.length === 0
                     ? "Nenhum pos encontrado :("
-                    : posts.map((post, index) => <Post key={index}
+                    : posts.map((post, index) => <Post key={post.id}
                                                     username={post.user.username} 
                                                     text={post.text}
                                                     link={post.link}

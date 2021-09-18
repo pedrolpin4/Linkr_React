@@ -33,7 +33,7 @@ function Hashtag() {
             <>
             {hashtagsPosts.map( (post,index) => (
                 <Post
-                    key={index}
+                    key={post.id}
                     id = {post.id}
                     username={post.user.username} 
                     text={post.text}
