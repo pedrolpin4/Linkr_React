@@ -22,7 +22,6 @@ function Timeline() {
 
             const response = await service.getPosts(token);
 
-            console.log("carreguei posts do server")
             if(response && !unmounted) setPosts(response.posts)
             else if(response === false) alert("Desculpe, o servidor saiu pra almoço, por favor atualize a página")
 

@@ -6,7 +6,8 @@ import { MdKeyboardArrowDown as ArrowDown, MdKeyboardArrowUp as ArrowUp} from "r
 
 export default function NavBar () {
   const {
-    userData
+    userData,
+    setUserData
   } = useContext(UserContext);
 
   const history = useHistory();
@@ -44,6 +45,7 @@ export default function NavBar () {
   function logOut () {
     setOpenDropdown(!openDropdown);
     clearStorage();
+    setUserData({});
     history.push("/");
   }
 
