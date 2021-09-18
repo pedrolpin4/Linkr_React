@@ -122,10 +122,10 @@ export default function Post({ profilePic,
               <LikesComponent likes ={likes} id ={id} userId = {userId}/>
           </LeftSection>
 
-          <RightSection>
+          <RightSection shouldhide={userId === userData.user?.id}>
               <header>
                   <p className="username"><a href={`/user/${userId}`}>{username}</a></p>
-                  <FiEdit2 size={16} className = "edit" onClick = {() => {
+                  <FiEdit2 size={16}  className = "edit" onClick = {() => {
                     if(isEditing){
                       setIsEditing(false)
                       setCurrentValue(lastValue)
@@ -244,18 +244,20 @@ const RightSection = styled.div`
   height: 100%;
   padding-left: 20px;
 
-  .delete{
+  .delete {
     position: absolute;
     right: 10px;
     top: 10px;
-    color: "#FFFFFF"
+    color: "#FFFFFF";
+    display: ${props => !props.shouldhide ? "none" : "unset"};
   }
 
   .edit{
     position: absolute;
     right: 40px;
     top: 10px;
-    color: "#FFFFFF"
+    color: "#FFFFFF";
+    display: ${props => !props.shouldhide ? "none" : "unset"};
   }
 
   header {

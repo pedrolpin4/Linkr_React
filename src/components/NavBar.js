@@ -9,7 +9,7 @@ export default function NavBar () {
     console.log(userData)
     return(
         <NavBarContainer>
-            <NavBarTitle>linkr</NavBarTitle>
+            <NavBarTitle href="/timeline">linkr</NavBarTitle>
             <div>
                <ArrowDown color = "#FFFFFF" size = {40}/>
                <ProfileImg src = {userData.user?.avatar} />
@@ -31,7 +31,7 @@ const NavBarContainer = styled.div`
     z-index: 100;
 `
 
-const NavBarTitle = styled.h1`
+const NavBarTitle = styled.a`
     font-family: 'Passion One', sans-serif;
     font-weight: bold;
     font-size: 49px;
