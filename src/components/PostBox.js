@@ -2,13 +2,11 @@ import styled from "styled-components";
 import { useContext, useState } from "react"; // importar useContext
 import axios from "axios";
 import UserContext from "../context/UserContext";
-//import UserContext from "../context/UserContext";
 
 function PostBox({newPosts, setNewPosts}) {
   const { userData } = useContext(UserContext);
   const [url, setUrl] = useState("");
   const [text, setText] = useState("");
-  //const user = useContext(UserContext);
   const [clicked, setClicked] = useState(false);
 
   function toPublishPost() {
@@ -16,7 +14,7 @@ function PostBox({newPosts, setNewPosts}) {
     const { token } = userData;
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`, //substituir por ${user.token}
+        Authorization: `Bearer ${token}`,
       },
     };
     if (url !== "") {
@@ -50,7 +48,7 @@ function PostBox({newPosts, setNewPosts}) {
       <CreatePostBox>
         <ImageUser>
           <img
-            src={userData.user.avatar}
+            src={userData.user?.avatar}
             alt=""
           />
         </ImageUser>

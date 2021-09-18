@@ -12,7 +12,6 @@ function Timeline() {
     const [ isLoading, setIsLoading ] = useState(true);
     const [ posts, setPosts ] = useState([]);
     const [ newPosts, setNewPosts ] = useState(0);
-
     useEffect(() => {
         let unmounted = false;
 
@@ -21,6 +20,7 @@ function Timeline() {
 
             const response = await service.getPosts(token);
 
+            console.log("carreguei posts do server")
             if(response && !unmounted) setPosts(response.posts)
             else if(response === false) alert("Desculpe, o servidor saiu pra almoço, por favor atualize a página")
 
@@ -40,7 +40,7 @@ function Timeline() {
                 ? <Loading spinnerSize={30}/>
                 : posts.length === 0
                     ? "Nenhum post encontrado :("
-                    : posts.map((post, index) => <Post key={index}
+                    : posts.map(post => <Post key={post.id}
                                                        id = {post.id}
                                                        username={post.user.username} 
                                                        text={post.text}
