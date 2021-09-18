@@ -25,6 +25,10 @@ const PreviewContainer = styled.a`
     z-index: 10;
     overflow: hidden;
 
+    @media screen and (max-width: 600px) {
+        height: 115px;
+    }
+
 `
 
 const LeftSection = styled.div`
@@ -49,6 +53,12 @@ const LeftSection = styled.div`
         word-wrap: break-word;
         color: #9B9595;
         height: 55px;
+
+        @media screen and (max-width: 600px) {
+            height: 35px;
+            margin-bottom: 5px;
+            overflow: hidden;
+        }
     }
 
     .link {
@@ -62,6 +72,12 @@ const LeftSection = styled.div`
         margin-bottom: 0;
         line-height: 20px;
     }
+
+    @media screen and (max-width: 600px) {
+        margin-left: 5px;
+        width: calc(100% - 95px);
+        padding: 5px;
+    }
 `
 
 const RightSection = styled.div`
@@ -73,4 +89,8 @@ const RightSection = styled.div`
     background-position: center;
     background-image: url(${props => props.img});
     z-index: 5;
+
+    @media screen and (max-width: 600px) {
+        width: 95px;
+  }
 `

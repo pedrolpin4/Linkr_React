@@ -208,6 +208,11 @@ const PostContainer = styled.div`
   padding: 15px;
   min-height: 220px;
   position: relative;
+
+  @media screen and (max-width: 600px) {
+    width: 100%;
+    border-radius: 0px;
+  }
 `;
 
 const LeftSection = styled.div`
@@ -259,6 +264,8 @@ const RightSection = styled.div`
     color: #cecece;
     line-height: 20px;
     font-size: 17px;
+    max-width: 95%;
+    overflow: hidden;
   }
 
   .username {

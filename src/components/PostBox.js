@@ -92,6 +92,11 @@ const CreatePostBox = styled.div`
   padding: 20px;
   margin-bottom: 20px;
   font-family: Lato;
+
+  @media screen and (max-width: 600px) {
+    width: 100%;
+    border-radius: 0px;
+  }
 `;
 
 const ImageUser = styled.div`
@@ -105,6 +110,10 @@ const ImageUser = styled.div`
     width: 50px;
     height: 50px;
     border-radius: 60px;
+  }
+
+  @media screen and (max-width: 600px) {
+    display: none;
   }
 `;
 
@@ -131,6 +140,9 @@ const URL = styled.input`
   margin: 5px auto;
   padding-left: 10px;
   font-family: Lato;
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 const Text = styled.textarea`
@@ -145,6 +157,10 @@ const Text = styled.textarea`
   word-break: break-all;
   resize: none;
   font-family: Lato;
+
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 const ButtonDiv = styled.div`

@@ -14,7 +14,7 @@ export default function BaseLayout({ children, title }) {
             <PageTitle>{title}</PageTitle>
             {children}
           </LeftSection>
-          <TrendingBar />
+          <TrendingBar className="trending-bar"/>
         </MainContentContainer>        
       </BaseLayoutContainer>
     </>
@@ -50,7 +50,6 @@ const BaseLayoutContainer = styled.div`
 
 const MainContentContainer = styled.div`
   display: flex;
-  margin-left: 0 auto;
   justify-content: center;
   gap: 0px 20px;
 `;
