@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect, useRef } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "../context/UserContext";
 import { MdKeyboardArrowDown as ArrowDown, MdKeyboardArrowUp as ArrowUp} from "react-icons/md"
@@ -14,17 +14,27 @@ export default function NavBar () {
   const [openDropdown, setOpenDropdown] = useState(false);
 
   useEffect(() => {
-    function handler(e) {
+    function hideMenu(e) {
       if(openDropdown && menu.current !== e.target) {
         setOpenDropdown(false);
       }
     }
-    window.addEventListener('click', handler);
-    return () => window.removeEventListener('click', handler);
+    window.addEventListener('click', hideMenu);
+    return () => window.removeEventListener('click', hideMenu);
   }, [openDropdown]);
 
   function toggleMenu () {
     setOpenDropdown(!openDropdown);
+  }
+
+  function goToMyPosts () {
+    toggleMenu();
+    history.push("/my-posts");
+  }
+
+  function goToMyLikes () {
+    toggleMenu();
+    history.push("/my-likes");
   }
 
   function clearStorage () {
@@ -36,6 +46,8 @@ export default function NavBar () {
     clearStorage();
     history.push("/");
   }
+
+  console.log(userData);
 
   return (
     <NavBarContainer>
@@ -49,12 +61,8 @@ export default function NavBar () {
         <ProfileImg src={userData.user.avatar} onClick={toggleMenu} />
       </div>
       <DropdownMenu openDropdown={openDropdown} ref={menu}>
-        <Link to="/my-posts">
-          <p onClick={toggleMenu}>My posts</p>
-        </Link>
-        <Link to="/my-likes">
-          <p onClick={toggleMenu}>My likes</p>
-        </Link>
+        <p onClick={goToMyPosts}>My posts</p>
+        <p onClick={goToMyLikes}>My likes</p>
         <p onClick={logOut}>Logout</p>
       </DropdownMenu>
     </NavBarContainer>
@@ -80,6 +88,7 @@ const NavBarTitle = styled.h1`
   font-weight: bold;
   font-size: 49px;
   color: #FFFFFF;
+  cursor: pointer;
 `
 
 const ProfileImg = styled.img`
@@ -90,6 +99,7 @@ const ProfileImg = styled.img`
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  cursor: pointer;
 `;
 
 const DropdownMenu = styled.div`
