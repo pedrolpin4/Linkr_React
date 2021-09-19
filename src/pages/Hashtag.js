@@ -31,9 +31,9 @@ function Hashtag() {
             {hashtagsPosts.length
             ?
             <>
-            {hashtagsPosts.map( (post,index) => (
+            {hashtagsPosts.map( post => (
                 <Post
-                    key={index}
+                    key={post.id}
                     id = {post.id}
                     username={post.user.username} 
                     text={post.text}
@@ -48,7 +48,7 @@ function Hashtag() {
             ))}
             </>
             :
-            <ErrorMessage>Looks like there are no posts with the #{hashtag}</ErrorMessage>
+            <ErrorMessage>#{hashtag} has no posts</ErrorMessage>
             }
         </BaseLayout>
     )

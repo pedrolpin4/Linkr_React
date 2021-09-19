@@ -9,6 +9,7 @@ import Preview from "./Preview";
 import axios from "axios";
 import UserContext from "../context/UserContext";
 import service from "../service/auth";
+import { Link } from "react-router-dom";
 
 export default function Post({ profilePic,
                                link,
@@ -142,9 +143,9 @@ export default function Post({ profilePic,
                     :
                     <ReactHashtag onHashtagClick={val => alert(val)}
                                   renderHashtag={hashtag => (
-                                    <a className="hashtag" key={hashtag}  href={`/hashtag/${hashtag.substr(1)}`}>
+                                    <Link className="hashtag" key={hashtag}  to={`/hashtag/${hashtag.substr(1)}`}>
                                         {hashtag}
-                                    </a>
+                                    </Link>
                                   )}>
                           {currentValue}
                     </ReactHashtag>
@@ -232,6 +233,38 @@ const LeftSection = styled.div`
   .likes {
     font-size: 12px;
     margin-top: 5px;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .likedHeart{
+    color: #ff0000;
+    cursor: pointer;
+  }
+
+  .unLikedHeart{
+    color: #fff;
+    cursor: pointer;
+  }
+
+  @media screen and (max-width: 600px) {
+    .likes{
+      font-size: 9px;
+      text-align: center
+    }
+
+    svg{
+      width: 18px;
+      height: 18px;
+    }
+
+    img{
+      width: 40px;
+      height: 40px;
+      border-radius: 20px;
+      margin-bottom: 17px;
+    }
   }
 `;
 
@@ -245,6 +278,7 @@ const RightSection = styled.div`
   padding-left: 20px;
 
   .delete {
+    cursor: pointer;
     position: absolute;
     right: 10px;
     top: 10px;
@@ -253,20 +287,23 @@ const RightSection = styled.div`
   }
 
   .edit{
+    cursor: pointer;
     position: absolute;
     right: 40px;
     top: 10px;
     color: "#FFFFFF";
     display: ${props => !props.shouldhide ? "none" : "unset"};
+    color: #FFFFFF
   }
 
   header {
     margin-bottom: 10px;
     color: #cecece;
     line-height: 20px;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;    
     font-size: 17px;
     max-width: 95%;
-    overflow: hidden;
   }
 
   .username {
@@ -279,6 +316,32 @@ const RightSection = styled.div`
   .hashtag {
     font-weight: bolder;
     color: #fff;
+  }
+
+  @media(max-width: 600px){
+    header{
+      font-size: 15px;
+      width: calc(90% - 30px);
+    }
+
+    .delete{
+      top: 3px;
+      right: 7px;
+    }
+
+    .edit{
+      top: 3px;
+      right: 32px;
+    }
+
+    svg{
+      width: 12px;
+      height: 14px;
+    }
+
+    .username{
+      font-size: 17px;
+    }
   }
 `;
 

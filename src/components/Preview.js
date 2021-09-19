@@ -39,6 +39,7 @@ const LeftSection = styled.div`
 
     h1 {
         font-size: 16px;
+        line-height: 22px;
         margin: 10px 0px 20px 0px;
         word-wrap: break-word;
         max-height: 32px;
@@ -53,7 +54,7 @@ const LeftSection = styled.div`
         word-wrap: break-word;
         color: #9B9595;
         height: 55px;
-
+        overflow: hidden;
         @media screen and (max-width: 600px) {
             height: 35px;
             margin-bottom: 5px;
@@ -77,6 +78,16 @@ const LeftSection = styled.div`
         margin-left: 5px;
         width: calc(100% - 95px);
         padding: 5px;
+        h1{
+            font-size: 11px;
+            margin: 0px 0px 4px 0px
+        }
+        p{
+            font-size: 9px;
+        }
+        .link{
+            font-size: 9px;
+        }
     }
 `
 

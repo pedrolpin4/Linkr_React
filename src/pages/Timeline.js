@@ -6,6 +6,8 @@ import Post from '../components/Post';
 import service from '../service/auth';
 import PostBox from "../components/PostBox";
 import UserContext from "../context/UserContext";
+import FeedbackMessage from '../components/FeedbackMessage';
+
 
 function Timeline() {
     const { userData } = useContext(UserContext);
@@ -20,7 +22,6 @@ function Timeline() {
 
             const response = await service.getPosts(token);
 
-            console.log("carreguei posts do server")
             if(response && !unmounted) setPosts(response.posts)
             else if(response === false) alert("Desculpe, o servidor saiu pra almoço, por favor atualize a página")
 
@@ -39,9 +40,8 @@ function Timeline() {
             isLoading
                 ? <Loading spinnerSize={30}/>
                 : posts.length === 0
-                    ? "Nenhum post encontrado :("
+                    ? <FeedbackMessage/>
                     : posts.map(post => <Post key={post.id}
-                                                       id = {post.id}
                                                        username={post.user.username} 
                                                        text={post.text}
                                                        link={post.link}

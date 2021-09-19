@@ -97,9 +97,9 @@ export default function LikesComponent ( {likes, id}) {
             {
                 isLiked 
                 ? 
-                <AiFillHeart  onClick = {() => unLikePost(config, id)} color="#ff0000" size={25} /> 
+                <AiFillHeart  onClick = {() => unLikePost(config, id)} className="likedHeart" size={25} /> 
                 : 
-                <AiOutlineHeart onClick = {() => likePost(config, id)} color="#fff" size={25} />
+                <AiOutlineHeart onClick = {() => likePost(config, id)} className="unLikedHeart" size={25} />
             }
         
             <Tippy content = {tooltipContent} placement = "bottom">
@@ -110,5 +110,3 @@ export default function LikesComponent ( {likes, id}) {
         </>
     )
 }
- 
-

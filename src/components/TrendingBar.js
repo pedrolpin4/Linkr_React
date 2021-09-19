@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import service from "../service/auth"
 import UserContext from "../context/UserContext"
@@ -8,14 +8,8 @@ const TrendingBar = () => {
     const { 
         userData
     } = useContext(UserContext)
-
+    const history = useHistory()
     const [trendings, setTrendings] = useState([])
-
-    function pickTrendings(config){
-        service.getHashtags(config)
-            .then(res => setTrendings([...res.data.hashtags]))
-            .catch(() => alert("There was an error while getting the trending topics of the day"))
-    }
 
     useEffect(() => {
         const config = {
@@ -23,7 +17,15 @@ const TrendingBar = () => {
                 "Authorization": `Bearer ${userData.token}` 
             }
         }
-        pickTrendings(config)}, [userData])
+
+        function pickTrendings(config){
+            service.getHashtags(config)
+                .then(res => setTrendings([...res.data.hashtags]))
+                .catch(() => alert("There was an error while getting the trending topics of the day"))
+        }
+
+        if(!localStorage.getItem("userLogin")) history.push("/")
+        if(userData.token) pickTrendings(config)}, [userData])
     
     return(
         <TrendingsContainer>

@@ -37,6 +37,7 @@ function PostBox({newPosts, setNewPosts}) {
         alert("There was an error posting your link.");
         setUrl("");
         setText("");
+        setClicked(false);
       });
     } else {
       alert("An URL must be defined.");
@@ -78,24 +79,21 @@ function PostBox({newPosts, setNewPosts}) {
 
 export default PostBox;
 
-//-------styled-components
 
 const CreatePostBox = styled.div`
   width: 611px;
   height: 209px;
   border-radius: 16px;
   background-color: #fff;
-  //position: fixed;
-  //top: 232px;
-  //left: 241px;
   display: flex;
   padding: 20px;
   margin-bottom: 20px;
-  font-family: Lato;
 
   @media screen and (max-width: 600px) {
     width: 100%;
     border-radius: 0px;
+    height: auto;
+    padding: 10px 15px;
   }
 `;
 
@@ -122,12 +120,19 @@ const PostContent = styled.div`
   height: 100%;
 
   h1 {
-    font-family: Lato;
     font-style: normal;
     font-weight: 300;
     font-size: 20px;
     line-height: 24px;
     color: #707070;
+  }
+
+  @media screen and (max-width: 600px) {
+    h1 {
+      text-align: center;
+      font-size: 17px;
+      height: auto;
+  }
   }
 `;
 
@@ -151,22 +156,22 @@ const Text = styled.textarea`
   background: #efefef;
   border-radius: 5px;
   border: none;
-  margin: 0 auto 5px auto;
+  margin: 0 auto 15px auto;
   padding: 10px;
   word-break: break-word;
   word-break: break-all;
   resize: none;
   font-family: Lato;
-
   @media screen and (max-width: 600px) {
     width: 100%;
+    margin-bottom: 6px;
+    height: 47px;
   }
 `;
 
 const ButtonDiv = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-top: 10px;
 `;
 
 const PublishButton = styled.button`
@@ -182,4 +187,8 @@ const PublishButton = styled.button`
   justify-content: center;
   align-items: center;
   border: none;
+
+  @media (max-width: 600px){
+    height: 22px;
+  }
 `;
