@@ -208,6 +208,9 @@ const PostContainer = styled.div`
   padding: 15px;
   min-height: 220px;
   position: relative;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 
   @media screen and (max-width: 600px) {
     width: 100%;
@@ -238,28 +241,28 @@ const LeftSection = styled.div`
     user-select: none;
   }
 
-  .likedHeart{
+  .likedHeart {
     color: #ff0000;
     cursor: pointer;
   }
 
-  .unLikedHeart{
+  .unLikedHeart {
     color: #fff;
     cursor: pointer;
   }
 
   @media screen and (max-width: 600px) {
-    .likes{
+    .likes {
       font-size: 9px;
-      text-align: center
+      text-align: center;
     }
 
-    svg{
+    svg {
       width: 18px;
       height: 18px;
     }
 
-    img{
+    img {
       width: 40px;
       height: 40px;
       border-radius: 20px;
@@ -283,17 +286,17 @@ const RightSection = styled.div`
     right: 10px;
     top: 10px;
     color: "#FFFFFF";
-    display: ${props => !props.shouldhide ? "none" : "unset"};
+    display: ${(props) => (!props.shouldhide ? "none" : "unset")};
   }
 
-  .edit{
+  .edit {
     cursor: pointer;
     position: absolute;
     right: 40px;
     top: 10px;
     color: "#FFFFFF";
-    display: ${props => !props.shouldhide ? "none" : "unset"};
-    color: #FFFFFF
+    display: ${(props) => (!props.shouldhide ? "none" : "unset")};
+    color: #ffffff;
   }
 
   header {
@@ -301,9 +304,12 @@ const RightSection = styled.div`
     color: #cecece;
     line-height: 20px;
     white-space: pre-wrap;
-    overflow-wrap: break-word;    
+    overflow-wrap: break-word;
     font-size: 17px;
     max-width: 95%;
+    -webkit-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
   }
 
   .username {
@@ -318,28 +324,28 @@ const RightSection = styled.div`
     color: #fff;
   }
 
-  @media(max-width: 600px){
-    header{
+  @media (max-width: 600px) {
+    header {
       font-size: 15px;
       width: calc(90% - 30px);
     }
 
-    .delete{
+    .delete {
       top: 3px;
       right: 7px;
     }
 
-    .edit{
+    .edit {
       top: 3px;
       right: 32px;
     }
 
-    svg{
+    svg {
       width: 12px;
       height: 14px;
     }
 
-    .username{
+    .username {
       font-size: 17px;
     }
   }
