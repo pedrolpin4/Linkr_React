@@ -38,32 +38,31 @@ async function getMyPosts(token, userId) {
     return false;
 }
 
-function getHashtags (config) {
-    return API.get("/hashtags/trending", config)
+function getHashtags (token) {
+    return API.get("/hashtags/trending", head(token))
 }
 
-function getHashtagsPosts (config, hashtag){
-    return API.get(`/hashtags/${hashtag}/posts`, config)
+function getHashtagsPosts (token, hashtag){
+    return API.get(`/hashtags/${hashtag}/posts`, head(token))
 }
 
-function postingLikes (config, id){
-    return API.post(`/posts/${id}/like`, {}, config)
+function postingLikes (token, id){
+    return API.post(`/posts/${id}/like`, {}, head(token))
 }
 
-function deletingLikes (config, id){
-    return API.post(`/posts/${id}/dislike`, {}, config)
+function deletingLikes (token, id){
+    return API.post(`/posts/${id}/dislike`, {}, head(token))
 }
 
 async function getUserPosts (userId, token){
     const response = await API.get(`/users/${userId}/posts`, head(token))
         .catch(() => false);
-    console.log(response.data)
     if(response) return response.data
     return false
 }
 
-function editingPost (config, id, value) {
-    return API.put(`/posts/${id}`, {"text": value}, config)
+function editingPost (token, id, value) {
+    return API.put(`/posts/${id}`, {"text": value}, head(token))
 }
 
 const service =  {
@@ -76,7 +75,6 @@ const service =  {
     getMyPosts,
     getLikedPosts,
     editingPost,
-    
 }
 
 export default service;

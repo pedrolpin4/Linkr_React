@@ -1,37 +1,31 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import service from "../service/auth"; 
-import Tippy from "@tippyjs/react"
-import "../SharedStyles/tippy.css"
+import Tippy from "@tippyjs/react";
+import "../SharedStyles/tippy.css";
 import UserContext from "../context/UserContext";
 
 export default function LikesComponent ( {likes, id}) {
-    const{userData} = useContext(UserContext)
-    const [likesArray, setLikesArray] = useState([...likes])
-    const [ isLiked, setIsLiked ] = useState(likesArray.some(like => like.userId === userData.user.id))
+    const{userData} = useContext(UserContext);
+    const [likesArray, setLikesArray] = useState([...likes]);
+    const [ isLiked, setIsLiked ] = useState(likesArray.some(like => like.userId === userData.user.id));
     const [numberOfLikes, setNumberOfLikes] = useState(likes.length);
     const [ tooltipContent, setTooltipContent ] = useState("");
 
-    const config = {
-        headers: {
-            "Authorization": `Bearer ${userData.token}` 
-        }
-    } 
-
-    function likePost(config, id) {
-        setIsLiked(true)
-        setNumberOfLikes(numberOfLikes + 1)
-        service.postingLikes(config, id)
+    function likePost(token, id) {
+        setIsLiked(true);
+        setNumberOfLikes(numberOfLikes + 1);
+        service.postingLikes(token, id)
             .then(res => {
                 setLikesArray([...res.data.post.likes])
                 updateTooltipContent("userId", "username", true, res.data.post.likes, numberOfLikes + 1)
             })
     }
 
-    function unLikePost(config, id){
+    function unLikePost(token, id){
         setIsLiked(false)
         setNumberOfLikes(numberOfLikes - 1)
-        service.deletingLikes(config, id)
+        service.deletingLikes(token, id)
             .then(res => {
                 setLikesArray([...res.data.post.likes])
                 updateTooltipContent("userId", "username", false, res.data.post.likes, numberOfLikes - 1)
@@ -97,9 +91,9 @@ export default function LikesComponent ( {likes, id}) {
             {
                 isLiked 
                 ? 
-                <AiFillHeart  onClick = {() => unLikePost(config, id)} className="likedHeart" size={25} /> 
+                <AiFillHeart  onClick = {() => unLikePost(userData.token, id)} className="likedHeart" size={25} /> 
                 : 
-                <AiOutlineHeart onClick = {() => likePost(config, id)} className="unLikedHeart" size={25} />
+                <AiOutlineHeart onClick = {() => likePost(userData.token, id)} className="unLikedHeart" size={25} />
             }
         
             <Tippy content = {tooltipContent} placement = "bottom">

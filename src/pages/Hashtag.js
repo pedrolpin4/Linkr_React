@@ -18,12 +18,7 @@ function Hashtag() {
         let unmounted = false
 
         function renderHashtagPosts (hashtag){
-            const config = {
-                headers: {
-                    "Authorization": `Bearer ${userData.token}` 
-                }
-            } 
-            service.getHashtagsPosts(config, hashtag)
+            service.getHashtagsPosts(userData.token, hashtag)
                 .then(res => {
                     if(!unmounted) {
                         setHashtagsPosts(res.data.posts)
