@@ -25,7 +25,8 @@ const TrendingBar = () => {
         }
 
         if(!localStorage.getItem("userLogin")) history.push("/")
-        if(userData.token) pickTrendings(config)}, [userData])
+        if(userData.token) pickTrendings(config)
+    }, [userData, history])
     
     return(
         <TrendingsContainer>

@@ -26,7 +26,7 @@ function UsersPosts() {
       setIsLoading(false);
     }
     if(userData.token) getThisUserPosts();
-  }, [userData])
+  }, [userData, id])
 
   return (
     <BaseLayout title={`${username}'s posts`}>{

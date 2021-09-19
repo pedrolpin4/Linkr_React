@@ -90,7 +90,7 @@ export default function LikesComponent ( {likes, id}) {
         )
     }
 
-    useEffect(() => updateTooltipContent("user.id", "user.username"), [])
+    useEffect(() => updateTooltipContent("user.id", "user.username"))
 
     return (
         <>
