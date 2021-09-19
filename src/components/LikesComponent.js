@@ -19,20 +19,20 @@ export default function LikesComponent ( {likes, id}) {
     } 
 
     function likePost(config, id) {
+        setIsLiked(true)
+        setNumberOfLikes(numberOfLikes + 1)
         service.postingLikes(config, id)
             .then(res => {
-                setIsLiked(true)
-                setNumberOfLikes(numberOfLikes + 1)
                 setLikesArray([...res.data.post.likes])
                 updateTooltipContent("userId", "username", true, res.data.post.likes, numberOfLikes + 1)
             })
     }
 
     function unLikePost(config, id){
+        setIsLiked(false)
+        setNumberOfLikes(numberOfLikes - 1)
         service.deletingLikes(config, id)
             .then(res => {
-                setIsLiked(false)
-                setNumberOfLikes(numberOfLikes - 1)
                 setLikesArray([...res.data.post.likes])
                 updateTooltipContent("userId", "username", false, res.data.post.likes, numberOfLikes - 1)
             })

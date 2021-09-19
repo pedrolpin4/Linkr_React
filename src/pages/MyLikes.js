@@ -11,6 +11,7 @@ function MyLikes() {
     const { userData } = useContext(UserContext);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ posts, setPosts ] = useState([]);
+    const [ newPosts, setNewPosts ] = useState(0);
 
     useEffect(() => {
         let unmounted = false;
@@ -28,7 +29,7 @@ function MyLikes() {
 
         if(token) getLikedPosts();
         return () => { unmounted = true }
-    }, [userData])
+    }, [userData, newPosts])
 
     return (
         <BaseLayout title="my likes">{
@@ -45,8 +46,10 @@ function MyLikes() {
                                                     prevImage={post.linkImage}
                                                     prevDescription={post.linkDescription}
                                                     likes={post.likes}
-                                                    userId={post.user.id} 
-                                                    />)
+                                                    userId={post.user.id}
+                                                    id={post.id}
+                                                    setNewPosts={setNewPosts} 
+                                                    newPosts={newPosts} />)
         }</BaseLayout>
     )
 }
