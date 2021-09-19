@@ -55,10 +55,16 @@ function Hashtag() {
 }
 
 const ErrorMessage = styled.h1`
-    font-family: 'Lato', sans-serif;
-    font-size: 23px;
-    word-wrap: break-word;
-    text-align: justify;
-`
+  word-wrap: break-word;
+  text-align: justify;
+  color: #a8abb0;
+  font-size: 35px;
+  line-height: 45px;
+  font-weight: bold;
+  font-family: "Oswald", sans-serif;
+  @media (max-width: 611px) {
+    margin: 0 0 0 17px;
+  }
+`;
 
 export default Hashtag

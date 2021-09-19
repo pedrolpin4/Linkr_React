@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
-//import UserContext from "../context/UserContext"
+import UserContext from "../context/UserContext"
 import BaseLayout from "../components/BaseLayout";
 import Post from "../components/Post";
 import axios from "axios";
