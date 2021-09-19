@@ -24,7 +24,7 @@ function App() {
     }
   };
 
-  useEffect(() => verifyStorage(userLogin));
+  useEffect(() => verifyStorage(userLogin), []);
 
   return (
     <UserContext.Provider

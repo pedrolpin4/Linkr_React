@@ -25,8 +25,10 @@ function Hashtag() {
             } 
             service.getHashtagsPosts(config, hashtag)
                 .then(res => {
-                    setHashtagsPosts(res.data.posts)
-                    setIsLoading(false);
+                    if(!unmounted) {
+                        setHashtagsPosts(res.data.posts)
+                        setIsLoading(false);
+                    }
                 })
                 .catch(() => alert(`There was an error while finding the posts with the hashtag ${hashtag}`))
         }
