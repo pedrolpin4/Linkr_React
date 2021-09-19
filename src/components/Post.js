@@ -233,11 +233,30 @@ const LeftSection = styled.div`
   .likes {
     font-size: 12px;
     margin-top: 5px;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .likedHeart{
+    color: #ff0000;
+    cursor: pointer;
+  }
+
+  .unLikedHeart{
+    color: #fff;
+    cursor: pointer;
   }
 
   @media screen and (max-width: 600px) {
     .likes{
-      font-size: 10px;
+      font-size: 9px;
+      text-align: center
+    }
+
+    svg{
+      width: 18px;
+      height: 18px;
     }
 
     img{
@@ -259,28 +278,29 @@ const RightSection = styled.div`
   padding-left: 20px;
 
   .delete{
+    cursor: pointer;
     position: absolute;
     right: 10px;
     top: 10px;
-    color: "#FFFFFF"
+    color: #FFFFFF
   }
 
   .edit{
+    cursor: pointer;
     position: absolute;
     right: 40px;
     top: 10px;
-    color: "#FFFFFF"
+    color: #FFFFFF
   }
 
   header {
     margin-bottom: 10px;
     color: #cecece;
     line-height: 20px;
-    white-space: 'pre-wrap';
-    overflow-wrap: 'break-word';    
+    white-space: pre-wrap;
+    overflow-wrap: break-word;    
     font-size: 17px;
     max-width: 95%;
-    overflow: hidden;
   }
 
   .username {
@@ -298,7 +318,24 @@ const RightSection = styled.div`
   @media(max-width: 600px){
     header{
       font-size: 15px;
+      width: calc(90% - 30px);
     }
+
+    .delete{
+      top: 3px;
+      right: 7px;
+    }
+
+    .edit{
+      top: 3px;
+      right: 32px;
+    }
+
+    svg{
+      width: 12px;
+      height: 14px;
+    }
+
     .username{
       font-size: 17px;
     }
