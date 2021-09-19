@@ -16,15 +16,10 @@ import BaseLayout from "./components/BaseLayout";
 function App() {
   const [ userData, setUserData ] = useState({});
 
-  const userLogin = JSON.parse(localStorage.getItem("userLogin"));
-
-  const verifyStorage = (userLogin) => {
-    if (userLogin) {
-      setUserData(userLogin);
-    }
-  };
-
-  useEffect(() => verifyStorage(userLogin), []);
+  useEffect(() => {
+    const userLogin = JSON.parse(localStorage.getItem("userLogin"));
+    if(userLogin) setUserData(userLogin);
+  }, []);
 
   return (
     <UserContext.Provider
@@ -35,11 +30,7 @@ function App() {
     >
       <Router>
         <Switch>
-          <Route exact path="/">
-            <Login
-              userLogin={userLogin}
-            />
-          </Route>
+          <Route exact path="/" component={Login} />
           <Route exact path="/sign-up" component={SignUp} />
           <Route exact path="/timeline" component={Timeline} />
           <Route exact path="/my-posts" component={MyPosts} />

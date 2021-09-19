@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import service from "../service/auth"; 
 import Tippy from "@tippyjs/react"
@@ -38,7 +38,7 @@ export default function LikesComponent ( {likes, id}) {
             })
     }
 
-    function updateTooltipContent(id, name, liked = isLiked, likesList = likesArray, nLikes = numberOfLikes){
+    const updateTooltipContent = useCallback((id, name, liked = isLiked, likesList = likesArray, nLikes = numberOfLikes) => {
         liked
         ?
         setTooltipContent(
@@ -88,9 +88,9 @@ export default function LikesComponent ( {likes, id}) {
             : 
             "Be the first to like it"
         )
-    }
+    }, [ userData.user.id, isLiked, likesArray, numberOfLikes])
 
-    useEffect(() => updateTooltipContent("user.id", "user.username"), [])
+    useEffect(() => {updateTooltipContent("user.id", "user.username")}, [updateTooltipContent])
 
     return (
         <>
