@@ -5,50 +5,51 @@ import service from "../service/auth"
 import BaseLayout from "../components/BaseLayout"
 import Post from "../components/Post"
 import styled from "styled-components"
+import Loading from "../components/Loading";
 
 function Hashtag() {
     const { hashtag } = useParams()
-    const [hashtagsPosts, setHashtagsPosts] = useState([])
-    const { userData } = useContext(UserContext)
-    const config = {
-        headers: {
-            "Authorization": `Bearer ${userData.token}` 
+    const [ isLoading, setIsLoading ] = useState(true);
+    const [hashtagsPosts, setHashtagsPosts] = useState([]);
+    const { userData } = useContext(UserContext);
+    
+    
+    useEffect(() => {
+        function renderHashtagPosts (hashtag){
+            const config = {
+                headers: {
+                    "Authorization": `Bearer ${userData.token}` 
+                }
+            } 
+            service.getHashtagsPosts(config, hashtag)
+                .then(res => {
+                    setHashtagsPosts(res.data.posts)
+                    setIsLoading(false);
+                })
+                .catch(() => alert(`There was an error while finding the posts with the hashtag ${hashtag}`))
         }
-    } 
-
-    function renderHashtagPosts (config, hashtag){
-        service.getHashtagsPosts(config, hashtag)
-            .then(res => {
-                setHashtagsPosts([...res.data.posts])
-            })
-            .catch(() => alert(`There was an error while finding the posts with the hashtag ${hashtag}`))
-    }
-
-   useEffect(() => renderHashtagPosts(config, hashtag), [hashtag]);
+        if(userData.token) {
+            renderHashtagPosts(hashtag);
+        }
+   }, [hashtag, userData]);
 
     return (
-        <BaseLayout title = {`#${hashtag}`}>
-            {hashtagsPosts.length
-            ?
-            <>
-            {hashtagsPosts.map( post => (
-                <Post
-                    key={post.id}
-                    id = {post.id}
-                    username={post.user.username} 
-                    text={post.text}
-                    link={post.link}
-                    profilePic={post.user.avatar}
-                    prevTitle={post.linkTitle}
-                    prevImage={post.linkImage}
-                    prevDescription={post.linkDescription}
-                    likes={post.likes}
-                    userId={post.user.id}
-                /> 
-            ))}
-            </>
-            :
-            <ErrorMessage>#{hashtag} has no posts</ErrorMessage>
+        <BaseLayout title = {`#${hashtag}`}>{
+            isLoading
+                ? <Loading spinnerSize={30} />
+                : hashtagsPosts.length === 0
+                    ? <ErrorMessage>#{hashtag} has no posts</ErrorMessage>
+                    : hashtagsPosts.map( post => <Post key={post.id}
+                                                       id = {post.id}
+                                                       username={post.user.username} 
+                                                       text={post.text}
+                                                       link={post.link}
+                                                       profilePic={post.user.avatar}
+                                                       prevTitle={post.linkTitle}
+                                                       prevImage={post.linkImage}
+                                                       prevDescription={post.linkDescription}
+                                                       likes={post.likes}
+                                                       userId={post.user.id} />)
             }
         </BaseLayout>
     )

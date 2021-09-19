@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
-export default function FeedbackMessage () {
-    return (<Message>No posts found yet :(</Message>)
+export default function FeedbackMessage ({text}) {
+    return <Message>{text ? text : "No posts found yet :("}</Message>
 }
 
 const Message = styled.h1`

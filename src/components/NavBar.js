@@ -51,7 +51,7 @@ export default function NavBar () {
 
   return (
     <NavBarContainer>
-      <NavBarTitle>linkr</NavBarTitle>
+      <NavBarTitle href="/timeline">linkr</NavBarTitle>
       <div>
         {openDropdown ? (
           <ArrowUp color="#FFFFFF" onClick={toggleMenu} />
@@ -86,7 +86,7 @@ const NavBarContainer = styled.div`
   }
 `
 
-const NavBarTitle = styled.h1`
+const NavBarTitle = styled.a`
   font-family: 'Passion One', sans-serif;
   font-weight: bold;
   font-size: 49px;
