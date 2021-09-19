@@ -24,7 +24,9 @@ function Login({ userLogin }) {
     }
   };
 
-  useEffect(() => checkRedirection(userLogin));
+  useEffect(() => {
+    checkRedirection(userLogin);
+  });
 
   function logInSuccess(response) {
     if (response.status === 200 || response.status === 201) {

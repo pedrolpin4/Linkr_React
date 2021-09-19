@@ -15,9 +15,11 @@ function UsersPosts() {
   const [username, setUsername] = useState("");
 
   useEffect(() => {
+    let unmounted = false
+
     async function getThisUserPosts() {
       const response = await service.getUserPosts(id, userData.token);
-      if(response) {
+      if(response && !unmounted) {
         setUserPosts(response.posts);
         setUsername(response.posts[0].user.username)
       }
@@ -26,6 +28,8 @@ function UsersPosts() {
       setIsLoading(false);
     }
     if(userData.token) getThisUserPosts();
+
+    return () => { unmounted = true }
   }, [userData, id])
 
   return (

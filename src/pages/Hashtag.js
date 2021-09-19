@@ -15,6 +15,8 @@ function Hashtag() {
     
     
     useEffect(() => {
+        let unmounted = false
+
         function renderHashtagPosts (hashtag){
             const config = {
                 headers: {
@@ -31,6 +33,8 @@ function Hashtag() {
         if(userData.token) {
             renderHashtagPosts(hashtag);
         }
+
+        return () => { unmounted = true }
    }, [hashtag, userData]);
 
     return (

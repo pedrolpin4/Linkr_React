@@ -28,6 +28,8 @@ function Timeline() {
             setIsLoading(false);
         }
         if(userData.token) getPostsData();
+
+        return () => { unmounted = true }
     },[newPosts, userData])
 
     return (
