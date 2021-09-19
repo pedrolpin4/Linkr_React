@@ -5,7 +5,6 @@ import BaseLayout from '../components/BaseLayout';
 import Loading from '../components/Loading';
 import Post from '../components/Post';
 import service from '../service/auth';
-import styled from 'styled-components';
 import FeedbackMessage from '../components/FeedbackMessage';
 
 function MyLikes() {
@@ -37,7 +36,7 @@ function MyLikes() {
                 ? <Loading spinnerSize={30}/>
                 : posts.length === 0
                     ? <FeedbackMessage/>
-                    : posts.map((post) => <Post key={post.id}
+                    : posts.map(post => <Post key={post.id}
                                                     username={post.user.username} 
                                                     text={post.text}
                                                     link={post.link}
@@ -46,7 +45,8 @@ function MyLikes() {
                                                     prevImage={post.linkImage}
                                                     prevDescription={post.linkDescription}
                                                     likes={post.likes}
-                                                    userId={post.user.id} />)
+                                                    userId={post.user.id} 
+                                                    />)
         }</BaseLayout>
     )
 }

@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext } from 'react';
-
 import UserContext from '../context/UserContext';
 import BaseLayout from "../components/BaseLayout";
 import Loading from "../components/Loading";
@@ -35,7 +34,7 @@ function MyPosts() {
                 ? <Loading spinnerSize={30}/>
                 : posts.length === 0
                     ? <FeedbackMessage/>
-                    : posts.map((post) => <Post key={post.id}
+                    : posts.map(post => <Post key={post.id}
                                                        username={post.user.username} 
                                                        text={post.text}
                                                        link={post.link}

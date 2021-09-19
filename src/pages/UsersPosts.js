@@ -8,7 +8,7 @@ import axios from "axios";
 function UsersPosts() {
   const { id } = useParams();
   const [userPosts, setUserPosts] = useState([]);
-  //const { userData } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
   const [username, setUsername] = useState("");
 
   useEffect(() => {
@@ -16,7 +16,7 @@ function UsersPosts() {
       `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/${id}`,
       {
         headers: {
-          Authorization: `Bearer 5f8eb824-09fe-4ef6-a5ed-a26dbcb1bc10`, //substituir por ${user.token}
+          Authorization: `Bearer ${userData.token}`,
         },
       }
     );
@@ -26,7 +26,7 @@ function UsersPosts() {
         `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/${resp.data.user.id}/posts`,
         {
           headers: {
-            Authorization: `Bearer 5f8eb824-09fe-4ef6-a5ed-a26dbcb1bc10`, //substituir por ${user.token}
+            Authorization: `Bearer ${userData.token}`
           },
         }
       );
@@ -37,7 +37,7 @@ function UsersPosts() {
 
   return (
     <BaseLayout title={`${username}'s posts`}>
-      {userPosts.map((post, index) => (
+      {userPosts.map(post => (
         <Post
           key={post.id}
           username={post.user.username}

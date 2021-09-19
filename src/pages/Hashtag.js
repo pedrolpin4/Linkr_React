@@ -31,7 +31,7 @@ function Hashtag() {
             {hashtagsPosts.length
             ?
             <>
-            {hashtagsPosts.map( (post,index) => (
+            {hashtagsPosts.map( post => (
                 <Post
                     key={post.id}
                     id = {post.id}
