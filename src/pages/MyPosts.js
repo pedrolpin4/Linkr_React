@@ -12,6 +12,7 @@ function MyPosts() {
     const [ posts, setPosts ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(true);
     const { userData } = useContext(UserContext);
+    const [ newPosts, setNewPosts ] = useState(0);
 
     useEffect(() => {
         let unmounted = false;
@@ -26,7 +27,7 @@ function MyPosts() {
         }
         if(userData.token) getPosts();
         return () => { unmounted = true };
-    }, [userData])
+    }, [userData, newPosts])
 
     return (
         <BaseLayout title="my posts">{
@@ -35,15 +36,18 @@ function MyPosts() {
                 : posts.length === 0
                     ? <FeedbackMessage/>
                     : posts.map(post => <Post key={post.id}
-                                                       username={post.user.username} 
-                                                       text={post.text}
-                                                       link={post.link}
-                                                       profilePic={post.user.avatar}
-                                                       prevTitle={post.linkTitle}
-                                                       prevImage={post.linkImage}
-                                                       prevDescription={post.linkDescription}
-                                                       likes={post.likes}
-                                                       userId={post.user.id} />)
+                                              username={post.user.username} 
+                                              text={post.text}
+                                              link={post.link}
+                                              profilePic={post.user.avatar}
+                                              prevTitle={post.linkTitle}
+                                              prevImage={post.linkImage}
+                                              prevDescription={post.linkDescription}
+                                              likes={post.likes}
+                                              userId={post.user.id}
+                                              id={post.id}
+                                              setNewPosts={setNewPosts} 
+                                              newPosts={newPosts} />)
         }</BaseLayout>
     )
 }
