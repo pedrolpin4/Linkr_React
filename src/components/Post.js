@@ -284,7 +284,7 @@ const RightSection = styled.div`
     cursor: pointer;
     position: absolute;
     right: 10px;
-    top: 10px;
+    top: 5px;
     color: "#FFFFFF";
     display: ${(props) => (!props.shouldhide ? "none" : "unset")};
   }
@@ -293,7 +293,7 @@ const RightSection = styled.div`
     cursor: pointer;
     position: absolute;
     right: 40px;
-    top: 10px;
+    top: 5px;
     color: "#FFFFFF";
     display: ${(props) => (!props.shouldhide ? "none" : "unset")};
     color: #ffffff;
