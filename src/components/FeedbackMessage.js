@@ -5,8 +5,13 @@ export default function FeedbackMessage () {
 }
 
 const Message = styled.h1`
-    color: #A8ABB0;
-    font-size: 35px;
-    font-weight: bold;
-    font-family: 'Oswald', sans-serif;
-`
+  color: #a8abb0;
+  
+  font-size: 35px;
+  line-height: 45px;
+  font-weight: bold;
+  font-family: "Oswald", sans-serif;
+  @media(max-width: 611px){
+    margin: 0 0 0 17px;
+  }
+`;

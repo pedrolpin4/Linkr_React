@@ -2,7 +2,7 @@ import { useContext, useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "../context/UserContext";
-import { MdKeyboardArrowDown as ArrowDown, MdKeyboardArrowUp as ArrowUp} from "react-icons/md"
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md"
 
 export default function NavBar () {
   const {
@@ -54,9 +54,9 @@ export default function NavBar () {
       <NavBarTitle>linkr</NavBarTitle>
       <div>
         {openDropdown ? (
-          <ArrowUp color="#FFFFFF" size={40} onClick={toggleMenu} />
+          <ArrowUp color="#FFFFFF" onClick={toggleMenu} />
         ) : (
-          <ArrowDown color="#FFFFFF" size={40} onClick={toggleMenu} />
+          <ArrowDown color="#FFFFFF" onClick={toggleMenu} />
         )}
         <ProfileImg src={userData.user?.avatar} onClick={toggleMenu} />
       </div>
@@ -144,5 +144,26 @@ const DropdownMenu = styled.div`
     height: 110px;
     background: #171717;
     font-size: 15px;
+  }
+`;
+
+const ArrowDown = styled(MdKeyboardArrowDown)`
+  cursor: pointer;
+  width: 38px;
+  height: 41px;
+  @media(max-width: 600px) {
+    width: 32px;
+    height: 35px;
+  }
+`;
+
+const ArrowUp = styled(MdKeyboardArrowUp)`
+  cursor: pointer;
+  width: 38px;
+  height: 41px;
+
+  @media (max-width: 600px) {
+    width: 32px;
+    height: 35px;
   }
 `;
