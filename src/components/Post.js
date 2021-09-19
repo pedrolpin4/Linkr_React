@@ -358,7 +358,7 @@ const ModalButtons = styled.div`
     height: 37px;
     border-radius: 5px;
     border: none;
-    font-family: Lato;
+    font-family: 'Lato', sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 18px;
@@ -376,7 +376,7 @@ const ModalButtons = styled.div`
 const EditInput = styled.textarea`
   width: 503px;
   min-height: 44px;
-  background: #FFFFFF;
+  background: #ffffff;
   border-radius: 7px;
   padding: 8px 10px;
   border: none;
@@ -384,10 +384,10 @@ const EditInput = styled.textarea`
   line-height: 17px;
   word-break: break-all;
   resize: none;
-  color: #4C4C4C;
-  font-family: Lato;
+  color: #4c4c4c;
+  font-family: "Lato", sans-serif;
   margin-top: 8px;
-  :focus{
-    outline: none
+  :focus {
+    outline: none;
   }
-`
+`;

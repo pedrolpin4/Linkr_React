@@ -87,15 +87,15 @@ const NavBarContainer = styled.div`
 `
 
 const NavBarTitle = styled.a`
-  font-family: 'Passion One', sans-serif;
+  font-family: "Passion One", cursive;
   font-weight: bold;
   font-size: 49px;
-  color: #FFFFFF;
+  color: #ffffff;
   cursor: pointer;
-  @media(max-width: 600px){
-    font-size: 45px
+  @media (max-width: 600px) {
+    font-size: 45px;
   }
-`
+`;
 
 const ProfileImg = styled.img`
   margin: 0 7px 0 15px;

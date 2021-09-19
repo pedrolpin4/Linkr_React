@@ -144,7 +144,7 @@ const URL = styled.input`
   border: none;
   margin: 5px auto;
   padding-left: 10px;
-  font-family: Lato;
+  font-family: "Lato", sans-serif;
   @media screen and (max-width: 600px) {
     width: 100%;
   }
@@ -161,7 +161,7 @@ const Text = styled.textarea`
   word-break: break-word;
   word-break: break-all;
   resize: none;
-  font-family: Lato;
+  font-family: "Lato", sans-serif;
   @media screen and (max-width: 600px) {
     width: 100%;
     margin-bottom: 6px;
@@ -177,10 +177,10 @@ const ButtonDiv = styled.div`
 const PublishButton = styled.button`
   width: 112px;
   height: 31px;
-  background: #1877F2;
+  background: #1877f2;
   border-radius: 5px;
   color: #fff;
-  font-family: Lato;
+  font-family: "Lato", sans-serif;
   font-weight: bold;
   font-size: 14px;
   display: flex;
@@ -188,7 +188,7 @@ const PublishButton = styled.button`
   align-items: center;
   border: none;
 
-  @media (max-width: 600px){
+  @media (max-width: 600px) {
     height: 22px;
   }
 `;
