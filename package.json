@@ -8,6 +8,8 @@
     "@testing-library/user-event": "^12.8.3",
     "@tippyjs/react": "^4.2.5",
     "axios": "^0.21.4",
+    "preact": "^8.5.3",
+    "preact-compat": "^3.19.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hashtag": "^2.1.2",

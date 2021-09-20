@@ -61,11 +61,7 @@ export default function Post({ profilePic,
         setCurrentValue(lastValue)
       } else if(e.code === "Enter"){
           setIsDisabled(true)
-          service.editingPost({
-            headers: {
-              Authorization: `Bearer ${userData.token}`,
-            },
-          }, id, currentValue)
+          service.editingPost(userData.token, id, currentValue)
           .then(res => {
               setIsEditing(false)
               setLastValue(res.data.post.text)
@@ -160,6 +156,7 @@ export default function Post({ profilePic,
               isOpen={modalIsOpen}
               onRequestClose={closeModal}
               style={customStyles}
+              ariaHideApp={false}
               contentLabel="Example Modal"
                 >
                   <h2
