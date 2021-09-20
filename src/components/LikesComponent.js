@@ -23,7 +23,7 @@ export default function LikesComponent ( {likes, id}) {
             .catch(() => {
                 setIsLiked(false);
                 alert(
-                    "Something went wrong and the post didn't get your like. Plase, try again."
+                    "Something went wrong and the post didn't get your like. Please, try again."
                 );
                 setNumberOfLikes(numberOfLikes);
                 updateTooltipContent(
@@ -38,6 +38,7 @@ export default function LikesComponent ( {likes, id}) {
 
     function unLikePost(token, id){
         setIsLiked(false)
+        setNumberOfLikes(numberOfLikes - 1)
         service.deletingLikes(token, id)
             .then(res => {
                 setNumberOfLikes(numberOfLikes - 1);
@@ -110,7 +111,7 @@ export default function LikesComponent ( {likes, id}) {
             : 
             "Be the first to like it"
         )
-    }, [])
+    }, [isLiked])
 
     useEffect(() => {updateTooltipContent("user.id", "user.username")}, [updateTooltipContent])
 
