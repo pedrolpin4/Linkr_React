@@ -17,7 +17,7 @@ async function getPosts(token) {
     const response = await API.get("/posts", head(token)).catch(() => false);
 
     if(response) return response.data;
-    else return false;
+    return false;
 }
 
 async function getLikedPosts(token) {
@@ -35,7 +35,7 @@ async function getMyPosts(token, userId) {
         .catch(() => false);
 
     if(response) return response.data;
-    else return false;
+    return false;
 }
 
 function getHashtags (config) {
@@ -54,8 +54,16 @@ function deletingLikes (config, id){
     return API.post(`/posts/${id}/dislike`, {}, config)
 }
 
-function getUserPosts (config, userId){
-    return API.get(`/users/${userId}/posts`, config)
+async function getUserPosts (userId, token){
+    const response = await API.get(`/users/${userId}/posts`, head(token))
+        .catch(() => false);
+    console.log(response.data)
+    if(response) return response.data
+    return false
+}
+
+function editingPost (config, id, value) {
+    return API.put(`/posts/${id}`, {"text": value}, config)
 }
 
 const service =  {
@@ -66,7 +74,9 @@ const service =  {
     deletingLikes,
     getUserPosts,
     getMyPosts,
-    getLikedPosts
+    getLikedPosts,
+    editingPost,
+    
 }
 
 export default service;

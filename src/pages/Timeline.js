@@ -6,13 +6,14 @@ import Post from '../components/Post';
 import service from '../service/auth';
 import PostBox from "../components/PostBox";
 import UserContext from "../context/UserContext";
+import FeedbackMessage from '../components/FeedbackMessage';
+
 
 function Timeline() {
     const { userData } = useContext(UserContext);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ posts, setPosts ] = useState([]);
     const [ newPosts, setNewPosts ] = useState(0);
-
     useEffect(() => {
         let unmounted = false;
 
@@ -27,6 +28,8 @@ function Timeline() {
             setIsLoading(false);
         }
         if(userData.token) getPostsData();
+
+        return () => { unmounted = true }
     },[newPosts, userData])
 
     return (
@@ -39,9 +42,8 @@ function Timeline() {
             isLoading
                 ? <Loading spinnerSize={30}/>
                 : posts.length === 0
-                    ? "Nenhum post encontrado :("
-                    : posts.map((post, index) => <Post key={index}
-                                                       id = {post.id}
+                    ? <FeedbackMessage/>
+                    : posts.map(post => <Post key={post.id}
                                                        username={post.user.username} 
                                                        text={post.text}
                                                        link={post.link}

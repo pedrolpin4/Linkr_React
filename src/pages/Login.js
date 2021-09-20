@@ -10,30 +10,25 @@ import {
   EnterInput,
 } from "../SharedStyles/LogInSignUp";
 
-function Login({ userLogin }) {
+function Login() {
   const history = useHistory();
   const [loginEmail, setloginEmail] = useState("");
   const [loginPassword, setloginPassword] = useState("");
   const [enabled, setEnabled] = useState(true);
 
-  const { setUserData } = useContext(UserContext);
+  const { setUserData, userData } = useContext(UserContext);
 
-  const checkRedirection = (userLogin) => {
-    if (userLogin) {
-      history.push("/timeline");
+  useEffect(() => {
+    if(userData.token) {
+      history.push("/timeline")
     }
-  };
-
-  useEffect(() => checkRedirection(userLogin), []);
+  }, [userData, history]);
 
   function logInSuccess(response) {
     if (response.status === 200 || response.status === 201) {
       setUserData(response.data);
       localStorage.setItem("userLogin", JSON.stringify(response.data));
       history.push("/timeline");
-      setEnabled(true);
-      setloginEmail("");
-      setloginPassword("");
     }
   }
 

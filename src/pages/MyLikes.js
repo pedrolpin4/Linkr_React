@@ -5,11 +5,13 @@ import BaseLayout from '../components/BaseLayout';
 import Loading from '../components/Loading';
 import Post from '../components/Post';
 import service from '../service/auth';
+import FeedbackMessage from '../components/FeedbackMessage';
 
 function MyLikes() {
     const { userData } = useContext(UserContext);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ posts, setPosts ] = useState([]);
+    const [ newPosts, setNewPosts ] = useState(0);
 
     useEffect(() => {
         let unmounted = false;
@@ -27,15 +29,15 @@ function MyLikes() {
 
         if(token) getLikedPosts();
         return () => { unmounted = true }
-    }, [userData])
+    }, [userData, newPosts])
 
     return (
         <BaseLayout title="my likes">{
             isLoading
                 ? <Loading spinnerSize={30}/>
                 : posts.length === 0
-                    ? "Nenhum pos encontrado :("
-                    : posts.map((post, index) => <Post key={index}
+                    ? <FeedbackMessage/>
+                    : posts.map(post => <Post key={post.id}
                                                     username={post.user.username} 
                                                     text={post.text}
                                                     link={post.link}
@@ -44,9 +46,13 @@ function MyLikes() {
                                                     prevImage={post.linkImage}
                                                     prevDescription={post.linkDescription}
                                                     likes={post.likes}
-                                                    userId={post.user.id} />)
+                                                    userId={post.user.id}
+                                                    id={post.id}
+                                                    setNewPosts={setNewPosts} 
+                                                    newPosts={newPosts} />)
         }</BaseLayout>
     )
 }
 
 export default MyLikes;
+

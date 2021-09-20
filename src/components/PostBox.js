@@ -2,13 +2,11 @@ import styled from "styled-components";
 import { useContext, useState } from "react"; // importar useContext
 import axios from "axios";
 import UserContext from "../context/UserContext";
-//import UserContext from "../context/UserContext";
 
 function PostBox({newPosts, setNewPosts}) {
   const { userData } = useContext(UserContext);
   const [url, setUrl] = useState("");
   const [text, setText] = useState("");
-  //const user = useContext(UserContext);
   const [clicked, setClicked] = useState(false);
 
   function toPublishPost() {
@@ -16,7 +14,7 @@ function PostBox({newPosts, setNewPosts}) {
     const { token } = userData;
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`, //substituir por ${user.token}
+        Authorization: `Bearer ${token}`,
       },
     };
     if (url !== "") {
@@ -39,6 +37,7 @@ function PostBox({newPosts, setNewPosts}) {
         alert("There was an error posting your link.");
         setUrl("");
         setText("");
+        setClicked(false);
       });
     } else {
       alert("An URL must be defined.");
@@ -50,7 +49,7 @@ function PostBox({newPosts, setNewPosts}) {
       <CreatePostBox>
         <ImageUser>
           <img
-            src={userData.user.avatar}
+            src={userData.user?.avatar}
             alt=""
           />
         </ImageUser>
@@ -80,24 +79,21 @@ function PostBox({newPosts, setNewPosts}) {
 
 export default PostBox;
 
-//-------styled-components
 
 const CreatePostBox = styled.div`
   width: 611px;
   height: 209px;
   border-radius: 16px;
   background-color: #fff;
-  //position: fixed;
-  //top: 232px;
-  //left: 241px;
   display: flex;
   padding: 20px;
   margin-bottom: 20px;
-  font-family: Lato;
 
   @media screen and (max-width: 600px) {
     width: 100%;
     border-radius: 0px;
+    height: auto;
+    padding: 10px 15px;
   }
 `;
 
@@ -124,12 +120,19 @@ const PostContent = styled.div`
   height: 100%;
 
   h1 {
-    font-family: Lato;
     font-style: normal;
     font-weight: 300;
     font-size: 20px;
     line-height: 24px;
     color: #707070;
+  }
+
+  @media screen and (max-width: 600px) {
+    h1 {
+      text-align: center;
+      font-size: 17px;
+      height: auto;
+  }
   }
 `;
 
@@ -141,7 +144,7 @@ const URL = styled.input`
   border: none;
   margin: 5px auto;
   padding-left: 10px;
-  font-family: Lato;
+  font-family: "Lato", sans-serif;
   @media screen and (max-width: 600px) {
     width: 100%;
   }
@@ -153,35 +156,39 @@ const Text = styled.textarea`
   background: #efefef;
   border-radius: 5px;
   border: none;
-  margin: 0 auto 5px auto;
+  margin: 0 auto 15px auto;
   padding: 10px;
   word-break: break-word;
   word-break: break-all;
   resize: none;
-  font-family: Lato;
-
+  font-family: "Lato", sans-serif;
   @media screen and (max-width: 600px) {
     width: 100%;
+    margin-bottom: 6px;
+    height: 47px;
   }
 `;
 
 const ButtonDiv = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-top: 10px;
 `;
 
 const PublishButton = styled.button`
   width: 112px;
   height: 31px;
-  background: #1877F2;
+  background: #1877f2;
   border-radius: 5px;
   color: #fff;
-  font-family: Lato;
+  font-family: "Lato", sans-serif;
   font-weight: bold;
   font-size: 14px;
   display: flex;
   justify-content: center;
   align-items: center;
   border: none;
+
+  @media (max-width: 600px) {
+    height: 22px;
+  }
 `;

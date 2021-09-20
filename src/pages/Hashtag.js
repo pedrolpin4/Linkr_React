@@ -5,60 +5,73 @@ import service from "../service/auth"
 import BaseLayout from "../components/BaseLayout"
 import Post from "../components/Post"
 import styled from "styled-components"
+import Loading from "../components/Loading";
 
 function Hashtag() {
     const { hashtag } = useParams()
-    const [hashtagsPosts, setHashtagsPosts] = useState([])
-    const { userData } = useContext(UserContext)
-    const config = {
-        headers: {
-            "Authorization": `Bearer ${userData.token}` 
+    const [ isLoading, setIsLoading ] = useState(true);
+    const [hashtagsPosts, setHashtagsPosts] = useState([]);
+    const { userData } = useContext(UserContext);
+    
+    
+    useEffect(() => {
+        let unmounted = false
+
+        function renderHashtagPosts (hashtag){
+            const config = {
+                headers: {
+                    "Authorization": `Bearer ${userData.token}` 
+                }
+            } 
+            service.getHashtagsPosts(config, hashtag)
+                .then(res => {
+                    if(!unmounted) {
+                        setHashtagsPosts(res.data.posts)
+                        setIsLoading(false);
+                    }
+                })
+                .catch(() => alert(`There was an error while finding the posts with the hashtag ${hashtag}`))
         }
-    } 
+        if(userData.token) {
+            renderHashtagPosts(hashtag);
+        }
 
-    function renderHashtagPosts (config, hashtag){
-        service.getHashtagsPosts(config, hashtag)
-            .then(res => {
-                setHashtagsPosts([...res.data.posts])
-            })
-            .catch(() => alert(`There was an error while finding the posts with the hashtag ${hashtag}`))
-    }
-
-   useEffect(() => renderHashtagPosts(config, hashtag), [hashtag]);
+        return () => { unmounted = true }
+   }, [hashtag, userData]);
 
     return (
-        <BaseLayout title = {`#${hashtag}`}>
-            {hashtagsPosts.length
-            ?
-            <>
-            {hashtagsPosts.map( (post,index) => (
-                <Post
-                    key={index}
-                    id = {post.id}
-                    username={post.user.username} 
-                    text={post.text}
-                    link={post.link}
-                    profilePic={post.user.avatar}
-                    prevTitle={post.linkTitle}
-                    prevImage={post.linkImage}
-                    prevDescription={post.linkDescription}
-                    likes={post.likes}
-                    userId={post.user.id}
-                /> 
-            ))}
-            </>
-            :
-            <ErrorMessage>Looks like there are no posts with the #{hashtag}</ErrorMessage>
+        <BaseLayout title = {`#${hashtag}`}>{
+            isLoading
+                ? <Loading spinnerSize={30} />
+                : hashtagsPosts.length === 0
+                    ? <ErrorMessage>#{hashtag} has no posts</ErrorMessage>
+                    : hashtagsPosts.map( post => <Post key={post.id}
+                                                       id = {post.id}
+                                                       username={post.user.username} 
+                                                       text={post.text}
+                                                       link={post.link}
+                                                       profilePic={post.user.avatar}
+                                                       prevTitle={post.linkTitle}
+                                                       prevImage={post.linkImage}
+                                                       prevDescription={post.linkDescription}
+                                                       likes={post.likes}
+                                                       userId={post.user.id} />)
             }
         </BaseLayout>
     )
 }
 
 const ErrorMessage = styled.h1`
-    font-family: 'Lato', sans-serif;
-    font-size: 23px;
-    word-wrap: break-word;
-    text-align: justify;
-`
+  word-wrap: break-word;
+  text-align: justify;
+  color: #a8abb0;
+  font-size: 35px;
+  line-height: 45px;
+  font-weight: bold;
+  font-family: "Oswald", sans-serif;
+  @media (max-width: 611px) {
+    margin: 0 0 0 17px;
+  }
+`;
 
 export default Hashtag

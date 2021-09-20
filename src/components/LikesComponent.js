@@ -1,8 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import service from "../service/auth"; 
 import Tippy from "@tippyjs/react"
-import "tippy.js/dist/tippy.css"
+import "../SharedStyles/tippy.css"
 import UserContext from "../context/UserContext";
 
 export default function LikesComponent ( {likes, id}) {
@@ -19,26 +19,26 @@ export default function LikesComponent ( {likes, id}) {
     } 
 
     function likePost(config, id) {
+        setIsLiked(true)
+        setNumberOfLikes(numberOfLikes + 1)
         service.postingLikes(config, id)
             .then(res => {
-                setIsLiked(true)
-                setNumberOfLikes(numberOfLikes + 1)
                 setLikesArray([...res.data.post.likes])
                 updateTooltipContent("userId", "username", true, res.data.post.likes, numberOfLikes + 1)
             })
     }
 
     function unLikePost(config, id){
+        setIsLiked(false)
+        setNumberOfLikes(numberOfLikes - 1)
         service.deletingLikes(config, id)
             .then(res => {
-                setIsLiked(false)
-                setNumberOfLikes(numberOfLikes - 1)
                 setLikesArray([...res.data.post.likes])
                 updateTooltipContent("userId", "username", false, res.data.post.likes, numberOfLikes - 1)
             })
     }
 
-    function updateTooltipContent(id, name, liked = isLiked, likesList = likesArray, nLikes = numberOfLikes){
+    const updateTooltipContent = useCallback((id, name, liked = isLiked, likesList = likesArray, nLikes = numberOfLikes) => {
         liked
         ?
         setTooltipContent(
@@ -56,10 +56,18 @@ export default function LikesComponent ( {likes, id}) {
                 :
                     likesList.findIndex(like => like[id] === userData.user.id) 
                     ? 
-                    `You, ${likesList[0][name]} and ${nLikes-2} other people` 
+                        nLikes === 3
+                        ?
+                        `You, ${likesList[0][name]} and ${nLikes-2} other person`
+                        :                    
+                        `You, ${likesList[0][name]} and ${nLikes-2} other people`  
                     : 
-                    `You, ${likesList[1][name]} and ${nLikes-2} other people`
-            )
+                        nLikes === 3
+                        ?
+                        `You, ${likesList[1][name]} and ${nLikes-2} other people`
+                        :                    
+                        `You, ${likesList[1][name]} and ${nLikes-2} other people`
+        )
         :
         setTooltipContent(
             nLikes
@@ -72,22 +80,26 @@ export default function LikesComponent ( {likes, id}) {
                     ? 
                     `${likesList[0][name]} and ${likesList[1][name]} liked it` 
                     : 
-                    `${likesList[0][name]}, ${likesList[1][name]} and ${nLikes-2} other people` 
+                        nLikes === 3
+                        ?
+                        `${likesList[0][name]}, ${likesList[1][name]} and ${nLikes-2} other person`
+                        :
+                        `${likesList[0][name]}, ${likesList[1][name]} and ${nLikes-2} other people` 
             : 
             "Be the first to like it"
         )
-    }
+    }, [ userData.user.id, isLiked, likesArray, numberOfLikes])
 
-    useEffect(() => updateTooltipContent("user.id", "user.username"), [])
+    useEffect(() => {updateTooltipContent("user.id", "user.username")}, [updateTooltipContent])
 
     return (
         <>
             {
                 isLiked 
                 ? 
-                <AiFillHeart  onClick = {() => unLikePost(config, id)} color="#ff0000" size={25} /> 
+                <AiFillHeart  onClick = {() => unLikePost(config, id)} className="likedHeart" size={25} /> 
                 : 
-                <AiOutlineHeart onClick = {() => likePost(config, id)} color="#fff" size={25} />
+                <AiOutlineHeart onClick = {() => likePost(config, id)} className="unLikedHeart" size={25} />
             }
         
             <Tippy content = {tooltipContent} placement = "bottom">
@@ -98,5 +110,3 @@ export default function LikesComponent ( {likes, id}) {
         </>
     )
 }
- 
-
