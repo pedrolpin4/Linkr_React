@@ -20,15 +20,43 @@ export default function LikesComponent ( {likes, id}) {
                 setLikesArray([...res.data.post.likes])
                 updateTooltipContent("userId", "username", true, res.data.post.likes, numberOfLikes + 1)
             })
+            .catch(() => {
+                setIsLiked(false);
+                alert(
+                    "Something went wrong and the post didn't get your like. Plase, try again."
+                );
+                setNumberOfLikes(numberOfLikes);
+                updateTooltipContent(
+                  "user.id",
+                  "user.username",
+                  false,
+                  likesArray,
+                  numberOfLikes
+                );
+            })
     }
 
     function unLikePost(token, id){
         setIsLiked(false)
-        setNumberOfLikes(numberOfLikes - 1)
         service.deletingLikes(token, id)
             .then(res => {
-                setLikesArray([...res.data.post.likes])
+                setNumberOfLikes(numberOfLikes - 1);
+                setLikesArray([...res.data.post.likes]);
                 updateTooltipContent("userId", "username", false, res.data.post.likes, numberOfLikes - 1)
+            })
+            .catch(() => {
+                setIsLiked(true);
+                setNumberOfLikes(numberOfLikes);
+                alert(
+                  "Something went wrong and the post still has your like. Plase, try again."
+                );
+                updateTooltipContent(
+                  "user.id",
+                  "user.username",
+                  true,
+                  likesArray,
+                  numberOfLikes
+                );
             })
     }
 
@@ -58,7 +86,7 @@ export default function LikesComponent ( {likes, id}) {
                     : 
                         nLikes === 3
                         ?
-                        `You, ${likesList[1][name]} and ${nLikes-2} other people`
+                        `You, ${likesList[1][name]} and ${nLikes-2} other person`
                         :                    
                         `You, ${likesList[1][name]} and ${nLikes-2} other people`
         )
@@ -82,7 +110,7 @@ export default function LikesComponent ( {likes, id}) {
             : 
             "Be the first to like it"
         )
-    }, [ userData.user.id, isLiked, likesArray, numberOfLikes])
+    }, [])
 
     useEffect(() => {updateTooltipContent("user.id", "user.username")}, [updateTooltipContent])
 
