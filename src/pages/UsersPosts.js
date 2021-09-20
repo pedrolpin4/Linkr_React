@@ -46,6 +46,7 @@ function UsersPosts() {
                                         prevTitle={post.linkTitle}
                                         prevImage={post.linkImage}
                                         prevDescription={post.linkDescription}
+                                        id = {post.id}
                                         likes={post.likes}
                                         userId={post.user.id}/>)}
     </BaseLayout>
