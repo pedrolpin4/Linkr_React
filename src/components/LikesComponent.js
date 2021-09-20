@@ -24,7 +24,7 @@ export default function LikesComponent ( {likes, id}) {
         service.postingLikes(config, id)
             .then(res => {
                 setLikesArray([...res.data.post.likes])
-                updateTooltipContent("userId", "username", true, res.data.post.likes, numberOfLikes + 1)
+                updateTooltipContent("user.id", "username", true, res.data.post.likes, numberOfLikes + 1)
             })
     }
 
