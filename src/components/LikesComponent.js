@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
-import service from "../service/auth"; 
+import service from "../service/post"; 
 import Tippy from "@tippyjs/react";
 import "../SharedStyles/tippy.css";
 import UserContext from "../context/UserContext";

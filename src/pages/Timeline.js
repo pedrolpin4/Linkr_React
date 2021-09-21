@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import BaseLayout from "../components/BaseLayout";
 import Loading from "../components/Loading";
 import Post from '../components/Post';
-import service from '../service/auth';
+import service from '../service/post';
 import PostBox from "../components/PostBox";
 import UserContext from "../context/UserContext";
 import FeedbackMessage from '../components/FeedbackMessage';
