@@ -8,7 +8,7 @@ import Modal from "react-modal";
 import Preview from "./Preview";
 import axios from "axios";
 import UserContext from "../context/UserContext";
-import service from "../service/auth";
+import service from "../service/post";
 import { Link } from "react-router-dom";
 
 export default function Post({ profilePic,
@@ -64,7 +64,7 @@ export default function Post({ profilePic,
           service.editingPost(userData.token, id, currentValue)
           .then(res => {
               setIsEditing(false)
-              setLastValue(res.data.post.text)
+              setLastValue(res.post.text)
               setIsDisabled(false)
           })
           .catch(() => {

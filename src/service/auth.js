@@ -1,80 +1,46 @@
-import axios from 'axios';
+import API from './api';
 
-export const API = axios.create({
-    baseURL: "https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr",
-})
+async function register() {
 
-function head(token) {
-    const head = {
-        headers: {
-            Authorization: `Bearer ${token}`
+}
+
+async function login(body) {
+    for(const key in body) {
+        if(!validateCredentials(body[key])) {
+            return {
+                sucess: false,
+                message: "Please, fill out the fields below with valid data."
+            }
         }
     }
-    return head;
+    console.log("entrei")
+    const response = await API.post("/sign-in", body)
+        .catch(e => {
+            if(e.response.status === 403) return {
+                sucess: false,
+                message: "Invalid e-mail and/or password. Please, check the fields and try again."
+            }
+            return {
+                sucess: false,
+                message: "Something went wrong. Please, check the fields and try again."
+            }
+        })
+    
+    if(response.data) return {
+        sucess: true,
+        data: response.data
+    }
+    return response
 }
 
-async function getPosts(token) {
-    const response = await API.get("/posts", head(token)).catch(() => false);
-
-    if(response) return response.data;
-    return false;
+function validateCredentials(data) {
+    if(data.trim() === "") return false;
+    return true;
 }
 
-async function getLikedPosts(token) {
-    const response = await API.get("/posts/liked", head(token))
-        .catch(() => false);
-
-    if(response) return response.data;
-    else return false;
-}
-/** 
- * @author Yohan Lopes
-*/
-async function getMyPosts(token, userId) {
-    const response = await API.get(`/users/${userId}/posts`, head(token))
-        .catch(() => false);
-
-    if(response) return response.data;
-    return false;
+const auth = {
+    register,
+    login
 }
 
-function getHashtags (token) {
-    return API.get("/hashtags/trending", head(token))
-}
-
-function getHashtagsPosts (token, hashtag){
-    return API.get(`/hashtags/${hashtag}/posts`, head(token))
-}
-
-function postingLikes (token, id){
-    return API.post(`/posts/${id}/like`, {}, head(token))
-}
-
-function deletingLikes (token, id){
-    return API.post(`/posts/${id}/dislike`, {}, head(token))
-}
-
-async function getUserPosts (userId, token){
-    const response = await API.get(`/users/${userId}/posts`, head(token))
-        .catch(() => false);
-    if(response) return response.data
-    return false
-}
-
-function editingPost (token, id, value) {
-    return API.put(`/posts/${id}`, {"text": value}, head(token))
-}
-
-const service =  {
-    getHashtags,
-    getHashtagsPosts,
-    getPosts,
-    postingLikes,
-    deletingLikes,
-    getUserPosts,
-    getMyPosts,
-    getLikedPosts,
-    editingPost,
-}
-
-export default service;
+export default auth;

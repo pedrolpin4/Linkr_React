@@ -1,7 +1,7 @@
 import { Link, useHistory } from "react-router-dom";
 import { useState, useContext, useEffect } from "react";
 import UserContext from "../context/UserContext";
-import { API } from "../service/auth";
+import auth from '../service/auth';
 import {
   EnterContainer,
   LogoHolder,
@@ -24,26 +24,7 @@ function Login() {
     }
   }, [userData, history]);
 
-  function logInSuccess(response) {
-    if (response.status === 200 || response.status === 201) {
-      setUserData(response.data);
-      localStorage.setItem("userLogin", JSON.stringify(response.data));
-      history.push("/timeline");
-    }
-  }
-
-  function logInFailure(response) {
-    if (response.response.status === 403) {
-      alert(
-        "Invalid e-mail and/or password. Please, check the fields and try again."
-      );
-    } else {
-      alert("Something went wrong. Please, check the fields and try again.");
-    }
-    setEnabled(true);
-  }
-
-  function logIntoAccount(e) {
+  async function logIntoAccount(e) {
     e.preventDefault();
     setEnabled(false);
 
@@ -52,11 +33,14 @@ function Login() {
       password: loginPassword,
     };
 
-    if (loginEmail === "" || loginPassword === "") {
-      alert("Please, fill out the fields below.");
-      setEnabled(true);
+    const response = await auth.login(body);
+    if(response.sucess) {
+      setUserData(response.data);
+      localStorage.setItem("userLogin", JSON.stringify(response.data));
+      history.push("/timeline");
     } else {
-      API.post("/sign-in", body).then(logInSuccess).catch(logInFailure);
+      setEnabled(true)
+      alert(response.message)
     }
   }
 

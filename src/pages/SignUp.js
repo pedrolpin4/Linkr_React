@@ -1,6 +1,6 @@
 import { Link, useHistory } from "react-router-dom";
 import { useState } from "react";
-import { API } from "../service/auth";
+import API from "../service/api";
 import { EnterContainer, LogoHolder, LoginForm, EnterButton, EnterInput } from "../SharedStyles/LogInSignUp";
 
 function SignUp() {
