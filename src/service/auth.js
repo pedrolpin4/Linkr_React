@@ -9,7 +9,7 @@ async function login(body) {
             }
         }
     }
-    console.log("entrei")
+    
     const response = await API.post("/sign-in", body)
         .catch(e => {
             if(e.response.status === 403) return {
