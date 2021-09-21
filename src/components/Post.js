@@ -8,7 +8,7 @@ import Modal from "react-modal";
 import Preview from "./Preview";
 import axios from "axios";
 import UserContext from "../context/UserContext";
-import service from "../service/auth";
+import service from "../service/post";
 import { Link } from "react-router-dom";
 import getYouTubeID from "get-youtube-id";
 
@@ -57,25 +57,24 @@ export default function Post({
     },
   };
 
-  function keyEvents(e) {
-    if (e.code === "Escape") {
-      setIsEditing(false);
-      setCurrentValue(lastValue);
-    } else if (e.code === "Enter") {
-      setIsDisabled(true);
-      service
-        .editingPost(userData.token, id, currentValue)
-        .then((res) => {
-          setIsEditing(false);
-          setLastValue(res.data.post.text);
-          setIsDisabled(false);
-        })
-        .catch(() => {
-          setIsDisabled(false);
-          inputRef.current.focus();
-          alert("Something went wrong while editing your post");
-        });
-    }
+  async function keyEvents (e){
+      if( e.code === "Escape"){
+        setIsEditing(false)
+        setCurrentValue(lastValue)
+      } else if(e.code === "Enter"){
+          setIsDisabled(true)
+          const response = await service.editingPost(userData.token, id, currentValue)
+
+          if(response) {
+            setIsEditing(false)
+            setLastValue(response.post.text)
+            setIsDisabled(false)
+          } else {
+            setIsDisabled(false)
+            inputRef.current.focus()
+            alert("Something went wrong while editing your post")
+          }
+      }
   }
 
   function toDeletePost(id) {

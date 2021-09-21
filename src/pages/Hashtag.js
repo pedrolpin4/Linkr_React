@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import UserContext from "../context/UserContext"
-import service from "../service/auth"
+import service from "../service/post"
 import BaseLayout from "../components/BaseLayout"
 import Post from "../components/Post"
 import styled from "styled-components"
@@ -20,9 +20,9 @@ function Hashtag() {
         function renderHashtagPosts (hashtag){
             service.getHashtagsPosts(userData.token, hashtag)
                 .then(res => {
-                    if(!unmounted) {
-                        setHashtagsPosts(res.data.posts)
-                        setIsLoading(false);
+                    if(!unmounted && res) {
+                        setHashtagsPosts(res.posts)
+                        setIsLoading(false)
                     }
                 })
                 .catch(() => alert(`There was an error while finding the posts with the hashtag ${hashtag}`))
@@ -30,7 +30,6 @@ function Hashtag() {
         if(userData.token) {
             renderHashtagPosts(hashtag);
         }
-
         return () => { unmounted = true }
    }, [hashtag, userData]);
 
