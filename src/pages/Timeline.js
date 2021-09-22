@@ -32,6 +32,14 @@ function Timeline() {
         return () => { unmounted = true }
     },[newPosts, userData])
 
+    useEffect(() => {
+        let interval = setInterval(() => {
+            setNewPosts(prevState => prevState + 1)
+        }, 15000)
+
+        return () => { clearInterval(interval) }
+    }, [])
+
     return (
         <BaseLayout
             title="timeline"
