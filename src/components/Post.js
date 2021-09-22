@@ -3,14 +3,16 @@ import { useState, useContext, useRef, useEffect } from "react";
 import { FaTrash } from "react-icons/fa";
 import { FiEdit2 } from "react-icons/fi";
 import ReactHashtag from "react-hashtag";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import getYouTubeID from "get-youtube-id";
+
 import LikesComponent from "./LikesComponent";
 import Modal from "react-modal";
 import Preview from "./Preview";
-import axios from "axios";
 import UserContext from "../context/UserContext";
 import service from "../service/post";
-import { Link } from "react-router-dom";
-import getYouTubeID from "get-youtube-id";
+import CommentBox from "./CommentsBox/CommentBox";
 
 export default function Post({
   profilePic,

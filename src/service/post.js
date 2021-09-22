@@ -23,9 +23,7 @@ async function getLikedPosts(token) {
     if(response) return response.data;
     else return false;
 }
-/** 
- * @author Yohan Lopes
-*/
+
 async function getMyPosts(token, userId) {
     const response = await API.get(`/users/${userId}/posts`, head(token))
         .catch(() => false);
@@ -69,6 +67,14 @@ async function editingPost (token, id, value) {
     return false;
 }
 
+async function getComments(postId, token) {
+    const response = API.post(`/posts/${postId}/comments`, {}, head(token))
+        .catch(() => false)
+
+    if(response) return response.data;
+    return false;
+}
+
 const service =  {
     getHashtags,
     getHashtagsPosts,
@@ -79,6 +85,7 @@ const service =  {
     getMyPosts,
     getLikedPosts,
     editingPost,
+    getComments
 }
 
 export default service;

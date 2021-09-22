@@ -111,7 +111,7 @@ export default function LikesComponent ( {likes, id}) {
             : 
             "Be the first to like it"
         )
-    }, [isLiked])
+    }, [isLiked, numberOfLikes, likesArray, userData.user.id])
 
     useEffect(() => {updateTooltipContent("user.id", "user.username")}, [updateTooltipContent])
 
