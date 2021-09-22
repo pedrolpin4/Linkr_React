@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import {useCallback, useEffect, useRef} from 'react';
+import {animated, useSpring} from 'react-spring'
 
 function PreviewModal ({showModal, setShowModal, link}){
     const modalRef = useRef();
@@ -15,6 +16,14 @@ function PreviewModal ({showModal, setShowModal, link}){
             setShowModal(false)
         }
     }, [setShowModal, showModal])
+    
+    const animation = useSpring({
+        config: {
+            duration: 500
+        },
+        opacity: showModal ? 1 : 0,
+        transform: showModal ? `translateY(0%)` : `translateY(-100%)`
+    })
 
     useEffect(()=> {
         document.addEventListener("keydown", modalKeyEvents)   
@@ -28,7 +37,6 @@ function PreviewModal ({showModal, setShowModal, link}){
                     <ModalBackground ref = {modalRef} 
                                     onClick ={closeModal} 
                                     >
-
                         <ModalContainer>
                             <TopSection>
                                 <ModalButton>
@@ -46,11 +54,11 @@ function PreviewModal ({showModal, setShowModal, link}){
                                     width="100%"
                                     height="100%"
                                     src={link}
+                                    is = "x-frame-bypass"
                                 ></iframe>
                             </LinkScreen>
-                       </ModalContainer>
-
-                    </ModalBackground>          
+                        </ModalContainer>
+                    </ModalBackground>      
                 </>
                 :
                 null
@@ -74,16 +82,26 @@ const ModalBackground = styled.div`
 
 const ModalContainer = styled.div`
     position: fixed;
-    width: calc(100vw - 460px);
+    width: 966px;
     height: calc(100vh - 120px);
     display: flex;
     flex-direction: column;
     top: 60px;
-    left: 230px;
+    left: calc((100vw - 966px)/2);
     background: #333333;
     opacity: 1;
     z-index: 130;
     padding: 15px 20px 21px 20px;
+
+    @media(max-width: 1000px){
+        width: 580px;
+        left: calc((100% - 580px)/2);
+    }
+
+    @media(max-width: 600px){
+        width: 100vw;
+        left: 0px;
+    }
 `
 
 const TopSection = styled.div`

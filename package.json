@@ -24,7 +24,8 @@
     "styled-components": "^5.3.1",
     "tippy.js": "^6.3.1",
     "warning": "^4.0.3",
-    "web-vitals": "^1.1.2"
+    "web-vitals": "^1.1.2",
+    "x-frame-bypass": "^1.0.2"
   },
   "scripts": {
     "start": "react-scripts start",
