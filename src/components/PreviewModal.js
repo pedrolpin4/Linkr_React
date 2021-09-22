@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import {useCallback, useEffect, useRef} from 'react';
-import {animated, useSpring} from 'react-spring'
 
 function PreviewModal ({showModal, setShowModal, link}){
     const modalRef = useRef();
@@ -16,14 +15,6 @@ function PreviewModal ({showModal, setShowModal, link}){
             setShowModal(false)
         }
     }, [setShowModal, showModal])
-    
-    const animation = useSpring({
-        config: {
-            duration: 500
-        },
-        opacity: showModal ? 1 : 0,
-        transform: showModal ? `translateY(0%)` : `translateY(-100%)`
-    })
 
     useEffect(()=> {
         document.addEventListener("keydown", modalKeyEvents)   
@@ -53,8 +44,8 @@ function PreviewModal ({showModal, setShowModal, link}){
                                     title={link}
                                     width="100%"
                                     height="100%"
-                                    src={link}
                                     is = "x-frame-bypass"
+                                    src={link}
                                 ></iframe>
                             </LinkScreen>
                         </ModalContainer>
