@@ -48,23 +48,21 @@ function Timeline() {
             {
             isLoading
                 ? <Loading spinnerSize={30}/>
-                : following.length === 0
+                : following.length === 0 && posts.length === 0
                     ? <FeedbackMessage text="You don't follow anyone yet, search for someone"/>
-                    : posts.length === 0
-                        ? <FeedbackMessage text="We didn't found any posts :(" />
-                        : posts.map(post => <Post key={post.id}
-                                                  username={post.user.username} 
-                                                  text={post.text}
-                                                  link={post.link}
-                                                  profilePic={post.user.avatar}
-                                                  prevTitle={post.linkTitle}
-                                                  prevImage={post.linkImage}
-                                                  prevDescription={post.linkDescription}
-                                                  likes={post.likes}
-                                                  userId={post.user.id}
-                                                  id={post.id}
-                                                  setNewPosts={setNewPosts}
-                                                  newPosts={newPosts} />)
+                    : posts.map(post => <Post key={post.id}
+                                                username={post.user.username} 
+                                                text={post.text}
+                                                link={post.link}
+                                                profilePic={post.user.avatar}
+                                                prevTitle={post.linkTitle}
+                                                prevImage={post.linkImage}
+                                                prevDescription={post.linkDescription}
+                                                likes={post.likes}
+                                                userId={post.user.id}
+                                                id={post.id}
+                                                setNewPosts={setNewPosts}
+                                                newPosts={newPosts} />)
         }</BaseLayout>
     )
 }
