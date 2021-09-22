@@ -1,16 +1,26 @@
+import { useState } from 'react';
 import styled from 'styled-components';
+import PreviewModal from './PreviewModal';
 
 export default function Preview({ title, description, link, img }) {
-    return (
-        <PreviewContainer href={link} target="_blank">
-            <LeftSection>
-                <h1>{title}</h1>
-                <p>{description}</p>
-                <p className="link" href={link}>{link}</p>
-            </LeftSection>
+    const [showModal, setShowModal] = useState(false);
 
-            <RightSection img={img}/>
-        </PreviewContainer>
+    return (
+        <>
+            <PreviewContainer onClick = {() => setShowModal(true)}>
+                <LeftSection>
+                    <h1>{title}</h1>
+                    <p>{description}</p>
+                    <p className="link" href={link}>{link}</p>
+                </LeftSection>
+                <RightSection img={img}/>
+            </PreviewContainer>
+            <PreviewModal 
+                showModal = {showModal}
+                setShowModal = {setShowModal} 
+                link = {link}
+            />
+        </>
     )
 }
 
@@ -24,11 +34,10 @@ const PreviewContainer = styled.a`
     height: 155px;
     z-index: 10;
     overflow: hidden;
-
+    cursor: pointer;
     @media screen and (max-width: 600px) {
         height: 115px;
     }
-
 `
 
 const LeftSection = styled.div`
