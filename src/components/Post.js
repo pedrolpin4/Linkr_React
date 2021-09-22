@@ -11,6 +11,7 @@ import UserContext from "../context/UserContext";
 import service from "../service/post";
 import { Link } from "react-router-dom";
 import getYouTubeID from "get-youtube-id";
+import RepostComponent from "./RepostComponent";
 
 export default function Post({
   profilePic,
@@ -25,6 +26,7 @@ export default function Post({
   id,
   setNewPosts,
   newPosts,
+  repostCount,
 }) {
   const [isClicked, setIsClicked] = useState(false);
   const inputRef = useRef(null);
@@ -34,6 +36,8 @@ export default function Post({
   const [isDisabled, setIsDisabled] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
   const { userData } = useContext(UserContext);
+
+  console.log(userData, "id", id);
 
   const customStyles = {
     content: {
@@ -57,24 +61,28 @@ export default function Post({
     },
   };
 
-  async function keyEvents (e){
-      if( e.code === "Escape"){
-        setIsEditing(false)
-        setCurrentValue(lastValue)
-      } else if(e.code === "Enter"){
-          setIsDisabled(true)
-          const response = await service.editingPost(userData.token, id, currentValue)
+  async function keyEvents(e) {
+    if (e.code === "Escape") {
+      setIsEditing(false);
+      setCurrentValue(lastValue);
+    } else if (e.code === "Enter") {
+      setIsDisabled(true);
+      const response = await service.editingPost(
+        userData.token,
+        id,
+        currentValue
+      );
 
-          if(response) {
-            setIsEditing(false)
-            setLastValue(response.post.text)
-            setIsDisabled(false)
-          } else {
-            setIsDisabled(false)
-            inputRef.current.focus()
-            alert("Something went wrong while editing your post")
-          }
+      if (response) {
+        setIsEditing(false);
+        setLastValue(response.post.text);
+        setIsDisabled(false);
+      } else {
+        setIsDisabled(false);
+        inputRef.current.focus();
+        alert("Something went wrong while editing your post");
       }
+    }
   }
 
   function toDeletePost(id) {
@@ -121,6 +129,7 @@ export default function Post({
           <img src={profilePic} alt="" />
         </a>
         <LikesComponent likes={likes} id={id} userId={userId} />
+        <RepostComponent repostCount={repostCount} id={id} userId={userId} />
       </LeftSection>
 
       <RightSection shouldhide={userId === userData.user?.id}>
@@ -168,14 +177,16 @@ export default function Post({
         </header>
         {link.match("^https?://www.youtube.com/watch") ? (
           <>
-          <iframe
-          title={link}
-            width="98%"
-            height="290"
-            className="youtube"
-            src={`https://www.youtube.com/embed/${getYouTubeID(link)}`}
-          ></iframe>
-          <a href={link} className="youtubeLink">{link}</a>
+            <iframe
+              title={link}
+              width="98%"
+              height="290"
+              className="youtube"
+              src={`https://www.youtube.com/embed/${getYouTubeID(link)}`}
+            ></iframe>
+            <a href={link} className="youtubeLink">
+              {link}
+            </a>
           </>
         ) : (
           <Preview
@@ -268,7 +279,8 @@ const LeftSection = styled.div`
   }
 
   .likes {
-    font-size: 12px;
+    font-size: 11px;
+    line-height: 13px;
     margin-top: 5px;
     -webkit-user-select: none;
     -ms-user-select: none;

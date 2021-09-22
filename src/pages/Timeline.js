@@ -22,6 +22,7 @@ function Timeline() {
 
             const response = await service.getPosts(token);
 
+            console.log("rp", response.posts);
             if(response && !unmounted) setPosts(response.posts)
             else if(response === false) alert("Desculpe, o servidor saiu pra almoço, por favor atualize a página")
 
@@ -33,31 +34,34 @@ function Timeline() {
     },[newPosts, userData])
 
     return (
-        <BaseLayout
-            title="timeline"
-            trends={[{name: "timeline"}]}            
-        >
-            <PostBox setNewPosts={setNewPosts} newPosts={newPosts}/>
-            {
-            isLoading
-                ? <Loading spinnerSize={30}/>
-                : posts.length === 0
-                    ? <FeedbackMessage/>
-                    : posts.map(post => <Post key={post.id}
-                                                       username={post.user.username} 
-                                                       text={post.text}
-                                                       link={post.link}
-                                                       profilePic={post.user.avatar}
-                                                       prevTitle={post.linkTitle}
-                                                       prevImage={post.linkImage}
-                                                       prevDescription={post.linkDescription}
-                                                       likes={post.likes}
-                                                       userId={post.user.id}
-                                                       id={post.id}
-                                                       setNewPosts={setNewPosts}
-                                                       newPosts={newPosts} />)
-        }</BaseLayout>
-    )
+      <BaseLayout title="timeline" trends={[{ name: "timeline" }]}>
+        <PostBox setNewPosts={setNewPosts} newPosts={newPosts} />
+        {isLoading ? (
+          <Loading spinnerSize={30} />
+        ) : posts.length === 0 ? (
+          <FeedbackMessage />
+        ) : (
+          posts.map((post) => (
+            <Post
+              key={post.id}
+              username={post.user.username}
+              text={post.text}
+              link={post.link}
+              profilePic={post.user.avatar}
+              prevTitle={post.linkTitle}
+              prevImage={post.linkImage}
+              prevDescription={post.linkDescription}
+              likes={post.likes}
+              userId={post.user.id}
+              id={post.id}
+              setNewPosts={setNewPosts}
+              newPosts={newPosts}
+              repostCount={post.repostCount}
+            />
+          ))
+        )}
+      </BaseLayout>
+    );
 }
 
 export default Timeline;
