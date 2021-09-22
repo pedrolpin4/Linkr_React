@@ -1,29 +1,31 @@
 import styled from "styled-components";
 import { useState, useContext, useRef, useEffect } from "react";
-import { FaTrash } from 'react-icons/fa';
-import { FiEdit2 } from 'react-icons/fi';
+import { FaTrash } from "react-icons/fa";
+import { FiEdit2 } from "react-icons/fi";
 import ReactHashtag from "react-hashtag";
 import LikesComponent from "./LikesComponent";
 import Modal from "react-modal";
 import Preview from "./Preview";
 import axios from "axios";
 import UserContext from "../context/UserContext";
-import service from "../service/auth";
+import service from "../service/post";
 import { Link } from "react-router-dom";
+import getYouTubeID from "get-youtube-id";
 
-export default function Post({ profilePic,
-                               link,
-                               username,
-                               text,
-                               prevTitle,
-                               prevDescription,
-                               prevImage,
-                               likes,
-                               userId,
-                               id,
-                               setNewPosts,
-                               newPosts})
-{
+export default function Post({
+  profilePic,
+  link,
+  username,
+  text,
+  prevTitle,
+  prevDescription,
+  prevImage,
+  likes,
+  userId,
+  id,
+  setNewPosts,
+  newPosts,
+}) {
   const [isClicked, setIsClicked] = useState(false);
   const inputRef = useRef(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -55,27 +57,23 @@ export default function Post({ profilePic,
     },
   };
 
-  function keyEvents (e){
+  async function keyEvents (e){
       if( e.code === "Escape"){
         setIsEditing(false)
         setCurrentValue(lastValue)
       } else if(e.code === "Enter"){
           setIsDisabled(true)
-          service.editingPost({
-            headers: {
-              Authorization: `Bearer ${userData.token}`,
-            },
-          }, id, currentValue)
-          .then(res => {
-              setIsEditing(false)
-              setLastValue(res.data.post.text)
-              setIsDisabled(false)
-          })
-          .catch(() => {
+          const response = await service.editingPost(userData.token, id, currentValue)
+
+          if(response) {
+            setIsEditing(false)
+            setLastValue(response.post.text)
+            setIsDisabled(false)
+          } else {
             setIsDisabled(false)
             inputRef.current.focus()
             alert("Something went wrong while editing your post")
-          })
+          }
       }
   }
 
@@ -91,14 +89,14 @@ export default function Post({ profilePic,
         }
       )
       .then(() => {
-        setIsOpen(false)
-        setNewPosts(newPosts - 1)
-        setIsClicked(false)
+        setIsOpen(false);
+        setNewPosts(newPosts - 1);
+        setIsClicked(false);
       })
       .catch(() => {
-        setIsOpen(false)
-        setIsClicked(false)
-        alert("It wasn't possible to delete this post. Try it later.")
+        setIsOpen(false);
+        setIsClicked(false);
+        alert("It wasn't possible to delete this post. Try it later.");
       });
   }
 
@@ -111,91 +109,119 @@ export default function Post({ profilePic,
   }
 
   useEffect(() => {
-    if (isEditing){
-      inputRef.current.focus()
+    if (isEditing) {
+      inputRef.current.focus();
     }
-  }, [isEditing])
+  }, [isEditing]);
 
   return (
-      <PostContainer>
-          <LeftSection>
-              <a href={`/user/${userId}`}><img src={profilePic} alt="" /></a>
-              <LikesComponent likes ={likes} id ={id} userId = {userId}/>
-          </LeftSection>
+    <PostContainer>
+      <LeftSection>
+        <a href={`/user/${userId}`}>
+          <img src={profilePic} alt="" />
+        </a>
+        <LikesComponent likes={likes} id={id} userId={userId} />
+      </LeftSection>
 
-          <RightSection shouldhide={userId === userData.user?.id}>
-              <header>
-                  <p className="username"><a href={`/user/${userId}`}>{username}</a></p>
-                  <FiEdit2 size={16}  className = "edit" onClick = {() => {
-                    if(isEditing){
-                      setIsEditing(false)
-                      setCurrentValue(lastValue)
-                    } else{
-                      setIsEditing(true)
-                    }
-                  }}/>
-                  <FaTrash size={16} className = "delete" onClick = {openModal}/>
-                  {
-                    isEditing
-                    ?
-                    <EditInput ref = {inputRef} value = {currentValue} disabled = {isDisabled}
-                      onChange = {e => setCurrentValue(e.target.value)} onKeyDown = {e => keyEvents(e)}/>
-                    :
-                    <ReactHashtag onHashtagClick={val => alert(val)}
-                                  renderHashtag={hashtag => (
-                                    <Link className="hashtag" key={hashtag}  to={`/hashtag/${hashtag.substr(1)}`}>
-                                        {hashtag}
-                                    </Link>
-                                  )}>
-                          {currentValue}
-                    </ReactHashtag>
-                  }
-              </header>
-              <Preview title={prevTitle}
-                        description={prevDescription}
-                        img={prevImage}
-                        link={link} />
-          </RightSection>
-            <Modal
-              isOpen={modalIsOpen}
-              onRequestClose={closeModal}
-              style={customStyles}
-              contentLabel="Example Modal"
+      <RightSection shouldhide={userId === userData.user?.id}>
+        <header>
+          <p className="username">
+            <a href={`/user/${userId}`}>{username}</a>
+          </p>
+          <FiEdit2
+            size={16}
+            className="edit"
+            onClick={() => {
+              if (isEditing) {
+                setIsEditing(false);
+                setCurrentValue(lastValue);
+              } else {
+                setIsEditing(true);
+              }
+            }}
+          />
+          <FaTrash size={16} className="delete" onClick={openModal} />
+          {isEditing ? (
+            <EditInput
+              ref={inputRef}
+              value={currentValue}
+              disabled={isDisabled}
+              onChange={(e) => setCurrentValue(e.target.value)}
+              onKeyDown={(e) => keyEvents(e)}
+            />
+          ) : (
+            <ReactHashtag
+              onHashtagClick={(val) => alert(val)}
+              renderHashtag={(hashtag) => (
+                <Link
+                  className="hashtag"
+                  key={hashtag}
+                  to={`/hashtag/${hashtag.substr(1)}`}
                 >
-                  <h2
-                      style={{
-                      color: "white",
-                      fontSize: "34px",
-                      fontWeight: "bold",
-                      width: "358px",
-                      fontFamily: "Lato",
-                      textAlign: "center",
-                      }}
-                    >
-                    
-                  {
-                  isClicked
-                  ? 
-                  "Loading..."
-                  : 
-                  "Are you sure you want to delete this post?"
-                  }
-                  </h2>
-                  <ModalButtons>
-                      <button disabled={isClicked} onClick={closeModal}>
-                          No, return
-                      </button>
-                      <button
-                          className="second"
-                          disabled={isClicked}
-                          onClick={() => toDeletePost(id)}
-                      >
-                          Yes, delete it
-                      </button>
-                  </ModalButtons>
-            </Modal>
-      </PostContainer>
-  )
+                  {hashtag}
+                </Link>
+              )}
+            >
+              {currentValue}
+            </ReactHashtag>
+          )}
+        </header>
+        {link.match("^https?://www.youtube.com/watch") ? (
+          <>
+          <iframe
+          title={link}
+            width="98%"
+            height="290"
+            className="youtube"
+            src={`https://www.youtube.com/embed/${getYouTubeID(link)}`}
+          ></iframe>
+          <a href={link} className="youtubeLink">{link}</a>
+          </>
+        ) : (
+          <Preview
+            title={prevTitle}
+            description={prevDescription}
+            img={prevImage}
+            link={link}
+          />
+        )}
+      </RightSection>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        ariaHideApp={false}
+        contentLabel="Example Modal"
+      >
+        <h2
+          style={{
+            color: "white",
+            fontSize: "34px",
+            fontWeight: "bold",
+            width: "358px",
+            fontFamily: "Lato",
+            textAlign: "center",
+          }}
+        >
+          {isClicked
+            ? "Loading..."
+            : "Are you sure you want to delete this post?"}
+        </h2>
+        <ModalButtons>
+          <button disabled={isClicked} onClick={closeModal}>
+            No, return
+          </button>
+          <button
+            className="second"
+            disabled={isClicked}
+            onClick={() => toDeletePost(id)}
+          >
+            Yes, delete it
+          </button>
+        </ModalButtons>
+      </Modal>
+    </PostContainer>
+  );
 }
 
 const PostContainer = styled.div`
@@ -211,6 +237,14 @@ const PostContainer = styled.div`
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
+
+  .youtube {
+    margin-bottom: 15px;
+  }
+
+  .youtubeLink {
+    margin-bottom: 5px;
+  }
 
   @media screen and (max-width: 600px) {
     width: 100%;
@@ -358,7 +392,7 @@ const ModalButtons = styled.div`
     height: 37px;
     border-radius: 5px;
     border: none;
-    font-family: 'Lato', sans-serif;
+    font-family: "Lato", sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 18px;
