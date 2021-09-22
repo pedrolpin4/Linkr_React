@@ -9,6 +9,7 @@
     background: rgba(255, 255, 255, 0.9);
     color: #333;
     border-radius: 4px;
+    overflow-wrap: break-word;
     font-size: 14px;
     line-height: 1.4;
     outline: 0;

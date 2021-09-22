@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import UserContext from "../context/UserContext"
 import BaseLayout from "../components/BaseLayout";
 import Post from "../components/Post";
-import service from "../service/auth";
+import service from "../service/post";
 import Loading from "../components/Loading";
 import FeedbackMessage from "../components/FeedbackMessage"
 
@@ -46,6 +46,7 @@ function UsersPosts() {
                                         prevTitle={post.linkTitle}
                                         prevImage={post.linkImage}
                                         prevDescription={post.linkDescription}
+                                        id = {post.id}
                                         likes={post.likes}
                                         userId={post.user.id}/>)}
     </BaseLayout>

@@ -1,82 +1,74 @@
-import axios from 'axios';
+import API from './api';
 
-export const API = axios.create({
-    baseURL: "https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr",
-})
-
-function head(token) {
-    const head = {
-        headers: {
-            Authorization: `Bearer ${token}`
+async function login(body) {
+    for(const key in body) {
+        if(!validateCredentials(body[key])) {
+            return {
+                sucess: false,
+                message: "Please, fill out the fields below with valid data."
+            }
         }
     }
-    return head;
-}
-
-async function getPosts(token) {
-    const response = await API.get("/posts", head(token)).catch(() => false);
-
-    if(response) return response.data;
-    return false;
-}
-
-async function getLikedPosts(token) {
-    const response = await API.get("/posts/liked", head(token))
-        .catch(() => false);
-
-    if(response) return response.data;
-    else return false;
-}
-/** 
- * @author Yohan Lopes
-*/
-async function getMyPosts(token, userId) {
-    const response = await API.get(`/users/${userId}/posts`, head(token))
-        .catch(() => false);
-
-    if(response) return response.data;
-    return false;
-}
-
-function getHashtags (config) {
-    return API.get("/hashtags/trending", config)
-}
-
-function getHashtagsPosts (config, hashtag){
-    return API.get(`/hashtags/${hashtag}/posts`, config)
-}
-
-function postingLikes (config, id){
-    return API.post(`/posts/${id}/like`, {}, config)
-}
-
-function deletingLikes (config, id){
-    return API.post(`/posts/${id}/dislike`, {}, config)
-}
-
-async function getUserPosts (userId, token){
-    const response = await API.get(`/users/${userId}/posts`, head(token))
-        .catch(() => false);
-    console.log(response.data)
-    if(response) return response.data
-    return false
-}
-
-function editingPost (config, id, value) {
-    return API.put(`/posts/${id}`, {"text": value}, config)
-}
-
-const service =  {
-    getHashtags,
-    getHashtagsPosts,
-    getPosts,
-    postingLikes,
-    deletingLikes,
-    getUserPosts,
-    getMyPosts,
-    getLikedPosts,
-    editingPost,
     
+    const response = await API.post("/sign-in", body)
+        .catch(e => {
+            if(e.response.status === 403) return {
+                sucess: false,
+                message: "Invalid e-mail and/or password. Please, check the fields and try again."
+            }
+            return {
+                sucess: false,
+                message: "Something went wrong. Please, check the fields and try again."
+            }
+        })
+    
+    if(response.data) return {
+        sucess: true,
+        data: response.data
+    }
+    return response;
 }
 
-export default service;
+async function register(body) {
+    for(const key in body) {
+        if(!validateCredentials(body[key])) {
+            return {
+                sucess: false,
+                message: "Please, fill out the fields below."
+            }
+        }
+    }
+
+    const response = await API.post("sign-up", body)
+        .catch(e => {
+            if(e.response.status === 403) {
+                return {
+                    sucess: false,
+                    message: "This e-mail has already been used to create an account. Please, log in or try to use another e-mail address."
+                }
+            }
+            return {
+                sucess: false,
+                message: "Something went wrong. Please, check the fields and try again."
+            }
+        })
+    
+    if(response.data) return {
+        sucess: true,
+        data: response.data,
+        message: "You account has been created! Now you only need to log in to start having fun! :D"
+    }
+    return response;
+}
+
+function validateCredentials(data) {
+    if(data.trim() === "") return false;
+    return true;
+}
+
+const auth = {
+    register,
+    login
+}
+
+export default auth;

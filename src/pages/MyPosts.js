@@ -3,7 +3,7 @@ import UserContext from '../context/UserContext';
 import BaseLayout from "../components/BaseLayout";
 import Loading from "../components/Loading";
 import Post from '../components/Post';
-import service from '../service/auth';
+import service from '../service/post';
 import FeedbackMessage from '../components/FeedbackMessage';
 
 
