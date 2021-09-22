@@ -7,7 +7,7 @@ export default function Preview({ title, description, link, img }) {
 
     return (
         <>
-            <PreviewContainer onClick = {setShowModal(true)}>
+            <PreviewContainer onClick = {() => setShowModal(true)}>
                 <LeftSection>
                     <h1>{title}</h1>
                     <p>{description}</p>
@@ -16,7 +16,8 @@ export default function Preview({ title, description, link, img }) {
                 <RightSection img={img}/>
             </PreviewContainer>
             <PreviewModal showModal = {showModal}
-                          setShowModal = {setShowModal} />
+                          setShowModal = {setShowModal} 
+                          link = {link}/>
         </>
     )
 }
@@ -31,11 +32,10 @@ const PreviewContainer = styled.a`
     height: 155px;
     z-index: 10;
     overflow: hidden;
-
+    cursor: pointer;
     @media screen and (max-width: 600px) {
         height: 115px;
     }
-
 `
 
 const LeftSection = styled.div`
