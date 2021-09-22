@@ -28,7 +28,8 @@ export default function Post({
   setNewPosts,
   newPosts,
   repostCount,
-  repostedBy
+  repostedByUser,
+  repostedById,
 }) {
   const [isClicked, setIsClicked] = useState(false);
   const inputRef = useRef(null);
@@ -40,7 +41,6 @@ export default function Post({
   const { userData } = useContext(UserContext);
 
   console.log(userData, "id", id);
-  console.log("rB", repostedBy);
 
   const customStyles = {
     content: {
@@ -127,20 +127,27 @@ export default function Post({
 
   return (
     <>
-      {repostedBy.repostedBy?
-      <RepostBar
-        user={repostedBy.repostedBy?.username}
-      />
-      :
-      <></>
-      }
+      {repostedByUser ? (
+        <RepostBar
+          repostedByUser={repostedByUser}
+          repostedById={repostedById}
+        />
+      ) : (
+        <></>
+      )}
       <PostContainer>
         <LeftSection>
           <a href={`/user/${userId}`}>
             <img src={profilePic} alt="" />
           </a>
           <LikesComponent likes={likes} id={id} userId={userId} />
-          <RepostComponent repostCount={repostCount} id={id} userId={userId} />
+          <RepostComponent
+            repostCount={repostCount}
+            id={id}
+            userId={userId}
+            setNewPosts={setNewPosts}
+            newPosts={newPosts}
+          />
         </LeftSection>
 
         <RightSection shouldhide={userId === userData.user?.id}>

@@ -14,7 +14,7 @@ function Timeline() {
     const [ isLoading, setIsLoading ] = useState(true);
     const [ posts, setPosts ] = useState([]);
     const [ newPosts, setNewPosts ] = useState(0);
-
+    
     useEffect(() => {
         let unmounted = false;
 
@@ -41,6 +41,7 @@ function Timeline() {
         clearInterval(interval);
       };
     }, []);
+    console.log("posts", posts)
 
     return (
       <BaseLayout title="timeline" trends={[{ name: "timeline" }]}>
@@ -68,7 +69,8 @@ function Timeline() {
               setNewPosts={setNewPosts}
               newPosts={newPosts}
               repostCount={post.repostCount}
-              repostedBy={post}
+              repostedByUser={post.repostedBy?.username}
+              repostedById={post.repostedBy?.id}
             />
           ))
         )}

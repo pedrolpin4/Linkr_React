@@ -1,18 +1,26 @@
 import { FaRetweet } from "react-icons/fa";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import UserContext from "../context/UserContext";
 
-export default function RepostBar({ user }) {
-  console.log("user", user)
+export default function RepostBar({ repostedByUser, repostedById }) {
+
+  const { userData } = useContext(UserContext);
+
   return (
     <TopBar>
       <Retweet />
       <p>
         {`Re-posted by `}
-        <Link to="">
-          {user}
+        <Link to={`/user/${repostedById}`}>
+          {repostedByUser === userData.user.username
+          ?
+          'you'
+          :
+          repostedByUser}
         </Link>
-        </p>
+      </p>
     </TopBar>
   );
 }

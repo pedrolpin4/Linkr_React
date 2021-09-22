@@ -5,21 +5,23 @@ import Modal from "react-modal";
 import UserContext from '../context/UserContext';
 import service from '../service/post';
 
-export default function RepostComponent({ id, repostCount }) {
+export default function RepostComponent({ id, repostCount, newPosts, setNewPosts }) {
   const { userData } = useContext(UserContext);
   const [numberOfReposts, setNumberOfReposts] = useState(repostCount);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
+  console.log("nP", newPosts)
+  console.log("tnP", typeof newPosts)
 
   function repost(token, id) {
     setIsClicked(true);
-    console.log("repost");
     async function repostingPost() {
       const response = await service.repostingPost(token, id);
       if (response) {
         setModalIsOpen(false);
         setNumberOfReposts(numberOfReposts + 1);
         setIsClicked(false);
+        setNewPosts(newPosts + 1);
         console.log("resp2", response);
       } else {
         setModalIsOpen(false);
@@ -32,7 +34,6 @@ export default function RepostComponent({ id, repostCount }) {
 
   function openModal() {
     setModalIsOpen(true);
-    console.log("open");
   }
 
   function closeModal() {
