@@ -16,7 +16,7 @@ function UsersPosts() {
   const [isLoading, setIsLoading] = useState(true);
   const { userData } = useContext(UserContext);
   const [username, setUsername] = useState("");
-  const [btn, setBtn] = useState(false);
+  const [followButton, setFollowButton] = useState(false);
   const [clicked, setClicked] = useState(false);
 
   useEffect(() => {
@@ -41,7 +41,7 @@ function UsersPosts() {
         }
       );
       req.then((resp) => {
-        setBtn(resp.data.users.some(i => i.id == id));
+        setFollowButton(resp.data.users.some(i => i.id == id));
       });
       req.catch((error) => alert("The birds are eating our comunications lines, sorry."));
     }
@@ -64,7 +64,7 @@ function UsersPosts() {
       }
     );
     req.then((resp) => {
-      setBtn(true);
+      setFollowButton(true);
       setClicked(false);
     });
     req.catch((error) => {
@@ -86,7 +86,7 @@ function UsersPosts() {
       }
     );
     req.then((resp) => {
-      setBtn(false);
+      setFollowButton(false);
       setClicked(false);
     });
     req.catch((error) => {
@@ -101,11 +101,11 @@ function UsersPosts() {
         ""
       ) : (
         <FollowButton
-          follow={btn}
-          onClick={() => (btn ? toUnfollowUser() : toFollowUser())}
+          follow={followButton}
+          onClick={() => (followButton ? toUnfollowUser() : toFollowUser())}
           disabled={clicked}
         >
-          {btn ? "Unfollow" : "Follow"}
+          {followButton ? "Unfollow" : "Follow"}
         </FollowButton>
       )}
       <BaseLayout title={`${username}'s posts`}>
