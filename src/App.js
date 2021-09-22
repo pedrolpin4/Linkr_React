@@ -27,13 +27,32 @@ function App() {
     if(userData.token) {
       updateFollowsList(userData.token)
     }
-  }, [userData, updateFollowsList])
+  }, [userData])
 
+  /**
+   * @author Yohan L. 
+   * This function requires a updated list of user's following profiles and stores it in a local state
+   * @param {string} token the user.token provided by userData
+   * @return {Promise} resolves to the updated data or false in case of failure
+   */
   async function updateFollowsList(token) {
     const response = await service.getMyFollows(token);
     if(response) {
-      setFollowing(response);
+      setFollowing(response.users);
       return response;
+    }
+    return false;
+  }
+
+  /**
+   * @author Yohan L. 
+   * This function search for a correspondent user in following list
+   * @param {Number} userId the user.id that should be searched
+   * @return  if userId match any following user, returns the respective user data, returns false otherwise
+   */
+  function searchUserInFollowing(userId) {
+    for(let i = 0; i < following.length; i++) {
+      if(following[i].id === userId) return following[i];
     }
     return false;
   }
@@ -44,7 +63,8 @@ function App() {
         userData,
         setUserData,
         updateFollowsList,
-        following
+        following,
+        searchUserInFollowing
       }}
     >
       <Router>

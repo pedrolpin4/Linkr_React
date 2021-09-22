@@ -10,7 +10,7 @@ import FeedbackMessage from '../components/FeedbackMessage';
 
 
 function Timeline() {
-    const { userData } = useContext(UserContext);
+    const { userData, following } = useContext(UserContext);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ posts, setPosts ] = useState([]);
     const [ newPosts, setNewPosts ] = useState(0);
@@ -48,8 +48,8 @@ function Timeline() {
             {
             isLoading
                 ? <Loading spinnerSize={30}/>
-                : posts.length === 0
-                    ? <FeedbackMessage/>
+                : following.length === 0
+                    ? <FeedbackMessage text="You don't follow anyone yet, search for someone"/>
                     : posts.map(post => <Post key={post.id}
                                                        username={post.user.username} 
                                                        text={post.text}
