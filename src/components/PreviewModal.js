@@ -25,9 +25,10 @@ function PreviewModal ({showModal, setShowModal, link}){
             {   showModal 
                 ?
                 <>
-                    <ModalBackground ref = {modalRef} 
-                                    onClick ={closeModal} 
-                                    >
+                    <ModalBackground 
+                        ref = {modalRef} 
+                        onClick ={closeModal} 
+                    >
                         <ModalContainer>
                             <TopSection>
                                 <ModalButton>

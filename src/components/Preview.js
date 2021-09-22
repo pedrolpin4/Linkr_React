@@ -15,9 +15,11 @@ export default function Preview({ title, description, link, img }) {
                 </LeftSection>
                 <RightSection img={img}/>
             </PreviewContainer>
-            <PreviewModal showModal = {showModal}
-                          setShowModal = {setShowModal} 
-                          link = {link}/>
+            <PreviewModal 
+                showModal = {showModal}
+                setShowModal = {setShowModal} 
+                link = {link}
+            />
         </>
     )
 }
