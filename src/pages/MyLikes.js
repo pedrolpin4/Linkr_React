@@ -32,26 +32,33 @@ function MyLikes() {
     }, [userData, newPosts])
 
     return (
-        <BaseLayout title="my likes">{
-            isLoading
-                ? <Loading spinnerSize={30}/>
-                : posts.length === 0
-                    ? <FeedbackMessage/>
-                    : posts.map(post => <Post key={post.id}
-                                                    username={post.user.username} 
-                                                    text={post.text}
-                                                    link={post.link}
-                                                    profilePic={post.user.avatar}
-                                                    prevTitle={post.linkTitle}
-                                                    prevImage={post.linkImage}
-                                                    prevDescription={post.linkDescription}
-                                                    likes={post.likes}
-                                                    userId={post.user.id}
-                                                    id={post.id}
-                                                    setNewPosts={setNewPosts} 
-                                                    newPosts={newPosts} />)
-        }</BaseLayout>
-    )
+      <BaseLayout title="my likes">
+        {isLoading ? (
+          <Loading spinnerSize={30} />
+        ) : posts.length === 0 ? (
+          <FeedbackMessage />
+        ) : (
+          posts.map((post) => (
+            <Post
+              key={post.id}
+              username={post.user.username}
+              text={post.text}
+              link={post.link}
+              profilePic={post.user.avatar}
+              prevTitle={post.linkTitle}
+              prevImage={post.linkImage}
+              prevDescription={post.linkDescription}
+              likes={post.likes}
+              userId={post.user.id}
+              id={post.id}
+              setNewPosts={setNewPosts}
+              newPosts={newPosts}
+              repostCount={post.repostCount}
+            />
+          ))
+        )}
+      </BaseLayout>
+    );
 }
 
 export default MyLikes;

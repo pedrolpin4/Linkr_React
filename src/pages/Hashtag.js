@@ -34,25 +34,31 @@ function Hashtag() {
    }, [hashtag, userData]);
 
     return (
-        <BaseLayout title = {`#${hashtag}`}>{
-            isLoading
-                ? <Loading spinnerSize={30} />
-                : hashtagsPosts.length === 0
-                    ? <ErrorMessage>#{hashtag} has no posts</ErrorMessage>
-                    : hashtagsPosts.map( post => <Post key={post.id}
-                                                       id = {post.id}
-                                                       username={post.user.username} 
-                                                       text={post.text}
-                                                       link={post.link}
-                                                       profilePic={post.user.avatar}
-                                                       prevTitle={post.linkTitle}
-                                                       prevImage={post.linkImage}
-                                                       prevDescription={post.linkDescription}
-                                                       likes={post.likes}
-                                                       userId={post.user.id} />)
-            }
-        </BaseLayout>
-    )
+      <BaseLayout title={`#${hashtag}`}>
+        {isLoading ? (
+          <Loading spinnerSize={30} />
+        ) : hashtagsPosts.length === 0 ? (
+          <ErrorMessage>#{hashtag} has no posts</ErrorMessage>
+        ) : (
+          hashtagsPosts.map((post) => (
+            <Post
+              key={post.id}
+              id={post.id}
+              username={post.user.username}
+              text={post.text}
+              link={post.link}
+              profilePic={post.user.avatar}
+              prevTitle={post.linkTitle}
+              prevImage={post.linkImage}
+              prevDescription={post.linkDescription}
+              likes={post.likes}
+              userId={post.user.id}
+              repostCount={post.repostCount}
+            />
+          ))
+        )}
+      </BaseLayout>
+    );
 }
 
 const ErrorMessage = styled.h1`

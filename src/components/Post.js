@@ -12,6 +12,7 @@ import service from "../service/post";
 import { Link } from "react-router-dom";
 import getYouTubeID from "get-youtube-id";
 import RepostComponent from "./RepostComponent";
+import RepostBar from "./RepostBar";
 
 export default function Post({
   profilePic,
@@ -123,115 +124,119 @@ export default function Post({
   }, [isEditing]);
 
   return (
-    <PostContainer>
-      <LeftSection>
-        <a href={`/user/${userId}`}>
-          <img src={profilePic} alt="" />
-        </a>
-        <LikesComponent likes={likes} id={id} userId={userId} />
-        <RepostComponent repostCount={repostCount} id={id} userId={userId} />
-      </LeftSection>
+    <>
+      {/* add a condition to show RepostBar or not */}
+      <RepostBar />
+      <PostContainer>
+        <LeftSection>
+          <a href={`/user/${userId}`}>
+            <img src={profilePic} alt="" />
+          </a>
+          <LikesComponent likes={likes} id={id} userId={userId} />
+          <RepostComponent repostCount={repostCount} id={id} userId={userId} />
+        </LeftSection>
 
-      <RightSection shouldhide={userId === userData.user?.id}>
-        <header>
-          <p className="username">
-            <a href={`/user/${userId}`}>{username}</a>
-          </p>
-          <FiEdit2
-            size={16}
-            className="edit"
-            onClick={() => {
-              if (isEditing) {
-                setIsEditing(false);
-                setCurrentValue(lastValue);
-              } else {
-                setIsEditing(true);
-              }
-            }}
-          />
-          <FaTrash size={16} className="delete" onClick={openModal} />
-          {isEditing ? (
-            <EditInput
-              ref={inputRef}
-              value={currentValue}
-              disabled={isDisabled}
-              onChange={(e) => setCurrentValue(e.target.value)}
-              onKeyDown={(e) => keyEvents(e)}
+        <RightSection shouldhide={userId === userData.user?.id}>
+          <header>
+            <p className="username">
+              <a href={`/user/${userId}`}>{username}</a>
+            </p>
+            <FiEdit2
+              size={16}
+              className="edit"
+              onClick={() => {
+                if (isEditing) {
+                  setIsEditing(false);
+                  setCurrentValue(lastValue);
+                } else {
+                  setIsEditing(true);
+                }
+              }}
             />
+            <FaTrash size={16} className="delete" onClick={openModal} />
+            {isEditing ? (
+              <EditInput
+                ref={inputRef}
+                value={currentValue}
+                disabled={isDisabled}
+                onChange={(e) => setCurrentValue(e.target.value)}
+                onKeyDown={(e) => keyEvents(e)}
+              />
+            ) : (
+              <ReactHashtag
+                onHashtagClick={(val) => alert(val)}
+                renderHashtag={(hashtag) => (
+                  <Link
+                    className="hashtag"
+                    key={hashtag}
+                    to={`/hashtag/${hashtag.substr(1)}`}
+                  >
+                    {hashtag}
+                  </Link>
+                )}
+              >
+                {currentValue}
+              </ReactHashtag>
+            )}
+          </header>
+          {link.match("^https?://www.youtube.com/watch") ? (
+            <>
+              <iframe
+                title={link}
+                width="98%"
+                height="290"
+                className="youtube"
+                src={`https://www.youtube.com/embed/${getYouTubeID(link)}`}
+              ></iframe>
+              <a href={link} className="youtubeLink">
+                {link}
+              </a>
+            </>
           ) : (
-            <ReactHashtag
-              onHashtagClick={(val) => alert(val)}
-              renderHashtag={(hashtag) => (
-                <Link
-                  className="hashtag"
-                  key={hashtag}
-                  to={`/hashtag/${hashtag.substr(1)}`}
-                >
-                  {hashtag}
-                </Link>
-              )}
-            >
-              {currentValue}
-            </ReactHashtag>
+            <Preview
+              title={prevTitle}
+              description={prevDescription}
+              img={prevImage}
+              link={link}
+            />
           )}
-        </header>
-        {link.match("^https?://www.youtube.com/watch") ? (
-          <>
-            <iframe
-              title={link}
-              width="98%"
-              height="290"
-              className="youtube"
-              src={`https://www.youtube.com/embed/${getYouTubeID(link)}`}
-            ></iframe>
-            <a href={link} className="youtubeLink">
-              {link}
-            </a>
-          </>
-        ) : (
-          <Preview
-            title={prevTitle}
-            description={prevDescription}
-            img={prevImage}
-            link={link}
-          />
-        )}
-      </RightSection>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        style={customStyles}
-        ariaHideApp={false}
-        contentLabel="Example Modal"
-      >
-        <h2
-          style={{
-            color: "white",
-            fontSize: "34px",
-            fontWeight: "bold",
-            width: "358px",
-            fontFamily: "Lato",
-            textAlign: "center",
-          }}
+        </RightSection>
+        <Modal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          style={customStyles}
+          ariaHideApp={false}
+          contentLabel="Example Modal"
         >
-          {isClicked
-            ? "Loading..."
-            : "Are you sure you want to delete this post?"}
-        </h2>
-        <ModalButtons>
-          <button disabled={isClicked} onClick={closeModal}>
-            No, return
-          </button>
-          <button
-            className="second"
-            disabled={isClicked}
-            onClick={() => toDeletePost(id)}
+          <h2
+            style={{
+              color: "white",
+              fontSize: "34px",
+              fontWeight: "bold",
+              width: "358px",
+              fontFamily: "Lato",
+              textAlign: "center",
+            }}
           >
-            Yes, delete it
-          </button>
-        </ModalButtons>
-      </Modal>
-    </PostContainer>
+            {isClicked
+              ? "Loading..."
+              : "Are you sure you want to delete this post?"}
+          </h2>
+          <ModalButtons>
+            <button disabled={isClicked} onClick={closeModal}>
+              No, return
+            </button>
+            <button
+              className="second"
+              disabled={isClicked}
+              onClick={() => toDeletePost(id)}
+            >
+              Yes, delete it
+            </button>
+          </ModalButtons>
+        </Modal>
+      </PostContainer>
+    </>
   );
 }
 

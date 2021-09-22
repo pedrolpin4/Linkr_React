@@ -48,7 +48,8 @@ function UsersPosts() {
                                         prevDescription={post.linkDescription}
                                         id = {post.id}
                                         likes={post.likes}
-                                        userId={post.user.id}/>)}
+                                        userId={post.user.id}
+                                        repostCount={post.repostCount} />)}
     </BaseLayout>
   );
 }

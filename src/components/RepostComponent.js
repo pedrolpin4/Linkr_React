@@ -92,6 +92,7 @@ const RepostContainer = styled.div`
 `
 
 const Retweet = styled(FaRetweet)`
+// combine with Retweet from RepostBar
   width: 25px;
   height: 25px;
   cursor: pointer;
