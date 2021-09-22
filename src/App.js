@@ -51,10 +51,7 @@ function App() {
    * @return  if userId match any following user, returns the respective user data, returns false otherwise
    */
   function searchUserInFollowing(userId) {
-    for(let i = 0; i < following.length; i++) {
-      if(following[i].id === userId) return following[i];
-    }
-    return false;
+    return following.find(element => element.id === userId);
   }
 
   return (
