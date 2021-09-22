@@ -28,6 +28,7 @@ export default function Post({
   setNewPosts,
   newPosts,
   repostCount,
+  repostedBy
 }) {
   const [isClicked, setIsClicked] = useState(false);
   const inputRef = useRef(null);
@@ -39,6 +40,7 @@ export default function Post({
   const { userData } = useContext(UserContext);
 
   console.log(userData, "id", id);
+  console.log("rB", repostedBy);
 
   const customStyles = {
     content: {
@@ -125,8 +127,13 @@ export default function Post({
 
   return (
     <>
-      {/* add a condition to show RepostBar or not */}
-      <RepostBar />
+      {repostedBy.repostedBy?
+      <RepostBar
+        user={repostedBy.repostedBy?.username}
+      />
+      :
+      <></>
+      }
       <PostContainer>
         <LeftSection>
           <a href={`/user/${userId}`}>

@@ -54,6 +54,7 @@ function Hashtag() {
               likes={post.likes}
               userId={post.user.id}
               repostCount={post.repostCount}
+              repostedBy={post.repostedBy}
             />
           ))
         )}

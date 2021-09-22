@@ -2,14 +2,15 @@ import { FaRetweet } from "react-icons/fa";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-export default function RepostBar() {
+export default function RepostBar({ user }) {
+  console.log("user", user)
   return (
     <TopBar>
       <Retweet />
       <p>
-        Re-posted by
+        {`Re-posted by `}
         <Link to="">
-          {/* if user is the same, you else, nome da pessoa*/}
+          {user}
         </Link>
         </p>
     </TopBar>
@@ -31,6 +32,10 @@ const TopBar = styled.div`
 
   p {
     margin: 0 0 0 6px;
+  }
+  
+  a {
+    font-weight: 700;
   }
 `;
 

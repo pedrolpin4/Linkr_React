@@ -54,6 +54,7 @@ function MyLikes() {
               setNewPosts={setNewPosts}
               newPosts={newPosts}
               repostCount={post.repostCount}
+              repostedBy={post.repostedBy}
             />
           ))
         )}

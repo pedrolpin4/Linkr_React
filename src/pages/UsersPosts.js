@@ -33,23 +33,30 @@ function UsersPosts() {
   }, [userData, id])
 
   return (
-    <BaseLayout title={`${username}'s posts`}>{
-      isLoading
-        ? <Loading spinnerSize={30}/>
-        : userPosts.length === 0
-          ? <FeedbackMessage text="Bip Bop, this user has no posts" />
-          : userPosts.map(post => <Post key={post.id}
-                                        username={post.user.username}
-                                        text={post.text}
-                                        link={post.link}
-                                        profilePic={post.user.avatar}
-                                        prevTitle={post.linkTitle}
-                                        prevImage={post.linkImage}
-                                        prevDescription={post.linkDescription}
-                                        id = {post.id}
-                                        likes={post.likes}
-                                        userId={post.user.id}
-                                        repostCount={post.repostCount} />)}
+    <BaseLayout title={`${username}'s posts`}>
+      {isLoading ? (
+        <Loading spinnerSize={30} />
+      ) : userPosts.length === 0 ? (
+        <FeedbackMessage text="Bip Bop, this user has no posts" />
+      ) : (
+        userPosts.map((post) => (
+          <Post
+            key={post.id}
+            username={post.user.username}
+            text={post.text}
+            link={post.link}
+            profilePic={post.user.avatar}
+            prevTitle={post.linkTitle}
+            prevImage={post.linkImage}
+            prevDescription={post.linkDescription}
+            id={post.id}
+            likes={post.likes}
+            userId={post.user.id}
+            repostCount={post.repostCount}
+            repostedBy={post.repostedBy}
+          />
+        ))
+      )}
     </BaseLayout>
   );
 }

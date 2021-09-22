@@ -65,7 +65,6 @@ async function getUserPosts (userId, token){
 async function editingPost (token, id, value) {
     const response = await API.put(`/posts/${id}`, {"text": value}, head(token))
         .catch(() => false)
-    console.log("resp1", response)
     if(response) return response.data
     return false;
 }
