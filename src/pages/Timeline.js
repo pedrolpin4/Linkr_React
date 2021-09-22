@@ -19,8 +19,7 @@ function Timeline() {
 
         async function getPostsData() {
             const { token } = userData;
-
-            const response = await service.getPosts(token);
+            const response = await service.getMyFollowsPosts(token);
 
             if(response && !unmounted) setPosts(response.posts)
             else if(response === false) alert("Desculpe, o servidor saiu pra almoço, por favor atualize a página")
