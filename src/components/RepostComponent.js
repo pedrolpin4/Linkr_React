@@ -1,5 +1,5 @@
-import { FaRetweet } from 'react-icons/fa';
 import styled from 'styled-components';
+import { Retweet, customStyles, ModalButtons } from "../SharedStyles/StyledComponents"
 import { useState, useContext } from "react";
 import Modal from "react-modal";
 import UserContext from '../context/UserContext';
@@ -10,8 +10,6 @@ export default function RepostComponent({ id, repostCount, newPosts, setNewPosts
   const [numberOfReposts, setNumberOfReposts] = useState(repostCount);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
-  console.log("nP", newPosts)
-  console.log("tnP", typeof newPosts)
 
   function repost(token, id) {
     setIsClicked(true);
@@ -21,8 +19,9 @@ export default function RepostComponent({ id, repostCount, newPosts, setNewPosts
         setModalIsOpen(false);
         setNumberOfReposts(numberOfReposts + 1);
         setIsClicked(false);
-        setNewPosts(newPosts + 1);
-        console.log("resp2", response);
+        if (newPosts !== undefined) {
+          setNewPosts(newPosts + 1);
+        }
       } else {
         setModalIsOpen(false);
         setIsClicked(false);
@@ -91,60 +90,6 @@ const RepostContainer = styled.div`
   margin: 22px 0 0;
   text-align: center;
 `
-
-const Retweet = styled(FaRetweet)`
-// combine with Retweet from RepostBar
-  width: 25px;
-  height: 25px;
-  cursor: pointer;
-`
-
-const customStyles = {
-  // combine with customStyles from delete
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    backgroundColor: "#333333",
-    width: "597px",
-    height: "262px",
-    borderRadius: "50px",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  overlay: {
-    zIndex: 1000,
-  },
-};
-
-const ModalButtons = styled.div`
-// combine with ModalButtons from delete
-  margin-top: 30px;
-  button {
-    width: 134px;
-    height: 37px;
-    border-radius: 5px;
-    border: none;
-    font-family: "Lato", sans-serif;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 18px;
-    line-height: 22px;
-    color: #1877f2;
-    cursor: pointer;
-  }
-
-  .second {
-    background-color: #1877f2;
-    color: #fff;
-    margin-left: 27px;
-  }
-`;
 
 const AmountReposts = styled.p`
   font-size: 11px;

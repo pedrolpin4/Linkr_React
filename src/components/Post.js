@@ -13,9 +13,11 @@ import { Link } from "react-router-dom";
 import getYouTubeID from "get-youtube-id";
 import RepostComponent from "./RepostComponent";
 import RepostBar from "./RepostBar";
+import { customStyles, ModalButtons } from "../SharedStyles/StyledComponents";
 
 export default function Post({
   profilePic,
+  repostId,
   link,
   username,
   text,
@@ -25,11 +27,12 @@ export default function Post({
   likes,
   userId,
   id,
+  index,
   setNewPosts,
   newPosts,
   repostCount,
   repostedByUser,
-  repostedById,
+  repostedUserId,
 }) {
   const [isClicked, setIsClicked] = useState(false);
   const inputRef = useRef(null);
@@ -39,30 +42,6 @@ export default function Post({
   const [isDisabled, setIsDisabled] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
   const { userData } = useContext(UserContext);
-
-  console.log(userData, "id", id);
-
-  const customStyles = {
-    content: {
-      top: "50%",
-      left: "50%",
-      right: "auto",
-      bottom: "auto",
-      marginRight: "-50%",
-      transform: "translate(-50%, -50%)",
-      backgroundColor: "#333333",
-      width: "597px",
-      height: "262px",
-      borderRadius: "50px",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    overlay: {
-      zIndex: 1000,
-    },
-  };
 
   async function keyEvents(e) {
     if (e.code === "Escape") {
@@ -127,10 +106,10 @@ export default function Post({
 
   return (
     <>
-      {repostedByUser ? (
+      {repostId ? (
         <RepostBar
           repostedByUser={repostedByUser}
-          repostedById={repostedById}
+          repostedUserId={repostedUserId}
         />
       ) : (
         <></>
@@ -413,28 +392,6 @@ const RightSection = styled.div`
     .username {
       font-size: 17px;
     }
-  }
-`;
-
-const ModalButtons = styled.div`
-  margin-top: 30px;
-  button {
-    width: 134px;
-    height: 37px;
-    border-radius: 5px;
-    border: none;
-    font-family: "Lato", sans-serif;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 18px;
-    line-height: 22px;
-    color: #1877f2;
-  }
-
-  .second {
-    background-color: #1877f2;
-    color: #fff;
-    margin-left: 27px;
   }
 `;
 

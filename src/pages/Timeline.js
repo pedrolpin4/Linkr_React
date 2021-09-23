@@ -41,7 +41,6 @@ function Timeline() {
         clearInterval(interval);
       };
     }, []);
-    console.log("posts", posts)
 
     return (
       <BaseLayout title="timeline" trends={[{ name: "timeline" }]}>
@@ -55,7 +54,7 @@ function Timeline() {
         ) : (
           posts.map((post) => (
             <Post
-              key={post.id}
+              key={post.repostId ? post.repostId : post.id}
               username={post.user.username}
               text={post.text}
               link={post.link}
@@ -66,11 +65,12 @@ function Timeline() {
               likes={post.likes}
               userId={post.user.id}
               id={post.id}
+              repostId={post.repostId ? post.repostId : false}
               setNewPosts={setNewPosts}
               newPosts={newPosts}
               repostCount={post.repostCount}
               repostedByUser={post.repostedBy?.username}
-              repostedById={post.repostedBy?.id}
+              repostedUserId={post.repostedBy?.id}
             />
           ))
         )}

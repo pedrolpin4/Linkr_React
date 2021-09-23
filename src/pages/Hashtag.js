@@ -42,8 +42,9 @@ function Hashtag() {
         ) : (
           hashtagsPosts.map((post) => (
             <Post
-              key={post.id}
+              key={post.repostId ? post.repostId : post.id}
               id={post.id}
+              repostId={post.repostId ? post.repostId : false}
               username={post.user.username}
               text={post.text}
               link={post.link}
@@ -55,7 +56,7 @@ function Hashtag() {
               userId={post.user.id}
               repostCount={post.repostCount}
               repostedByUser={post.repostedBy?.username}
-              repostedById={post.repostedBy?.id}
+              repostedUserId={post.repostedBy?.id}
             />
           ))
         )}

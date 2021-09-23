@@ -1,10 +1,10 @@
-import { FaRetweet } from "react-icons/fa";
+import { Retweet } from "../SharedStyles/StyledComponents";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import UserContext from "../context/UserContext";
 
-export default function RepostBar({ repostedByUser, repostedById }) {
+export default function RepostBar({ repostedByUser, repostedUserId }) {
 
   const { userData } = useContext(UserContext);
 
@@ -13,7 +13,7 @@ export default function RepostBar({ repostedByUser, repostedById }) {
       <Retweet />
       <p>
         {`Re-posted by `}
-        <Link to={`/user/${repostedById}`}>
+        <Link to={`/user/${repostedUserId}`}>
           {repostedByUser === userData.user.username
           ?
           'you'
@@ -45,10 +45,4 @@ const TopBar = styled.div`
   a {
     font-weight: 700;
   }
-`;
-
-const Retweet = styled(FaRetweet)`
-  width: 25px;
-  height: 25px;
-  cursor: pointer;
 `;

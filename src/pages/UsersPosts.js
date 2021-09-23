@@ -25,7 +25,7 @@ function UsersPosts() {
       const response = await service.getUserPosts(id, userData.token);
       if (response && !unmounted) {
         setUserPosts(response.posts);
-        setUsername(response.posts[0].user.username);
+        setUsername(response.posts[0].repostedBy ? response.posts[0].repostedBy.username : response.posts[0].user.username);
       } else if (response === false)
         alert("The birds are eating our comunications lines, sorry.");
       setIsLoading(false);
@@ -116,7 +116,7 @@ function UsersPosts() {
         ) : (
           userPosts.map((post) => (
             <Post
-              key={post.id}
+              key={post.repostId ? post.repostId : post.id}
               username={post.user.username}
               text={post.text}
               link={post.link}
@@ -125,11 +125,12 @@ function UsersPosts() {
               prevImage={post.linkImage}
               prevDescription={post.linkDescription}
               id={post.id}
+              repostId={post.repostId ? post.repostId : false}
               likes={post.likes}
               userId={post.user.id}
               repostCount={post.repostCount}
               repostedByUser={post.repostedBy?.username}
-              repostedById={post.repostedBy?.id}
+              repostedUserId={post.repostedBy?.id}
             />
           ))
         )}
