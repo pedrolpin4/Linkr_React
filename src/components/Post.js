@@ -19,25 +19,24 @@ import RepostComponent from "./RepostComponent";
 import RepostBar from "./RepostBar";
 import { customStyles, ModalButtons } from "../SharedStyles/StyledComponents";
 
-export default function Post({
-  profilePic,
-  repostId,
-  link,
-  username,
-  text,
-  prevTitle,
-  prevDescription,
-  prevImage,
-  likes,
-  userId,
-  id,
-  index,
-  setNewPosts,
-  newPosts,
-  repostCount,
-  repostedByUser,
-  repostedUserId,
-}) {
+export default function Post({ postData }) {
+  const {
+      repostId,
+      link,
+      user,
+      text,
+      linkTitle,
+      linkDescription,
+      linkImage,
+      likes,
+      id,
+      setNewPosts,
+      newPosts,
+      repostCount,
+      repostedByUser,
+      repostedUserId,
+  } = postData
+
   const [isClicked, setIsClicked] = useState(false);
   const inputRef = useRef(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -127,15 +126,15 @@ export default function Post({
       }
       <UpperContainer animate={isCommentBoxActive ? "noRadius" : "radius"} variants={variants}>
         <LeftSection>
-          <a href={`/user/${userId}`}>
-            <img src={profilePic} alt="" />
+          <a href={`/user/${user.id}`}>
+            <img src={user.avatar} alt="" />
           </a>
-          <LikesComponent likes={likes} id={id} userId={userId} />
+          <LikesComponent likes={likes} id={id} userId={user.id} />
 
           <RepostComponent
             repostCount={repostCount}
             id={id}
-            userId={userId}
+            userId={user.id}
             setNewPosts={setNewPosts}
             newPosts={newPosts}
           />
@@ -149,10 +148,10 @@ export default function Post({
           </ShowComments>
         </LeftSection>
 
-        <RightSection shouldhide={userId === userData.user?.id}>
+        <RightSection shouldhide={user.id === userData.user?.id}>
           <header>
             <p className="username">
-              <a href={`/user/${userId}`}>{username}</a>
+              <a href={`/user/${user.id}`}>{user.username}</a>
             </p>
             <FiEdit2
               size={16}
@@ -207,9 +206,9 @@ export default function Post({
             </>
           ) : (
             <Preview
-              title={prevTitle}
-              description={prevDescription}
-              img={prevImage}
+              title={linkTitle}
+              description={linkDescription}
+              img={linkImage}
               link={link}
             />
           )}

@@ -41,16 +41,7 @@ function MyLikes() {
           posts.map((post) => (
             <Post
               key={post.repostId ? post.repostId : post.id}
-              username={post.user.username}
-              text={post.text}
-              link={post.link}
-              profilePic={post.user.avatar}
-              prevTitle={post.linkTitle}
-              prevImage={post.linkImage}
-              prevDescription={post.linkDescription}
-              likes={post.likes}
-              userId={post.user.id}
-              id={post.id}
+              postData={post}
               repostId={post.repostId ? post.repostId : false}
               setNewPosts={setNewPosts}
               newPosts={newPosts}
