@@ -68,9 +68,9 @@ async function editingPost (token, id, value) {
 }
 
 async function getComments(postId, token) {
-    const response = API.post(`/posts/${postId}/comments`, {}, head(token))
+    const response = await API.get(`/posts/${postId}/comments`, head(token))
         .catch(() => false)
-
+    
     if(response) return response.data;
     return false;
 }

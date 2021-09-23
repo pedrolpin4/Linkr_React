@@ -45,6 +45,8 @@ export default function Post({
   const [modalIsOpen, setIsOpen] = useState(false);
   const { userData } = useContext(UserContext);
 
+  const [ isCommentBoxActive, setIsCommentBoxActive ] = useState(false);
+
   async function keyEvents(e) {
     if (e.code === "Escape") {
       setIsEditing(false);
@@ -107,7 +109,7 @@ export default function Post({
   }, [isEditing]);
 
   return (
-    <>
+    <PostContainer>
       {repostId ? (
         <RepostBar
           repostedByUser={repostedByUser}
@@ -115,7 +117,7 @@ export default function Post({
         />
       ) : null
       }
-      <PostContainer>
+      <UpperContainer>
         <LeftSection>
           <a href={`/user/${userId}`}>
             <img src={profilePic} alt="" />
@@ -229,19 +231,23 @@ export default function Post({
             </button>
           </ModalButtons>
         </Modal>
-        <CommentBox postId={id}/>
-      </PostContainer>
-    </>
+      </UpperContainer>
+        <button onClick={() => {setIsCommentBoxActive(!isCommentBoxActive)}}>toggleee</button>
+      <CommentBox postId={id} isActive={isCommentBoxActive} />
+    </PostContainer>
   );
 }
 
 const PostContainer = styled.div`
+  margin-bottom: 20px;
+`
+
+const UpperContainer = styled.div`
   background-color: #171717;
   border-radius: 15px;
   width: 611px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
   padding: 15px;
   min-height: 220px;
   position: relative;
