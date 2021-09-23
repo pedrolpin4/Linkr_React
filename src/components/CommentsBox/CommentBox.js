@@ -13,9 +13,9 @@ export default function CommentBox({ postId }) {
 
     useEffect(() => {
         let unmounted = false;
-
         async function getData() {
             const { token } = userData;
+            console.log(token)
             const response = await service.getComments(postId, token);
             console.log(response)
             if(response && !unmounted) setCommentsData(response);
@@ -40,4 +40,6 @@ const CommentBoxContainer = styled.div`
     position: absolute;
     bottom: 0;
     left: 0;
+    height: 350px;
+    background-color: red;
 `

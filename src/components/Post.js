@@ -113,9 +113,8 @@ export default function Post({
           repostedByUser={repostedByUser}
           repostedUserId={repostedUserId}
         />
-      ) : (
-        <></>
-      )}
+      ) : null
+      }
       <PostContainer>
         <LeftSection>
           <a href={`/user/${userId}`}>
@@ -230,6 +229,7 @@ export default function Post({
             </button>
           </ModalButtons>
         </Modal>
+        <CommentBox postId={id}/>
       </PostContainer>
     </>
   );
