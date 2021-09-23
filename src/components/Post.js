@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useState, useContext, useRef, useEffect } from "react";
 import { FaTrash } from "react-icons/fa";
 import { FiEdit2 } from "react-icons/fi";
+import { AiOutlineComment } from 'react-icons/ai'
 import ReactHashtag from "react-hashtag";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -46,6 +47,7 @@ export default function Post({
   const { userData } = useContext(UserContext);
 
   const [ isCommentBoxActive, setIsCommentBoxActive ] = useState(false);
+  const [ commentsAmmount, setCommentsAmmount ] = useState("");
 
   async function keyEvents(e) {
     if (e.code === "Escape") {
@@ -102,6 +104,11 @@ export default function Post({
     setIsOpen(false);
   }
 
+  function toggleCommentsView(e) {
+    e.stopPropagation();
+    setIsCommentBoxActive(!isCommentBoxActive);
+  }
+
   useEffect(() => {
     if (isEditing) {
       inputRef.current.focus();
@@ -123,6 +130,7 @@ export default function Post({
             <img src={profilePic} alt="" />
           </a>
           <LikesComponent likes={likes} id={id} userId={userId} />
+
           <RepostComponent
             repostCount={repostCount}
             id={id}
@@ -130,6 +138,14 @@ export default function Post({
             setNewPosts={setNewPosts}
             newPosts={newPosts}
           />
+
+          <ShowComments>
+            <AiOutlineComment className="comments-ico"
+                              size={20}
+                              color="#fff"
+                              onClick={e => {toggleCommentsView(e)}}/>
+            <p className="comments-ammount">12 comments</p>
+          </ShowComments>
         </LeftSection>
 
         <RightSection shouldhide={userId === userData.user?.id}>
@@ -232,7 +248,6 @@ export default function Post({
           </ModalButtons>
         </Modal>
       </UpperContainer>
-        <button onClick={() => {setIsCommentBoxActive(!isCommentBoxActive)}}>toggleee</button>
       <CommentBox postId={id} isActive={isCommentBoxActive} />
     </PostContainer>
   );
@@ -248,7 +263,7 @@ const UpperContainer = styled.div`
   width: 611px;
   display: flex;
   justify-content: space-between;
-  padding: 15px;
+  padding: 13px;
   min-height: 220px;
   position: relative;
   -webkit-user-select: none;
@@ -270,7 +285,7 @@ const UpperContainer = styled.div`
 `;
 
 const LeftSection = styled.div`
-  width: 10%;
+  width: 12%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -323,14 +338,34 @@ const LeftSection = styled.div`
   }
 `;
 
+const ShowComments = styled.div`
+  margin-top: 15px;
+  display: flex;
+  flex-direction: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+
+  p {
+    text-align: center;
+    font-size: 11px;
+    font-family: "Lato", sans-serif;
+    color: #fff;
+  }
+
+  .comments-ico {
+    cursor: pointer;
+  }
+`
+
 const RightSection = styled.div`
-  width: 90%;
+  width: 88%;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   height: 100%;
-  padding-left: 20px;
+  padding-left: 15px;
 
   .delete {
     cursor: pointer;

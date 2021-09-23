@@ -87,7 +87,7 @@ export default function RepostComponent({ id, repostCount, newPosts, setNewPosts
 }
 
 const RepostContainer = styled.div`
-  margin: 22px 0 0;
+  margin: 15px 0 0;
   text-align: center;
 `
 

@@ -60,7 +60,7 @@ const LeftSection = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  overflow-x: hidden;
+  overflow: hidden;
   @media (max-width: 611px) {
     width: 100vw;
   }
