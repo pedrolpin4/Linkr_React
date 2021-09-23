@@ -27,9 +27,9 @@ export default function CommentBox({ postId, isActive }) {
     }, [userData, postId])
 
     return (
-        <CommentBoxContainer /* isActive={isActive} */ layout animate={isActive ? "active" : "unactive"} variants={variants}>{
+        <CommentBoxContainer layout animate={isActive ? "active" : "unactive"} variants={variants}>{
             isLoading
-                ? <Loading spinnerSize={30}/>
+                ? null
                 : commentsData.map(comment => <p key={comment.id}>Comentário</p>)
         }</CommentBoxContainer>
     )

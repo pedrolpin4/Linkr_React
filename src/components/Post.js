@@ -7,6 +7,7 @@ import ReactHashtag from "react-hashtag";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import getYouTubeID from "get-youtube-id";
+import { motion } from "framer-motion";
 
 import LikesComponent from "./LikesComponent";
 import Modal from "react-modal";
@@ -124,7 +125,7 @@ export default function Post({
         />
       ) : null
       }
-      <UpperContainer>
+      <UpperContainer animate={isCommentBoxActive ? "noRadius" : "radius"} variants={variants}>
         <LeftSection>
           <a href={`/user/${userId}`}>
             <img src={profilePic} alt="" />
@@ -257,7 +258,7 @@ const PostContainer = styled.div`
   margin-bottom: 20px;
 `
 
-const UpperContainer = styled.div`
+const UpperContainer = styled(motion.div)`
   background-color: #171717;
   border-radius: 15px;
   width: 611px;
@@ -456,3 +457,10 @@ const EditInput = styled.textarea`
     outline: none;
   }
 `;
+
+const variants = {
+  noRadius: { borderRadius: "0px" },
+  radius: { borderRadius: "15px", transition: {
+    delay: .1
+  }}
+}
