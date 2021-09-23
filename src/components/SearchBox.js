@@ -4,6 +4,8 @@ import { useState, useContext } from "react";
 import UserContext from "../context/UserContext";
 import axios from "axios";
 import { useEffect } from "react/cjs/react.development";
+import { Link } from "react-router-dom";
+import { ImSearch } from "react-icons/im";
 
 function SearchBox() {
   const { userData } = useContext(UserContext);
@@ -21,35 +23,45 @@ function SearchBox() {
         }
       );
       req.then((resp) => {
-        setSearchUsers(resp.data.users);
+        setSearchUsers(
+          resp.data.users.sort(function (x, y) {
+            return x.isFollowingLoggedUser === y.isFollowingLoggedUser
+              ? 0
+              : x.isFollowingLoggedUser
+              ? -1
+              : 1;
+          })
+        );
         console.log(resp.data.users);
       });
       req.catch((error) => console.log(error.response));
-    } else {
-      // com menos de 3 caracteres a lista de usuarios deve sumir
-    } 
-  },[searchInput]);
-  
+    }
+  }, [searchInput]);
+
   return (
     <Container>
-      <DebounceInput
-        placeholder="Search for people and friends"
-        className="caixa"
-        minLength={3}
-        debounceTimeout={300}
-        onChange={(e) => setSearchInput(e.target.value)}
-      ></DebounceInput>
-      <UsersListBox>
-          {searchUsers === "" ? "" : searchUsers.map((user) => (
-            <User>
-              <img
-                src={user.avatar}
-                alt=""
-              />
-              <h1>{user.username}</h1>
-              <h2>{user.isFollowingLoggedUser ? "• following" : ""}</h2>
-            </User>
-          ))}
+      <SearchContainer>
+        <DebounceInput
+          placeholder="Search for people and friends"
+          className="caixa"
+          minLength={3}
+          debounceTimeout={300}
+          onChange={(e) => setSearchInput(e.target.value)}
+        ></DebounceInput>
+        <ImSearch size={25} color="#c6c6c6" />
+      </SearchContainer>
+      <UsersListBox toShow={searchInput.length >= 3}>
+        {searchUsers === ""
+          ? ""
+          : searchUsers.map((user) => (
+              <Link to={`/user/${user.id}`}>
+                <User>
+                  <img src={user.avatar} alt={user.username} />
+                  <h1>{user.username}</h1>
+                  <h2>{user.isFollowingLoggedUser ? "• following" : ""}</h2>
+                </User>
+              </Link>
+            ))}
       </UsersListBox>
     </Container>
   );
@@ -62,38 +74,50 @@ const Container = styled.div`
   height: 100vh;
   background-color: lightskyblue;
   padding: 20px;
+`;
+
+const SearchContainer = styled.div`
+  width: 575px;
+  height: 45px;
+  background-color: #FFF;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: calc((100vw / 2) - 574px / 2);
+  padding-right: 10px;
+  position: absolute;
+  //z-index: 100;
 
   .caixa {
-    width: 563px;
+    width: 100%;
     height: 45px;
-    background: #fff;
     border-radius: 8px;
     border: none;
     outline: none;
-    margin-left: calc((100vw / 2) - 563px / 2);
+    //margin-left: calc((100vw / 2) - 563px / 2);
     font-family: Lato;
     font-size: 19px;
     padding: 0 0 0 15px;
     color: gray;
-    z-index: 1;
   }
 `;
 
 const UsersListBox = styled.ul`
-  width: 563px;
+  width: 575px;
   height: auto;
   background-color: #e7e7e7;
-  margin-left: calc((100vw / 2) - 563px / 2);
-  margin-top: -10px;
-  padding-top: 20px;
+  margin-left: calc((100vw / 2) - 575px / 2);
+  margin-top: 30px;
+  padding: 20px 0 3px 0;
   border-radius: 8px;
-  padding-bottom: 3px;
+  display: ${(props) => (props.toShow ? "inherit" : "none")};
+  //z-index: -1;
 `;
 
 const User = styled.li`
   width: 100%;
   height: 50px;
-  background-color: lightgreen;
   display: flex;
   align-items: center;
   padding-left: 10px;

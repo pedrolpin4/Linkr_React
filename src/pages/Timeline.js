@@ -10,17 +10,17 @@ import FeedbackMessage from '../components/FeedbackMessage';
 
 
 function Timeline() {
-    const { userData } = useContext(UserContext);
+    const { userData, following } = useContext(UserContext);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ posts, setPosts ] = useState([]);
     const [ newPosts, setNewPosts ] = useState(0);
+    
     useEffect(() => {
         let unmounted = false;
 
         async function getPostsData() {
             const { token } = userData;
-
-            const response = await service.getPosts(token);
+            const response = await service.getMyFollowsPosts(token);
 
             if(response && !unmounted) setPosts(response.posts)
             else if(response === false) alert("Desculpe, o servidor saiu pra almoço, por favor atualize a página")
@@ -33,12 +33,14 @@ function Timeline() {
     },[newPosts, userData])
 
     useEffect(() => {
-        let interval = setInterval(() => {
-            setNewPosts(prevState => prevState + 1)
-        }, 15000)
+      let interval = setInterval(() => {
+        setNewPosts((prevState) => prevState + 1);
+      }, 15000);
 
-        return () => { clearInterval(interval) }
-    }, [])
+      return () => {
+        clearInterval(interval);
+      };
+    }, []);
 
     return (
         <BaseLayout
@@ -49,21 +51,25 @@ function Timeline() {
             {
             isLoading
                 ? <Loading spinnerSize={30}/>
-                : posts.length === 0
-                    ? <FeedbackMessage/>
-                    : posts.map(post => <Post key={post.id}
-                                                       username={post.user.username} 
-                                                       text={post.text}
-                                                       link={post.link}
-                                                       profilePic={post.user.avatar}
-                                                       prevTitle={post.linkTitle}
-                                                       prevImage={post.linkImage}
-                                                       prevDescription={post.linkDescription}
-                                                       likes={post.likes}
-                                                       userId={post.user.id}
-                                                       id={post.id}
-                                                       setNewPosts={setNewPosts}
-                                                       newPosts={newPosts} />)
+                : following.length === 0 && posts.length === 0
+                    ? <FeedbackMessage text="You don't follow anyone yet, search for someone"/>
+                    : posts.map(post => <Post key={post.repostId ? post.repostId : post.id}
+                                              username={post.user.username}
+                                              text={post.text}
+                                              link={post.link}
+                                              profilePic={post.user.avatar}
+                                              prevTitle={post.linkTitle}
+                                              prevImage={post.linkImage}
+                                              prevDescription={post.linkDescription}
+                                              likes={post.likes}
+                                              userId={post.user.id}
+                                              id={post.id}
+                                              repostId={post.repostId ? post.repostId : false}
+                                              setNewPosts={setNewPosts}
+                                              newPosts={newPosts}
+                                              repostCount={post.repostCount}
+                                              repostedByUser={post.repostedBy?.username}
+                                              repostedUserId={post.repostedBy?.id} />)
         }</BaseLayout>
     )
 }

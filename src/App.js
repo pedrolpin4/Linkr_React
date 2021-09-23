@@ -12,21 +12,60 @@ import MyPosts from "./pages/MyPosts";
 import Timeline from "./pages/Timeline";
 import UsersPosts from "./pages/UsersPosts";
 import BaseLayout from "./components/BaseLayout";
+
 import SearchBox from "./components/SearchBox"; //tirar depois
+
+import service from "./service/post";
+
 
 function App() {
   const [ userData, setUserData ] = useState({});
+  const [ following, setFollowing ] = useState([]);
 
   useEffect(() => {
     const userLogin = JSON.parse(localStorage.getItem("userLogin"));
     if(userLogin) setUserData(userLogin);
   }, []);
 
+  useEffect(() => {
+    if(userData.token) {
+      updateFollowsList(userData.token)
+    }
+  }, [userData])
+
+  /**
+   * @author Yohan L. 
+   * This function requires a updated list of user's following profiles and stores it in a local state
+   * @param {string} token the user.token provided by userData
+   * @return {Promise} resolves to the updated data or false in case of failure
+   */
+  async function updateFollowsList(token) {
+    const response = await service.getMyFollows(token);
+    if(response) {
+      setFollowing(response.users);
+      return response;
+    }
+    return false;
+  }
+
+  /**
+   * @author Yohan L. 
+   * This function search for a correspondent user in following list
+   * @param {Number} userId the user.id that should be searched
+   * @return  if userId match any following user, returns the respective user data, returns false otherwise
+   */
+  function searchUserInFollowing(userId) {
+    return following.find(element => element.id === userId);
+  }
+
   return (
     <UserContext.Provider
       value={{
         userData,
         setUserData,
+        updateFollowsList,
+        following,
+        searchUserInFollowing
       }}
     >
       <Router>

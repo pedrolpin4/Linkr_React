@@ -69,6 +69,28 @@ async function editingPost (token, id, value) {
     return false;
 }
 
+async function repostingPost (token, id) {
+    const response = await API.post(`/posts/${id}/share`, {}, head(token))
+        .catch(() => false)
+    if (response) return response.data
+}
+
+async function getMyFollowsPosts(token) {
+    const response = await API.get("/following/posts", head(token))
+        .catch(() => false)
+
+    if(response.data) return response.data;
+    return false;
+}
+
+async function getMyFollows(token) {
+    const response = await API.get("/users/follows", head(token))
+        .catch(() => false)
+
+    if(response) return response.data;
+    return false;
+}
+
 const service =  {
     getHashtags,
     getHashtagsPosts,
@@ -79,6 +101,9 @@ const service =  {
     getMyPosts,
     getLikedPosts,
     editingPost,
+    repostingPost,
+    getMyFollowsPosts,
+    getMyFollows
 }
 
 export default service;
