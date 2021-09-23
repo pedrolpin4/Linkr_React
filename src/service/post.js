@@ -69,6 +69,12 @@ async function editingPost (token, id, value) {
     return false;
 }
 
+async function repostingPost (token, id) {
+    const response = await API.post(`/posts/${id}/share`, {}, head(token))
+        .catch(() => false)
+    if (response) return response.data
+}
+
 async function getMyFollowsPosts(token) {
     const response = await API.get("/following/posts", head(token))
         .catch(() => false)
@@ -95,6 +101,7 @@ const service =  {
     getMyPosts,
     getLikedPosts,
     editingPost,
+    repostingPost,
     getMyFollowsPosts,
     getMyFollows
 }

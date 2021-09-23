@@ -11,9 +11,13 @@ import UserContext from "../context/UserContext";
 import service from "../service/post";
 import { Link } from "react-router-dom";
 import getYouTubeID from "get-youtube-id";
+import RepostComponent from "./RepostComponent";
+import RepostBar from "./RepostBar";
+import { customStyles, ModalButtons } from "../SharedStyles/StyledComponents";
 
 export default function Post({
   profilePic,
+  repostId,
   link,
   username,
   text,
@@ -23,8 +27,12 @@ export default function Post({
   likes,
   userId,
   id,
+  index,
   setNewPosts,
   newPosts,
+  repostCount,
+  repostedByUser,
+  repostedUserId,
 }) {
   const [isClicked, setIsClicked] = useState(false);
   const inputRef = useRef(null);
@@ -35,46 +43,28 @@ export default function Post({
   const [modalIsOpen, setIsOpen] = useState(false);
   const { userData } = useContext(UserContext);
 
-  const customStyles = {
-    content: {
-      top: "50%",
-      left: "50%",
-      right: "auto",
-      bottom: "auto",
-      marginRight: "-50%",
-      transform: "translate(-50%, -50%)",
-      backgroundColor: "#333333",
-      width: "597px",
-      height: "262px",
-      borderRadius: "50px",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    overlay: {
-      zIndex: 1000,
-    },
-  };
+  async function keyEvents(e) {
+    if (e.code === "Escape") {
+      setIsEditing(false);
+      setCurrentValue(lastValue);
+    } else if (e.code === "Enter") {
+      setIsDisabled(true);
+      const response = await service.editingPost(
+        userData.token,
+        id,
+        currentValue
+      );
 
-  async function keyEvents (e){
-      if( e.code === "Escape"){
-        setIsEditing(false)
-        setCurrentValue(lastValue)
-      } else if(e.code === "Enter"){
-          setIsDisabled(true)
-          const response = await service.editingPost(userData.token, id, currentValue)
-
-          if(response) {
-            setIsEditing(false)
-            setLastValue(response.post.text)
-            setIsDisabled(false)
-          } else {
-            setIsDisabled(false)
-            inputRef.current.focus()
-            alert("Something went wrong while editing your post")
-          }
+      if (response) {
+        setIsEditing(false);
+        setLastValue(response.post.text);
+        setIsDisabled(false);
+      } else {
+        setIsDisabled(false);
+        inputRef.current.focus();
+        alert("Something went wrong while editing your post");
       }
+    }
   }
 
   function toDeletePost(id) {
@@ -115,112 +105,131 @@ export default function Post({
   }, [isEditing]);
 
   return (
-    <PostContainer>
-      <LeftSection>
-        <a href={`/user/${userId}`}>
-          <img src={profilePic} alt="" />
-        </a>
-        <LikesComponent likes={likes} id={id} userId={userId} />
-      </LeftSection>
+    <>
+      {repostId ? (
+        <RepostBar
+          repostedByUser={repostedByUser}
+          repostedUserId={repostedUserId}
+        />
+      ) : (
+        <></>
+      )}
+      <PostContainer>
+        <LeftSection>
+          <a href={`/user/${userId}`}>
+            <img src={profilePic} alt="" />
+          </a>
+          <LikesComponent likes={likes} id={id} userId={userId} />
+          <RepostComponent
+            repostCount={repostCount}
+            id={id}
+            userId={userId}
+            setNewPosts={setNewPosts}
+            newPosts={newPosts}
+          />
+        </LeftSection>
 
-      <RightSection shouldhide={userId === userData.user?.id}>
-        <header>
-          <p className="username">
-            <a href={`/user/${userId}`}>{username}</a>
-          </p>
-          <FiEdit2
-            size={16}
-            className="edit"
-            onClick={() => {
-              if (isEditing) {
-                setIsEditing(false);
-                setCurrentValue(lastValue);
-              } else {
-                setIsEditing(true);
-              }
-            }}
-          />
-          <FaTrash size={16} className="delete" onClick={openModal} />
-          {isEditing ? (
-            <EditInput
-              ref={inputRef}
-              value={currentValue}
-              disabled={isDisabled}
-              onChange={(e) => setCurrentValue(e.target.value)}
-              onKeyDown={(e) => keyEvents(e)}
+        <RightSection shouldhide={userId === userData.user?.id}>
+          <header>
+            <p className="username">
+              <a href={`/user/${userId}`}>{username}</a>
+            </p>
+            <FiEdit2
+              size={16}
+              className="edit"
+              onClick={() => {
+                if (isEditing) {
+                  setIsEditing(false);
+                  setCurrentValue(lastValue);
+                } else {
+                  setIsEditing(true);
+                }
+              }}
             />
+            <FaTrash size={16} className="delete" onClick={openModal} />
+            {isEditing ? (
+              <EditInput
+                ref={inputRef}
+                value={currentValue}
+                disabled={isDisabled}
+                onChange={(e) => setCurrentValue(e.target.value)}
+                onKeyDown={(e) => keyEvents(e)}
+              />
+            ) : (
+              <ReactHashtag
+                onHashtagClick={(val) => alert(val)}
+                renderHashtag={(hashtag) => (
+                  <Link
+                    className="hashtag"
+                    key={hashtag}
+                    to={`/hashtag/${hashtag.substr(1)}`}
+                  >
+                    {hashtag}
+                  </Link>
+                )}
+              >
+                {currentValue}
+              </ReactHashtag>
+            )}
+          </header>
+          {link.match("^https?://www.youtube.com/watch") ? (
+            <>
+              <iframe
+                title={link}
+                width="98%"
+                height="290"
+                className="youtube"
+                src={`https://www.youtube.com/embed/${getYouTubeID(link)}`}
+              ></iframe>
+              <a href={link} className="youtubeLink">
+                {link}
+              </a>
+            </>
           ) : (
-            <ReactHashtag
-              onHashtagClick={(val) => alert(val)}
-              renderHashtag={(hashtag) => (
-                <Link
-                  className="hashtag"
-                  key={hashtag}
-                  to={`/hashtag/${hashtag.substr(1)}`}
-                >
-                  {hashtag}
-                </Link>
-              )}
-            >
-              {currentValue}
-            </ReactHashtag>
+            <Preview
+              title={prevTitle}
+              description={prevDescription}
+              img={prevImage}
+              link={link}
+            />
           )}
-        </header>
-        {link.match("^https?://www.youtube.com/watch") ? (
-          <>
-          <iframe
-          title={link}
-            width="98%"
-            height="290"
-            className="youtube"
-            src={`https://www.youtube.com/embed/${getYouTubeID(link)}`}
-          ></iframe>
-          <a href={link} className="youtubeLink">{link}</a>
-          </>
-        ) : (
-          <Preview
-            title={prevTitle}
-            description={prevDescription}
-            img={prevImage}
-            link={link}
-          />
-        )}
-      </RightSection>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        style={customStyles}
-        ariaHideApp={false}
-        contentLabel="Example Modal"
-      >
-        <h2
-          style={{
-            color: "white",
-            fontSize: "34px",
-            fontWeight: "bold",
-            width: "358px",
-            fontFamily: "Lato",
-            textAlign: "center",
-          }}
+        </RightSection>
+        <Modal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          style={customStyles}
+          ariaHideApp={false}
+          contentLabel="Example Modal"
         >
-          {isClicked
-            ? "Loading..."
-            : "Are you sure you want to delete this post?"}
-        </h2>
-        <ModalButtons>
-          <button disabled={isClicked} onClick={closeModal}>
-            No, return
-          </button>
-          <button
-            className="second"
-            disabled={isClicked}
-            onClick={() => toDeletePost(id)}
+          <h2
+            style={{
+              color: "white",
+              fontSize: "34px",
+              fontWeight: "bold",
+              width: "358px",
+              fontFamily: "Lato",
+              textAlign: "center",
+            }}
           >
-            Yes, delete it
-          </button>
-        </ModalButtons>
-      </Modal>
-    </PostContainer>
+            {isClicked
+              ? "Loading..."
+              : "Are you sure you want to delete this post?"}
+          </h2>
+          <ModalButtons>
+            <button disabled={isClicked} onClick={closeModal}>
+              No, return
+            </button>
+            <button
+              className="second"
+              disabled={isClicked}
+              onClick={() => toDeletePost(id)}
+            >
+              Yes, delete it
+            </button>
+          </ModalButtons>
+        </Modal>
+      </PostContainer>
+    </>
   );
 }
 
@@ -268,7 +277,8 @@ const LeftSection = styled.div`
   }
 
   .likes {
-    font-size: 12px;
+    font-size: 11px;
+    line-height: 13px;
     margin-top: 5px;
     -webkit-user-select: none;
     -ms-user-select: none;
@@ -382,28 +392,6 @@ const RightSection = styled.div`
     .username {
       font-size: 17px;
     }
-  }
-`;
-
-const ModalButtons = styled.div`
-  margin-top: 30px;
-  button {
-    width: 134px;
-    height: 37px;
-    border-radius: 5px;
-    border: none;
-    font-family: "Lato", sans-serif;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 18px;
-    line-height: 22px;
-    color: #1877f2;
-  }
-
-  .second {
-    background-color: #1877f2;
-    color: #fff;
-    margin-left: 27px;
   }
 `;
 
