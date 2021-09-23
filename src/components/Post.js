@@ -145,7 +145,7 @@ export default function Post({
                               size={20}
                               color="#fff"
                               onClick={e => {toggleCommentsView(e)}}/>
-            <p className="comments-ammount">12 comments</p>
+            <p className="comments-ammount">{`${commentsAmmount} comments`}</p>
           </ShowComments>
         </LeftSection>
 
@@ -249,7 +249,7 @@ export default function Post({
           </ModalButtons>
         </Modal>
       </UpperContainer>
-      <CommentBox postId={id} isActive={isCommentBoxActive} />
+      <CommentBox postId={id} isActive={isCommentBoxActive} setCommentsAmmount={setCommentsAmmount}/>
     </PostContainer>
   );
 }
