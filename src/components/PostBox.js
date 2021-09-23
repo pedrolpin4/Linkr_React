@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
 import axios from "axios";
 import UserContext from "../context/UserContext";
+import LocationComponent from "./LocationComponent";
 
 function PostBox({newPosts, setNewPosts}) {
   const { userData } = useContext(UserContext);
@@ -68,6 +69,7 @@ function PostBox({newPosts, setNewPosts}) {
           disabled={clicked}
         ></Text>
         <ButtonDiv>
+          <LocationComponent />
           <PublishButton onClick={toPublishPost} disabled={clicked}>
             {clicked ? "Publishing..." : "Publish"}
           </PublishButton>
@@ -156,7 +158,7 @@ const Text = styled.textarea`
   background: #efefef;
   border-radius: 5px;
   border: none;
-  margin: 0 auto 15px auto;
+  margin: 0 auto 5px auto;
   padding: 10px;
   word-break: break-word;
   word-break: break-all;
@@ -171,7 +173,8 @@ const Text = styled.textarea`
 
 const ButtonDiv = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: flex-start;
 `;
 
 const PublishButton = styled.button`
