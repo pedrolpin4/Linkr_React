@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import UserContext from '../../context/UserContext';
 import Loading from '../Loading';
 
-export default function CommentWritter() {
+export default function CommentWritter({ postData }) {
     const { userData } = useContext(UserContext);
 
     return (
@@ -26,6 +26,7 @@ const CommentWriterContainer = styled.div`
     align-items: center;
     justify-content: space-between;
     padding: 20px 10px;
+    position: relative;
 
     img {
         width: 38px;
