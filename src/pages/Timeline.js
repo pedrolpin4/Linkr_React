@@ -54,7 +54,7 @@ function Timeline() {
             : following.length === 0 && posts.length === 0
               ? <FeedbackMessage text="You don't follow anyone yet, search for someone"/>
               : posts.map(post => <Post 
-                                    key={post.id}
+                                    key={post.repostId ? post.repostId : post.id}
                                     username={post.user.username} 
                                     text={post.text}
                                     link={post.link}
