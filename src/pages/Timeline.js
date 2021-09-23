@@ -7,6 +7,7 @@ import service from '../service/post';
 import PostBox from "../components/PostBox";
 import UserContext from "../context/UserContext";
 import FeedbackMessage from '../components/FeedbackMessage';
+import InfiniteScroll from "react-infinite-scroller";
 
 
 function Timeline() {

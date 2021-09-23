@@ -32,7 +32,7 @@ function PreviewModal ({showModal, setShowModal, link}){
                         <ModalContainer>
                             <TopSection>
                                 <ModalButton>
-                                    <a href = {link} target = "_blank">
+                                    <a href = {link} target = "_blank" rel="noreferrer">
                                         Open in new tab
                                     </a>  
                                 </ModalButton> 
@@ -45,7 +45,6 @@ function PreviewModal ({showModal, setShowModal, link}){
                                     title={link}
                                     width="100%"
                                     height="100%"
-                                    is = "x-frame-bypass"
                                     src={link}
                                 ></iframe>
                             </LinkScreen>
