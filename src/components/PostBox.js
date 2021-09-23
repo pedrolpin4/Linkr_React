@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { useContext, useState } from "react"; // importar useContext
+import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
 import axios from "axios";
 import UserContext from "../context/UserContext";
 
@@ -46,34 +47,33 @@ function PostBox({newPosts, setNewPosts}) {
   }
 
   return (
-      <CreatePostBox>
-        <ImageUser>
-          <img
-            src={userData.user?.avatar}
-            alt=""
-          />
-        </ImageUser>
-        <PostContent>
-          <h1>What do you have to post today?</h1>
-          <URL
-            placeholder="http://..."
-            onChange={(e) => setUrl(e.target.value)}
-            value={url}
-            disabled={clicked}
-          ></URL>
-          <Text
-            placeholder="What's happening?"
-            onChange={(e) => setText(e.target.value)}
-            value={text}
-            disabled={clicked}
-          ></Text>
-          <ButtonDiv>
-            <PublishButton onClick={toPublishPost} disabled={clicked}>
-              {clicked ? "Publishing..." : "Publish"}
-            </PublishButton>
-          </ButtonDiv>
-        </PostContent>
-      </CreatePostBox>
+    <CreatePostBox>
+      <ImageUser>
+        <Link to={`/user/${userData.user?.id}`}>
+          <img src={userData.user?.avatar} alt="" />
+        </Link>
+      </ImageUser>
+      <PostContent>
+        <h1>What do you have to post today?</h1>
+        <URL
+          placeholder="http://..."
+          onChange={(e) => setUrl(e.target.value)}
+          value={url}
+          disabled={clicked}
+        ></URL>
+        <Text
+          placeholder="What's happening?"
+          onChange={(e) => setText(e.target.value)}
+          value={text}
+          disabled={clicked}
+        ></Text>
+        <ButtonDiv>
+          <PublishButton onClick={toPublishPost} disabled={clicked}>
+            {clicked ? "Publishing..." : "Publish"}
+          </PublishButton>
+        </ButtonDiv>
+      </PostContent>
+    </CreatePostBox>
   );
 }
 
@@ -187,6 +187,7 @@ const PublishButton = styled.button`
   justify-content: center;
   align-items: center;
   border: none;
+  cursor: pointer;
 
   @media (max-width: 600px) {
     height: 22px;
