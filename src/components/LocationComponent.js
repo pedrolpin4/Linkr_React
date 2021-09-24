@@ -52,6 +52,10 @@ const LocationButton = styled.button`
   cursor: pointer;
   padding: 0px;
   margin: 5px 0 0;
+
+  @media(max-width: 600px) {
+    margin: 2px 0 0;
+  }
 `;
 
 const LocationIcon = styled(IoLocationOutline)`

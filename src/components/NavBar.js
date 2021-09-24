@@ -82,7 +82,7 @@ const NavBarContainer = styled.div`
   padding: 0px 15px 0px 28px;
   z-index: 100;
   @media(max-width: 600px){
-    padding: 0px 16px; 
+    padding: 0px 9px 0 17px; 
   }
 `
 

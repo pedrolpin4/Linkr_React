@@ -40,9 +40,18 @@ const TopBar = styled.div`
 
   p {
     margin: 0 0 0 6px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
-  
+
   a {
     font-weight: 700;
+  }
+
+  @media (max-width: 600px) {
+    width: 100vw;
+    border-radius: 0;
+    margin-bottom: -15px;
   }
 `;

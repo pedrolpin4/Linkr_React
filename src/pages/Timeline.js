@@ -42,8 +42,6 @@ function Timeline() {
       };
     }, []);
 
-    
-
     return (
         <BaseLayout
             title="timeline"

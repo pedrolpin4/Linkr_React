@@ -202,5 +202,7 @@ const PublishButton = styled.button`
 
   @media (max-width: 600px) {
     height: 22px;
+    font-size: 13px;
+    line-height: 16px;
   }
 `;

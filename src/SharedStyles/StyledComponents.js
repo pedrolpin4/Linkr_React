@@ -11,6 +11,11 @@ const Retweet = styled(FaRetweet)`
   width: 25px;
   height: 25px;
   cursor: pointer;
+
+  @media(max-width: 600px) {
+    width: 18px;
+    height: 18px;
+  }
 `;
 
 const customStyles = {

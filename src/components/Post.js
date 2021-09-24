@@ -264,11 +264,18 @@ const PostContainer = styled.div`
 
   .youtubeLink {
     margin-bottom: 5px;
+    font-size: 17px;
+    line-height: 20px;
   }
 
   @media screen and (max-width: 600px) {
     width: 100%;
     border-radius: 0px;
+
+    .youtubeLink {
+      font-size: 15px;
+      line-height: 18px;
+    }
   }
 `;
 
@@ -309,6 +316,7 @@ const LeftSection = styled.div`
   @media screen and (max-width: 600px) {
     .likes {
       font-size: 9px;
+      line-height: 11px;
       text-align: center;
     }
 
@@ -391,16 +399,15 @@ const RightSection = styled.div`
     }
 
     .delete {
-      top: 3px;
       right: 7px;
     }
 
     .edit {
-      top: 3px;
       right: 32px;
     }
 
-    svg {
+    .delete,
+    .edit {
       width: 12px;
       height: 14px;
     }

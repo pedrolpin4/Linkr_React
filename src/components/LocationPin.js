@@ -71,6 +71,10 @@ const LocationIcon = styled(IoLocationSharp)`
   width: 18.5px;
   height: 18.5px;
   cursor: pointer;
+
+  @media(max-width: 600px) {
+    width: 16px;
+  }
 `;
 
 const Modal = styled.div`
@@ -87,23 +91,21 @@ const Modal = styled.div`
   flex-direction: column;
   align-items: center;
 
-  h2 {
-    font-family: "Oswald", sans-serif;
-    font-weight: bold;
-    font-size: 38px;
-    line-height: 56px;
-    color: #ffffff;
-  }
-
-  p {
-    font-size: 19.74px;
-    color: #ffffff;
-    cursor: pointer;
-  }
-
   .leaflet-container {
     height: 240px;
     width: 713px;
+  }
+
+  @media (max-width: 790px) {
+    width: 100vw;
+    height: auto;
+    left: 0px;
+    padding: 0 15px 20px;
+  }
+
+  .leaflet-container {
+    height: 200px;
+    width: 100%;
   }
 `;
 
@@ -113,6 +115,36 @@ const TopSection = styled.div`
   justify-content: space-between;
   padding: 10px 36px 15px 40px;
   width: 100%;
+
+  h2 {
+    font-family: "Oswald", sans-serif;
+    font-weight: bold;
+    font-size: 38px;
+    line-height: 56px;
+    color: #ffffff;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin: 0 5px 0 0;
+  }
+
+  p {
+    font-size: 19.74px;
+    color: #ffffff;
+    cursor: pointer;
+  }
+
+  @media (max-width: 790px) {
+    padding: 10px 0;
+
+    h2 {
+      font-size: 22px;
+      line-height: 28px;
+    }
+
+    p {
+    }
+  } ;
 `;
 
 const ModalBackground = styled.div`
@@ -124,16 +156,3 @@ const ModalBackground = styled.div`
   background-color: rgba(255,255,255,0.6);
   z-index: 120;
 `
-const ModalContainer = styled.div`
-  padding: 15px 20px 21px 20px;
-
-  @media (max-width: 1000px) {
-    width: 580px;
-    left: calc((100% - 580px) / 2);
-  }
-
-  @media (max-width: 600px) {
-    width: 100vw;
-    left: 0px;
-  }
-`;
