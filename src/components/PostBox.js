@@ -30,14 +30,12 @@ function PostBox({newPosts, setNewPosts}) {
           geolocation: {
             latitude: getGeolocation.coords ? getGeolocation.coords.latitude : "",
             longitude: getGeolocation.coords ? getGeolocation.coords.longitude : "",
-            /* ver uma forma melhor de fazer essa condição */
           },
         },
         config
       );
 
       req.then((resp) => {
-        console.log(resp)
         setUrl("");
         setText("");
         setClicked(false);

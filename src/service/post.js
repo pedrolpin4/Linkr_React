@@ -78,7 +78,6 @@ async function repostingPost (token, id) {
 async function getMyFollowsPosts(token) {
     const response = await API.get("/following/posts", head(token))
         .catch(() => false)
-    console.log("followposts", response);
 
     if(response.data) return response.data;
     return false;
