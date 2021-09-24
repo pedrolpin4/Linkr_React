@@ -29,6 +29,8 @@ function MyPosts() {
         return () => { unmounted = true };
     }, [userData, newPosts])
 
+    console.log(posts)
+    
     return (
       <BaseLayout title="my posts">
         {isLoading ? (

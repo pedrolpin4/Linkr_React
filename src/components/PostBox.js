@@ -10,6 +10,8 @@ function PostBox({newPosts, setNewPosts}) {
   const [url, setUrl] = useState("");
   const [text, setText] = useState("");
   const [clicked, setClicked] = useState(false);
+  const [getGeolocation, setGetGeolocation] = useState({});
+
 
   function toPublishPost() {
     setClicked(true);
@@ -25,11 +27,17 @@ function PostBox({newPosts, setNewPosts}) {
         {
           text,
           link: url,
+          geolocation: {
+            latitude: getGeolocation.coords ? getGeolocation.coords.latitude : "",
+            logitude: getGeolocation.coords ? getGeolocation.coords.longitude : "",
+            /* ver uma forma melhor de fazer essa condição */
+          },
         },
         config
       );
 
       req.then((resp) => {
+        console.log(resp)
         setUrl("");
         setText("");
         setClicked(false);
@@ -69,7 +77,7 @@ function PostBox({newPosts, setNewPosts}) {
           disabled={clicked}
         ></Text>
         <ButtonDiv>
-          <LocationComponent />
+          <LocationComponent setGetGeolocation={setGetGeolocation} />
           <PublishButton onClick={toPublishPost} disabled={clicked}>
             {clicked ? "Publishing..." : "Publish"}
           </PublishButton>

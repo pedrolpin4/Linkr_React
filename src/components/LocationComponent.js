@@ -2,17 +2,39 @@ import styled from "styled-components";
 import { IoLocationOutline } from "react-icons/io5";
 import { useState } from "react";
 
-export default function LocationComponent () {
+export default function LocationComponent ({ setGetGeolocation }) {
 
   const [ isActive, setIsActive ] = useState(false);
 
-  function ActivateLocation () {
+  function toggleLocation () {
+    console.log("here");
     setIsActive(!isActive);
-    // mandar pedido pro browser
+
+    function GeoSuccess(position) {
+      setGetGeolocation(position);
+      console.log("pos", position);
+      /* Deactive button when browser prompt is asking user whether he/she wants to share their location */
+      /* If person turns off location from the address bar, the location is still sent */
+    }
+
+    function GeoError() {
+      alert("Something went wrong. Your location wasn't acquired.");
+      setIsActive(false);
+    }
+    console.log("iA", isActive);
+    if (!isActive) {
+      if (navigator.geolocation) {
+        console.log("ng", navigator.geolocation)
+        navigator.geolocation.getCurrentPosition(GeoSuccess, GeoError);
+        console.log("location");
+      }
+    } else {
+      setGetGeolocation({});
+    }
   }
 
   return (
-    <LocationButton onClick={ActivateLocation}>
+    <LocationButton onClick={toggleLocation}>
       <LocationIcon isActive={isActive} />
       <LocationText isActive={isActive}>
         {isActive ? "Localização ativada" : "Localização desativada"}

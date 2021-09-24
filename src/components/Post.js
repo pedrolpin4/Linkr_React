@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useState, useContext, useRef, useEffect } from "react";
 import { FaTrash } from "react-icons/fa";
 import { FiEdit2 } from "react-icons/fi";
+import { IoLocationSharp } from "react-icons/io5";
 import ReactHashtag from "react-hashtag";
 import LikesComponent from "./LikesComponent";
 import Modal from "react-modal";
@@ -27,7 +28,6 @@ export default function Post({
   likes,
   userId,
   id,
-  index,
   setNewPosts,
   newPosts,
   repostCount,
@@ -131,9 +131,12 @@ export default function Post({
 
         <RightSection shouldhide={userId === userData.user?.id}>
           <header>
-            <p className="username">
-              <a href={`/user/${userId}`}>{username}</a>
-            </p>
+            <div>
+              <p className="username">
+                <a href={`/user/${userId}`}>{username}</a>
+              </p>
+              <LocationIcon />
+            </div>
             <FiEdit2
               size={16}
               className="edit"
@@ -356,8 +359,13 @@ const RightSection = styled.div`
     user-select: text;
   }
 
+  header div {
+    display: flex;
+    align-items: center;
+    margin: 5px 0 10px;
+  }
+
   .username {
-    margin-bottom: 10px;
     line-height: unset;
     color: #fff;
     font-size: 19px;
@@ -393,6 +401,13 @@ const RightSection = styled.div`
       font-size: 17px;
     }
   }
+`;
+
+const LocationIcon = styled(IoLocationSharp)`
+  color: #FFFFFF;
+  margin: 0 0 0 5px;
+  width: 18.5px;
+  height: 18.5px;
 `;
 
 const EditInput = styled.textarea`

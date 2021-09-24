@@ -42,6 +42,8 @@ function Timeline() {
       };
     }, []);
 
+    console.log(posts);
+
     return (
         <BaseLayout
             title="timeline"
