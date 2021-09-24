@@ -78,6 +78,7 @@ async function repostingPost (token, id) {
 async function getMyFollowsPosts(token) {
     const response = await API.get("/following/posts", head(token))
         .catch(() => false)
+    console.log("followposts", response);
 
     if(response.data) return response.data;
     return false;
@@ -86,7 +87,6 @@ async function getMyFollowsPosts(token) {
 async function getMyFollows(token) {
     const response = await API.get("/users/follows", head(token))
         .catch(() => false)
-
     if(response) return response.data;
     return false;
 }

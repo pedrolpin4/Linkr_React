@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { useState, useContext, useRef, useEffect } from "react";
 import { FaTrash } from "react-icons/fa";
 import { FiEdit2 } from "react-icons/fi";
-import { IoLocationSharp } from "react-icons/io5";
 import ReactHashtag from "react-hashtag";
 import LikesComponent from "./LikesComponent";
 import Modal from "react-modal";
@@ -15,6 +14,7 @@ import getYouTubeID from "get-youtube-id";
 import RepostComponent from "./RepostComponent";
 import RepostBar from "./RepostBar";
 import { customStyles, ModalButtons } from "../SharedStyles/StyledComponents";
+import LocationPin from "./LocationPin";
 
 export default function Post({
   profilePic,
@@ -135,7 +135,7 @@ export default function Post({
               <p className="username">
                 <a href={`/user/${userId}`}>{username}</a>
               </p>
-              <LocationIcon />
+              <LocationPin />
             </div>
             <FiEdit2
               size={16}
@@ -401,13 +401,6 @@ const RightSection = styled.div`
       font-size: 17px;
     }
   }
-`;
-
-const LocationIcon = styled(IoLocationSharp)`
-  color: #FFFFFF;
-  margin: 0 0 0 5px;
-  width: 18.5px;
-  height: 18.5px;
 `;
 
 const EditInput = styled.textarea`
