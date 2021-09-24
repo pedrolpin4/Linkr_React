@@ -19,6 +19,8 @@ function PreviewModal ({showModal, setShowModal, link}){
 
     useEffect(()=> {
         document.addEventListener("keydown", modalKeyEvents)   
+
+        return () => document.removeEventListener('keydown', modalKeyEvents) 
     }, [modalKeyEvents])
 
     return(
