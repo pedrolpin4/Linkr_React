@@ -14,7 +14,7 @@ function Hashtag() {
     const { userData } = useContext(UserContext);
     const [idObserver, setIdObserver] = useState(null);
     const [postsLoading, setPostsLoading] = useState(false);
-    const [hasMore, setHasMore] = useState(true);
+    const [hasMore, setHasMore] = useState(false);
     const [pageNumber, setPageNumber] = useState(0)
     const observer = useRef()
 
@@ -30,47 +30,54 @@ function Hashtag() {
     }, [postsLoading, hasMore])
 
     useEffect(() => {
-        let unmounted = false
+      setHasMore(true)
+      setIdObserver(null)
+      setHashtagsPosts([])
+      setIsLoading(true)
+    }, [hashtag])
 
-        function renderHashtagPosts (hashtag){
-            service.getHashtagsPosts(userData.token, hashtag)
-                .then(res => {
-                    if(!unmounted && res) {
-                        setHashtagsPosts(res.posts)
-                        setIsLoading(false)
-                        setIdObserver(res.data.posts[res.data.posts.length - 1].repostId ?
-                          res.data.posts.find((post,index) =>(index + 1 === res.data.posts.length))?.repostId :
-                          res.data.posts.find((post,index) =>(index + 1 === res.data.posts.length))?.id 
-                        )          
-                    }
-                })
-                .catch(() => alert(`There was an error while finding the posts with the hashtag ${hashtag}`))
-        }
-        if(userData.token) {
-            renderHashtagPosts(hashtag);
-        }
-        return () => { unmounted = true }
-   }, [hashtag, userData]);
+    useEffect(() => {
+      let unmounted = false
 
-   useEffect(() => {
+      function renderHashtagPosts (hashtag){
+          service.getHashtagsPosts(userData.token, hashtag)
+              .then(res => {
+                  if(!unmounted && res) {
+                      setHashtagsPosts(res.posts)
+                      setIsLoading(false)
+                      setIdObserver(res.posts[res.posts.length - 1].repostId ?
+                        res.posts[res.posts.length - 1]?.repostId :
+                        res.posts[res.posts.length - 1]?.id 
+                      )          
+                  }
+              })
+      }
+
+      if(userData.token) {
+          renderHashtagPosts(hashtag);
+      }
+      return () => { unmounted = true }
+  }, [hashtag, userData]);
+
+  useEffect(() => {
     function getNewPostsData() {
-        setPostsLoading(true)
-        service.getOlderPosts(userData.token, idObserver, `/hashtags/${hashtag}/posts`)
-            .then(res => {
-                setPostsLoading(false)
+      if(hashtagsPosts.length) setPostsLoading(true)
+      service.getOlderPosts(userData.token, idObserver, `/hashtags/${hashtag}/posts`)
+          .then(res => {
+              setPostsLoading(false)
 
-                if(res.data.posts.length){
-                   setHasMore(true)
-                } else setHasMore(false)
+              if(res.data.posts.length === 10){
+                setHasMore(true)
+              } else setHasMore(false)
 
-                setHashtagsPosts([...hashtagsPosts, ...res.data.posts])
-                setIdObserver(res.data.posts[res.data.posts.length - 1].repostId ?
-                    res.data.posts[res.data.posts.length - 1]?.repostId :
-                    res.data.posts[res.data.posts.length - 1]?.id 
-                )
-            })
-            .catch(() => alert("something's wrong with the server, please wait a while"))
-    }
+              setHashtagsPosts([...hashtagsPosts, ...res.data.posts])
+              setIdObserver(res.data.posts[res.data.posts.length - 1].repostId ?
+                  res.data.posts[res.data.posts.length - 1]?.repostId :
+                  res.data.posts[res.data.posts.length - 1]?.id 
+              )
+          })
+          .catch(() => {if(hasMore) alert("something's wrong with the server, please wait a while")})
+  }
     
     if(userData.token) getNewPostsData();
   }, [pageNumber])

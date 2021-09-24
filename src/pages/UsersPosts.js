@@ -18,9 +18,9 @@ function UsersPosts() {
   const [username, setUsername] = useState("");
   const [followButton, setFollowButton] = useState(false);
   const [clicked, setClicked] = useState(false);
-  const [idObserver, setIdObserver] = useState(null);
+  const [idObserver, setIdObserver] = useState(Infinity);
   const [postsLoading, setPostsLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState(false);
   const [pageNumber, setPageNumber] = useState(0)
   const observer = useRef() 
   
@@ -118,22 +118,23 @@ function UsersPosts() {
 
   useEffect(() => {
     function getNewPostsData() {
-        setPostsLoading(true)
-        service.getOlderPosts(userData.token, idObserver, `/users/${id}/posts`)
-            .then(res => {
-                setPostsLoading(false)
+      if(userPosts.length) setPostsLoading(true)
+      service.getOlderPosts(userData.token, idObserver, `/users/${id}/posts`)
+        .then(res => {
+            console.log(res.data.posts)
+            setPostsLoading(false)
 
-                if(res.data.posts.length){
-                   setHasMore(true)
-                } else setHasMore(false)
+            if(res.data.posts.length === 10){
+                setHasMore(true)
+            } else setHasMore(false)
 
-                setUserPosts([...userPosts, ...res.data.posts])
-                setIdObserver(res.data.posts[res.data.posts.length - 1].repostId ?
-                    res.data.posts[res.data.posts.length - 1]?.repostId :
-                    res.data.posts[res.data.posts.length - 1]?.id 
-                )
-            })
-            .catch(() => alert("something's wrong with the server, please wait a while"))
+            setUserPosts([...userPosts, ...res.data.posts])
+            setIdObserver(res.data.posts[res.data.posts.length - 1].repostId ?
+                res.data.posts[res.data.posts.length - 1]?.repostId :
+                res.data.posts[res.data.posts.length - 1]?.id 
+            )
+        })
+        .catch(() => {if(hasMore) alert("something's wrong with the server, please wait a while")})
     }
     
     if(userData.token) getNewPostsData();

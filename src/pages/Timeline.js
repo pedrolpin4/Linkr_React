@@ -89,12 +89,12 @@ function Timeline() {
 
     useEffect(() => {
         function getNewPostsData() {
-            setPostsLoading(true)
+            if(posts.length) setPostsLoading(true)
             service.getOlderPosts(token, idObserver, "/following/posts")
                 .then(res => {
                     setPostsLoading(false)
 
-                    if(res.data.posts.length){
+                    if(res.data.posts.length === 10){
                        setHasMore(true)
                     } else setHasMore(false)
 
@@ -104,7 +104,7 @@ function Timeline() {
                         res.data.posts[res.data.posts.length - 1]?.id 
                     )
                 })
-                .catch(() => alert("something's wrong with the server, please wait a while"))
+                .catch(() => {if(hasMore) alert("something's wrong with the server, please wait a while")})
         }
         
         if(token) getNewPostsData();
@@ -137,6 +137,7 @@ function Timeline() {
                     repostCount={post.repostCount}
                     repostedByUser={post.repostedBy?.username}
                     repostedUserId={post.repostedBy?.id}
+                    idObserver = {idObserver}
                     lastPost = {lastPost}
                   />    
                 )

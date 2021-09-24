@@ -15,7 +15,7 @@ function MyPosts() {
     const [ newPosts, setNewPosts ] = useState(0);
     const [idObserver, setIdObserver] = useState(null);
     const [postsLoading, setPostsLoading] = useState(false);
-    const [hasMore, setHasMore] = useState(true);
+    const [hasMore, setHasMore] = useState(false);
     const [pageNumber, setPageNumber] = useState(0)
     const observer = useRef()
 
@@ -54,22 +54,22 @@ function MyPosts() {
 
     useEffect(() => {
       function getNewPostsData() {
-          setPostsLoading(true)
-          service.getOlderPosts(userData.token, idObserver, `/users/${userData.id}/posts`)
-              .then(res => {
-                  setPostsLoading(false)
-  
-                  if(res.data.posts.length){
-                     setHasMore(true)
-                  } else setHasMore(false)
-  
-                  setPosts([...posts, ...res.data.posts])
-                  setIdObserver(res.data.posts[res.data.posts.length - 1].repostId ?
-                      res.data.posts[res.data.posts.length - 1]?.repostId :
-                      res.data.posts[res.data.posts.length - 1]?.id 
-                  )
-              })
-              .catch(() => alert("something's wrong with the server, please wait a while"))
+        if(posts.length) setPostsLoading(true)
+        service.getOlderPosts(userData.token, idObserver, `/users/${userData.user.id}/posts`)
+            .then(res => {
+                setPostsLoading(false)
+
+                if(res.data.posts.length === 10){
+                    setHasMore(true)
+                } else setHasMore(false)
+
+                setPosts([...posts, ...res.data.posts])
+                setIdObserver(res.data.posts[res.data.posts.length - 1].repostId ?
+                    res.data.posts[res.data.posts.length - 1]?.repostId :
+                    res.data.posts[res.data.posts.length - 1]?.id 
+                )
+            })
+            .catch(() => {if(hasMore) alert("something's wrong with the server, please wait a while")})
       }
       
       if(userData.token) getNewPostsData();

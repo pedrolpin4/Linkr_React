@@ -91,7 +91,8 @@ async function getMyFollows(token) {
 }
 
 function getOlderPosts(token, idObserver, url){
-   return API.get(`${url}${idObserver ? `?olderThan=${idObserver}`: ""}` , head(token))
+    console.log(idObserver)
+    return API.get(`${url}${idObserver ? `?olderThan=${idObserver}`: ""}` , head(token))
 }
  
 
