@@ -29,6 +29,8 @@ function MyPosts() {
         return () => { unmounted = true };
     }, [userData, newPosts])
 
+    console.log(posts)
+    
     return (
       <BaseLayout title="my posts">
         {isLoading ? (
@@ -46,6 +48,7 @@ function MyPosts() {
               repostCount={post.repostCount}
               repostedByUser={post.repostedBy?.username}
               repostedUserId={post.repostedBy?.id}
+              geoLocation={post.geolocation}
             />
           ))
         )}
