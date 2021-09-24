@@ -18,7 +18,7 @@ export default function NavBar () {
   } = useContext(ThemeContext)
 
   const history = useHistory();
-  const menu = useRef(null);
+  const menu = useRef();
   const [openDropdown, setOpenDropdown] = useState(false);
   console.log(setTheme);
   useEffect(() => {

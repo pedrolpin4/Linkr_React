@@ -86,11 +86,16 @@ async function getMyFollowsPosts(token) {
 async function getMyFollows(token) {
     const response = await API.get("/users/follows", head(token))
         .catch(() => false)
-
     if(response) return response.data;
     return false;
 }
 
+function getOlderPosts(token, idObserver, url){
+    return API.get(`${url}${idObserver ? `?olderThan=${idObserver}`: ""}` , head(token))
+}
+ 
+
+   
 const service =  {
     getHashtags,
     getHashtagsPosts,
@@ -103,7 +108,8 @@ const service =  {
     editingPost,
     repostingPost,
     getMyFollowsPosts,
-    getMyFollows
+    getMyFollows,
+    getOlderPosts
 }
 
 export default service;

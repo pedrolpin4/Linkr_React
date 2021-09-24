@@ -13,7 +13,7 @@ export default function Loading({ spinnerSize,
             <Text color={color}>{
                 message
                  ? message
-                 : null    
+                 : ""    
             }</Text>
         </LoadingContainer>
     )

@@ -4,6 +4,7 @@ import {useCallback, useEffect, useRef} from 'react';
 function PreviewModal ({showModal, setShowModal, link, theme}){
     const modalRef = useRef();
     const siteRef = useRef();
+    
     function closeModal(e){
         if(modalRef.current === e.target){
             setShowModal(false)
@@ -18,6 +19,8 @@ function PreviewModal ({showModal, setShowModal, link, theme}){
 
     useEffect(()=> {
         document.addEventListener("keydown", modalKeyEvents)   
+
+        return () => document.removeEventListener('keydown', modalKeyEvents) 
     }, [modalKeyEvents])
 
     return(
@@ -33,7 +36,7 @@ function PreviewModal ({showModal, setShowModal, link, theme}){
                         <ModalContainer theme = {theme}>
                             <TopSection>
                                 <ModalButton>
-                                    <a href = {link} target = "_blank">
+                                    <a href = {link} target = "_blank" rel="noreferrer">
                                         Open in new tab
                                     </a>  
                                 </ModalButton> 
@@ -46,7 +49,6 @@ function PreviewModal ({showModal, setShowModal, link, theme}){
                                     title={link}
                                     width="100%"
                                     height="100%"
-                                    is = "x-frame-bypass"
                                     src={link}
                                 ></iframe>
                             </LinkScreen>
@@ -54,7 +56,7 @@ function PreviewModal ({showModal, setShowModal, link, theme}){
                     </ModalBackground>      
                 </>
                 :
-                null
+                <></>
             }
         </>
     )
