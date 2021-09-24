@@ -29,7 +29,7 @@ function PostBox({newPosts, setNewPosts}) {
           link: url,
           geolocation: {
             latitude: getGeolocation.coords ? getGeolocation.coords.latitude : "",
-            logitude: getGeolocation.coords ? getGeolocation.coords.longitude : "",
+            longitude: getGeolocation.coords ? getGeolocation.coords.longitude : "",
             /* ver uma forma melhor de fazer essa condição */
           },
         },

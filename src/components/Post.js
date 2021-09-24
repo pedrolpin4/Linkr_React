@@ -359,7 +359,7 @@ const RightSection = styled.div`
     user-select: text;
   }
 
-  header div {
+  header > div {
     display: flex;
     align-items: center;
     margin: 5px 0 10px;

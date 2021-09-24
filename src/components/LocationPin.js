@@ -85,6 +85,9 @@ const Modal = styled.div`
   opacity: 1;
   z-index: 130;
   border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   h2 {
     font-family: "Oswald", sans-serif;
@@ -98,11 +101,19 @@ const Modal = styled.div`
     font-size: 19.74px;
     color: #ffffff;
   }
+
+  .leaflet-container {
+    height: 240px;
+    width: 713px;
+  }
 `;
 
 const TopSection = styled.div`
-
-
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 36px 15px 40px;
+  width: 100%;
 `;
 
 const ModalBackground = styled.div`
