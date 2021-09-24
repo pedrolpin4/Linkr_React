@@ -2,13 +2,13 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import PreviewModal from './PreviewModal';
 
-export default function Preview({ title, description, link, img }) {
+export default function Preview({ title, description, link, img, theme }) {
     const [showModal, setShowModal] = useState(false);
 
     return (
         <>
-            <PreviewContainer onClick = {() => setShowModal(true)}>
-                <LeftSection>
+            <PreviewContainer onClick = {() => setShowModal(true)} theme = {theme}>
+                <LeftSection theme = {theme}>
                     <h1>{title}</h1>
                     <p>{description}</p>
                     <p className="link" href={link}>{link}</p>
@@ -27,7 +27,7 @@ export default function Preview({ title, description, link, img }) {
 const PreviewContainer = styled.a`
     text-decoration: none;
     background-color: inherit;
-    border: 1px solid #6e6e6e;
+    border: ${props => props.theme === "light" ? "1px solid #e5e5e5" : "1px solid #6e6e6e"};
     display: flex;
     justify-content: space-between;
     border-radius: 10px;
@@ -43,7 +43,7 @@ const PreviewContainer = styled.a`
 const LeftSection = styled.div`
     width: calc(100% - 155px);
     font-family: 'Lato', sans-serif;
-    color: #CECECE;
+    color: ${props => props.theme === "light" ? "#333333" : "#CECECE"};
     padding: 10px;
 
     h1 {
@@ -61,7 +61,7 @@ const LeftSection = styled.div`
         font-size: 11px;
         margin-bottom: 10px;
         word-wrap: break-word;
-        color: #9B9595;
+        color: ${props => props.theme === "light" ? "#2A2A2A" : "#9B9595"};
         height: 55px;
         overflow: hidden;
         @media screen and (max-width: 600px) {
@@ -74,7 +74,7 @@ const LeftSection = styled.div`
     .link {
         font-size: 11px;
         text-decoration: none;
-        color: #fff;
+        color: ${props => props.theme === "light" ? "#171717" : "#FFFFFF"};
         border: none;
         overflow: hidden;
         white-space: nowrap;

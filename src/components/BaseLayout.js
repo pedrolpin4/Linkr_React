@@ -1,18 +1,27 @@
+import { useContext } from "react";
 import styled from "styled-components";
 import TrendingBar from "../components/TrendingBar";
+import ThemeContext from "../context/ThemeContext";
 import NavBar from "./NavBar";
 
+
 export default function BaseLayout({ children, title }) {
+  const {
+    theme,
+    setTheme
+  } = useContext(ThemeContext);
+
+  console.log(theme);
   return (
     <>
-      <NavBar />
-      <BaseLayoutContainer>
+      <NavBar theme = {theme}/>
+      <BaseLayoutContainer theme = {theme}>
         <MainContentContainer>
           <LeftSection>
               <PageTitle>{title}</PageTitle>
             {children}
           </LeftSection>
-          <TrendingBar className="trending-bar" />
+          <TrendingBar className="trending-bar" theme = {theme}/>
         </MainContentContainer>
       </BaseLayoutContainer>
     </>
@@ -40,9 +49,9 @@ const PageTitle = styled.h1`
 
 const BaseLayoutContainer = styled.div`
   width: 100%;
-  background-color: #333333;
+  background-color: ${props => props.theme === "light" ? "#DCDCDC" :"#333333"};
   min-height: 100vh;
-  color: #fff;
+  color: ${props => props.theme === "light" ? "#151515" :"#FFFFFF"};
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

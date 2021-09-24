@@ -14,6 +14,7 @@ import getYouTubeID from "get-youtube-id";
 import RepostComponent from "./RepostComponent";
 import RepostBar from "./RepostBar";
 import { customStyles, ModalButtons } from "../SharedStyles/StyledComponents";
+import ThemeContext from "../context/ThemeContext";
 
 export default function Post({
   profilePic,
@@ -42,6 +43,7 @@ export default function Post({
   const [isDisabled, setIsDisabled] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
   const { userData } = useContext(UserContext);
+  const { theme } = useContext(ThemeContext);
 
   async function keyEvents(e) {
     if (e.code === "Escape") {
@@ -110,12 +112,13 @@ export default function Post({
         <RepostBar
           repostedByUser={repostedByUser}
           repostedUserId={repostedUserId}
+          theme = {theme}
         />
       ) : (
         <></>
       )}
-      <PostContainer>
-        <LeftSection>
+      <PostContainer theme = {theme}>
+        <LeftSection theme = {theme}>
           <a href={`/user/${userId}`}>
             <img src={profilePic} alt="" />
           </a>
@@ -129,7 +132,7 @@ export default function Post({
           />
         </LeftSection>
 
-        <RightSection shouldhide={userId === userData.user?.id}>
+        <RightSection shouldhide={userId === userData.user?.id} theme = {theme}>
           <header>
             <p className="username">
               <a href={`/user/${userId}`}>{username}</a>
@@ -191,6 +194,7 @@ export default function Post({
               description={prevDescription}
               img={prevImage}
               link={link}
+              theme = {theme}
             />
           )}
         </RightSection>
@@ -234,7 +238,7 @@ export default function Post({
 }
 
 const PostContainer = styled.div`
-  background-color: #171717;
+  background-color: ${props => props.theme === "light" ? "#FFFFFF" : "#171717"};
   border-radius: 15px;
   width: 611px;
   display: flex;
@@ -291,7 +295,7 @@ const LeftSection = styled.div`
   }
 
   .unLikedHeart {
-    color: #fff;
+    color: ${props => props.theme === "light" ? "#171717" : "#FFFFFF"};
     cursor: pointer;
   }
 
@@ -329,7 +333,7 @@ const RightSection = styled.div`
     position: absolute;
     right: 10px;
     top: 5px;
-    color: "#FFFFFF";
+    color: ${props => props.theme === "light" ? "#171717" : "#FFFFFF"};
     display: ${(props) => (!props.shouldhide ? "none" : "unset")};
   }
 
@@ -338,14 +342,13 @@ const RightSection = styled.div`
     position: absolute;
     right: 40px;
     top: 5px;
-    color: "#FFFFFF";
+    color: ${props => props.theme === "light" ? "#171717" : "#FFFFFF"};
     display: ${(props) => (!props.shouldhide ? "none" : "unset")};
-    color: #ffffff;
   }
 
   header {
     margin-bottom: 10px;
-    color: #cecece;
+    color: ${props => props.theme === "light" ? "#333333" : "#cecece"};
     line-height: 20px;
     white-space: pre-wrap;
     overflow-wrap: break-word;
@@ -359,13 +362,13 @@ const RightSection = styled.div`
   .username {
     margin-bottom: 10px;
     line-height: unset;
-    color: #fff;
+    color: ${props => props.theme === "light" ? "#171717" : "#FFFFFF"};
     font-size: 19px;
   }
 
   .hashtag {
     font-weight: bolder;
-    color: #fff;
+    color: ${props => props.theme === "light" ? "#171717" : "#FFFFFF"};
   }
 
   @media (max-width: 600px) {
@@ -398,7 +401,7 @@ const RightSection = styled.div`
 const EditInput = styled.textarea`
   width: 503px;
   min-height: 44px;
-  background: #ffffff;
+  background: ${props => props.theme === "light" ? "#171717" : "#FFFFFF"};
   border-radius: 7px;
   padding: 8px 10px;
   border: none;
@@ -406,7 +409,7 @@ const EditInput = styled.textarea`
   line-height: 17px;
   word-break: break-all;
   resize: none;
-  color: #4c4c4c;
+  color: ${props => props.theme === "light" ? "#4c4c4c" :"#171717"};
   font-family: "Lato", sans-serif;
   margin-top: 8px;
   :focus {

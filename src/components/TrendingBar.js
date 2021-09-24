@@ -4,7 +4,7 @@ import styled from "styled-components";
 import service from "../service/post"
 import UserContext from "../context/UserContext"
 
-const TrendingBar = () => {
+const TrendingBar = ({theme}) => {
     const { 
         userData
     } = useContext(UserContext)
@@ -23,11 +23,11 @@ const TrendingBar = () => {
     }, [userData, history])
     
     return(
-        <TrendingsContainer>
-            <TrendingsBarTitle>trending</TrendingsBarTitle>
-            <HorizontalLine />
+        <TrendingsContainer theme = {theme}>
+            <TrendingsBarTitle theme = {theme}>trending</TrendingsBarTitle>
+            <HorizontalLine theme ={theme}/>
                 {trendings.map(trending =>(
-                    <HashtagsName key = {trending.id}>
+                    <HashtagsName theme = {theme} key = {trending.id}>
                         <Link to = {`/hashtag/${trending.name}`}>
                             #{trending.name}                     
                         </Link>    
@@ -41,7 +41,7 @@ const TrendingsContainer = styled.div`
     margin-top: 232px;
     padding: 15px 0px 30px 0px;
     width: 301px;
-    background: #171717;
+    background: ${props => props.theme === "light" ? "#FFFFFF" : "#171717"};
     border-radius: 16px;
     height: 456px;
     position: -webkit-sticky;
@@ -64,7 +64,7 @@ const TrendingsBarTitle = styled.h1`
     margin-left: 16px ;
     font-weight: bold;
     font-size: 27px;
-    color: #FFFFFF;
+    color: ${props => props.theme === "light" ? "#171717" : "#FFFFFF"};
 `
 
 const HashtagsName = styled.p`
@@ -76,7 +76,7 @@ const HashtagsName = styled.p`
     margin-left: 16px;
     font-weight: bold;
     font-size: 19px;
-    color: #FFFFFF;
+    color: ${props => props.theme === "light" ? "#171717" : "#FFFFFF"};
     margin-top: 10px;
 `
 

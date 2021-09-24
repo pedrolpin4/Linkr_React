@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import UserContext from "../context/UserContext";
 
-export default function RepostBar({ repostedByUser, repostedUserId }) {
+export default function RepostBar({ repostedByUser, repostedUserId, theme }) {
 
   const { userData } = useContext(UserContext);
 
   return (
-    <TopBar>
+    <TopBar theme = {theme}>
       <Retweet />
       <p>
         {`Re-posted by `}
@@ -26,11 +26,11 @@ export default function RepostBar({ repostedByUser, repostedUserId }) {
 }
 
 const TopBar = styled.div`
-  background-color: #1e1e1e;
+  background-color:  ${props => props.theme === "light" ? "#F1F1F1" : "#1e1e1e"};
   font-family: Lato, sans-serif;
   font-size: 11px;
   line-height: 13px;
-  color: #ffffff;
+  color:  ${props => props.theme === "light" ? "#171717" : "#FFFFFF"};
   border-radius: 15px 15px 0 0;
   margin-bottom: -20px;
   width: 611px;

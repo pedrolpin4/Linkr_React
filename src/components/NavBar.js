@@ -4,12 +4,12 @@ import styled from "styled-components";
 import UserContext from "../context/UserContext";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md"
 
-export default function NavBar () {
+export default function NavBar ({theme}) {
   const {
     userData,
     setUserData
   } = useContext(UserContext);
-
+  console.log(theme);
   const history = useHistory();
   const menu = useRef(null);
   const [openDropdown, setOpenDropdown] = useState(false);
@@ -50,17 +50,17 @@ export default function NavBar () {
   }
 
   return (
-    <NavBarContainer>
-      <NavBarTitle href="/timeline">linkr</NavBarTitle>
+    <NavBarContainer theme = {theme}>
+      <NavBarTitle href="/timeline" theme = {theme}>linkr</NavBarTitle>
       <div>
         {openDropdown ? (
-          <ArrowUp color="#FFFFFF" onClick={toggleMenu} />
+          <ArrowUp color={theme === "light" ? "#151515": "#FFFFFF"} onClick={toggleMenu} />
         ) : (
-          <ArrowDown color="#FFFFFF" onClick={toggleMenu} />
+          <ArrowDown color={theme === "light" ? "#151515": "#FFFFFF"} onClick={toggleMenu} />
         )}
         <ProfileImg src={userData.user?.avatar} onClick={toggleMenu} />
       </div>
-      <DropdownMenu openDropdown={openDropdown} ref={menu}>
+      <DropdownMenu openDropdown={openDropdown} ref={menu} theme = {theme}>
         <p onClick={goToMyPosts}>My posts</p>
         <p onClick={goToMyLikes}>My likes</p>
         <p onClick={logOut}>Logout</p>
@@ -73,7 +73,7 @@ const NavBarContainer = styled.div`
   position: fixed;
   top: 0px;
   left: 0px;
-  background: #151515;
+  background: ${props => props.theme === "light" ? "#FFFFFF" : "#151515"};
   height: 72px;
   width: 100vw;
   display: flex;
@@ -90,7 +90,7 @@ const NavBarTitle = styled.a`
   font-family: "Passion One", cursive;
   font-weight: bold;
   font-size: 49px;
-  color: #ffffff;
+  color: ${props => props.theme === "light" ? "#151515" :"#FFFFFF"};
   cursor: pointer;
   @media (max-width: 600px) {
     font-size: 45px;
@@ -121,13 +121,13 @@ const DropdownMenu = styled.div`
   height: 109px;
   padding: 10px 29px 6px 28px;
   border-radius: 0px 0px 0px 20px;
-  background-color: #171717;
+  background-color: ${props => props.theme === "light" ? "#FAFAFA" :"#171717"};
   font-family: "Lato", sans-serif;
   font-weight: 700;
   font-size: 17px;
   line-height: 20px;
   letter-spacing: 0.05em;
-  color: #ffffff;
+  color: ${props => props.theme === "light" ? "#151515" :"#FFFFFF"};
   text-align: center;
   display: ${(props) => (props.openDropdown ? "block" : "none")};
 
