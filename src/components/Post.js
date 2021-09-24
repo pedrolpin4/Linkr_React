@@ -139,7 +139,9 @@ export default function Post({
                 <a href={`/user/${userId}`}>{username}</a>
               </p>
               {geoLocation ? 
-              <LocationPin />
+              <LocationPin
+                geoLocation={geoLocation}
+                username={username} />
               :
               ""}
             </div>

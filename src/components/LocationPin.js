@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
-export default function LocationPin() {
+export default function LocationPin({ geoLocation, username }) {
 
   const [ showModal, setShowModal ] = useState(false);
   const modalRef = useRef();
@@ -39,11 +39,11 @@ export default function LocationPin() {
           ></ModalBackground>
           <Modal>
             <TopSection>
-              <h2>Juvenal’s location</h2>
+              <h2>{username}’s location</h2>
               <p onClick={() => setShowModal(false)}>X</p>
             </TopSection>
             <MapContainer
-              center={[51.505, -0.09]}
+              center={[geoLocation.latitude, geoLocation.longitude]}
               zoom={13}
               scrollWheelZoom={false}
             >
@@ -51,10 +51,8 @@ export default function LocationPin() {
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-              <Marker position={[51.505, -0.09]}>
-                <Popup>
-                  Juvenal was here!
-                </Popup>
+              <Marker position={[geoLocation.latitude, geoLocation.longitude]}>
+                <Popup>{username} was here!</Popup>
               </Marker>
             </MapContainer>
           </Modal>
@@ -100,6 +98,7 @@ const Modal = styled.div`
   p {
     font-size: 19.74px;
     color: #ffffff;
+    cursor: pointer;
   }
 
   .leaflet-container {
