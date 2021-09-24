@@ -28,7 +28,7 @@ export default function CommentWritter({ postId, updateCommentsData, reference }
         <CommentWriterContainer>
             {
                 userData.user
-                    ? <img src={userData.user.avatar}/>
+                    ? <img src={userData.user.avatar} alt=""/>
                     : <Loading spinnerSize={25}/>
             }
             <textarea

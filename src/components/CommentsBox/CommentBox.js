@@ -44,7 +44,7 @@ export default function CommentBox({ postId, isActive, setCommentsAmmount, postO
         if(userData.token)  getData();
         setPenultimate(lastChild.current)
         return () => { unmounted = true }
-    }, [userData, postId, refreshController])
+    }, [userData, postId, refreshController, setCommentsAmmount])
 
     useEffect(() => {
         setTimeout(() => {
@@ -53,7 +53,7 @@ export default function CommentBox({ postId, isActive, setCommentsAmmount, postO
             }
         }, 200)
 
-    }, [penultimate])
+    }, [refreshController, penultimate])
 
     return (
         <CommentBoxContainer layout animate={isActive ? "active" : "unactive"} variants={variants}>
@@ -90,6 +90,25 @@ const CommentBoxContainer = styled(motion.div)`
         top: 0;
         left: 0;
         max-height: calc(350px - 90px);
+        
+        ::-webkit-scrollbar {
+            width: 2px;
+        }
+
+            /* Track */
+        ::-webkit-scrollbar-track {
+            background: inherit;
+        }
+
+            /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+
+            /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
     }
 `
 

@@ -7,7 +7,7 @@ export default function UserComment({ commentData, isActive, following, postOwne
         <UserCommentContainer isActive={isActive} ref={e => { lastChild(e, index) }}>
             <LeftSection>
                 <a href={`/user/${user.id}`}>
-                    <img src={user.avatar}/>
+                    <img src={user.avatar} alt=""/>
                 </a>
             </LeftSection>
             <RightSection>
