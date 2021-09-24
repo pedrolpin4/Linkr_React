@@ -142,6 +142,7 @@ function UsersPosts() {
 export default UsersPosts;
 
 const FollowButton = styled.button`
+  cursor: pointer;
   width: 112px;
   height: 31px;
   background-color: ${(props) => (props.follow ? "#FFF" : "#1877f2")};
@@ -155,4 +156,7 @@ const FollowButton = styled.button`
   font-weight: bold;
   font-size: 14px;
   line-height: 17px;
+  @media (max-width: 611px){
+    top: 142px
+  }
 `;

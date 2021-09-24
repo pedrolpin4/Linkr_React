@@ -86,7 +86,6 @@ export default function NavBar () {
               Theme:<FaMoon color = "#FFFFF" />
             </p>
         }
-        <p></p>
       </DropdownMenu>
     </NavBarContainer>
   );
@@ -169,8 +168,7 @@ const DropdownMenu = styled.div`
 
   @media(max-width: 600px){
     width: 150px;
-    height: 110px;
-    background: #171717;
+    height: 130px;
     font-size: 15px;
   }
 `;
