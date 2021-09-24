@@ -86,7 +86,7 @@ const CreatePostBox = styled.div`
   width: 611px;
   height: 209px;
   border-radius: 16px;
-  background-color: ${props => props.theme === "light" ? "#171717" : "#efefef"};
+  background-color: ${props => props.theme === "light" ? "#171717" : "#FFF"};
   display: flex;
   padding: 20px;
   margin-bottom: 20px;

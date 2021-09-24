@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { CgSpinner } from 'react-icons/cg';
+import { useContext } from 'react/cjs/react.development';
 
 export default function Loading({ spinnerSize,
                                   message,

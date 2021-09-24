@@ -11,10 +11,12 @@ export default function NavBar () {
     userData,
     setUserData
   } = useContext(UserContext);
+
   const {
     theme,
     setTheme
   } = useContext(ThemeContext)
+
   const history = useHistory();
   const menu = useRef(null);
   const [openDropdown, setOpenDropdown] = useState(false);
@@ -70,8 +72,19 @@ export default function NavBar () {
         <p onClick={goToMyLikes}>My likes</p>
         <p onClick={logOut}>Logout</p>
         {theme === "light" ?
-           <p onClick = {() => setTheme("dark")}>Theme:<FaSun color = "#151515" /></p> : 
-           <p onClick = {() => setTheme("light")}>Theme:<FaMoon color = "#FFFFF" /></p>
+           <p onClick = {() =>{
+            localStorage.setItem("currentTheme", "dark")
+            setTheme("dark")
+           } }>
+              Theme:
+              <FaSun color = "#151515" />
+            </p> : 
+           <p onClick = {() => {
+             setTheme("light")
+             localStorage.setItem("currentTheme", "light")
+            }}>
+              Theme:<FaMoon color = "#FFFFF" />
+            </p>
         }
         <p></p>
       </DropdownMenu>

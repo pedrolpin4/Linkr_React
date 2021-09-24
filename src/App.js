@@ -17,7 +17,7 @@ import ThemeContext from "./context/ThemeContext";
 function App() {
   const [ userData, setUserData ] = useState({});
   const [ following, setFollowing ] = useState([]);
-  const [theme, setTheme] = useState("dark")
+  const [theme, setTheme] = useState(localStorage.getItem("currentTheme") ? localStorage.getItem("currentTheme") : "dark")
 
   useEffect(() => {
     const userLogin = JSON.parse(localStorage.getItem("userLogin"));
@@ -28,6 +28,7 @@ function App() {
     if(userData.token) {
       updateFollowsList(userData.token)
     }
+
   }, [userData])
 
   /**

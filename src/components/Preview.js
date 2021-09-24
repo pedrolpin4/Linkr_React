@@ -19,6 +19,7 @@ export default function Preview({ title, description, link, img, theme }) {
                 showModal = {showModal}
                 setShowModal = {setShowModal} 
                 link = {link}
+                theme = {theme}
             />
         </>
     )
