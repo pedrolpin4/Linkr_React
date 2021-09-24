@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef, useCallback } from 'react';
 
 import UserContext from '../context/UserContext';
 import BaseLayout from '../components/BaseLayout';
@@ -12,6 +12,23 @@ function MyLikes() {
     const [ isLoading, setIsLoading ] = useState(true);
     const [ posts, setPosts ] = useState([]);
     const [ newPosts, setNewPosts ] = useState(0);
+    const [idObserver, setIdObserver] = useState(null);
+    const [postsLoading, setPostsLoading] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
+    const [pageNumber, setPageNumber] = useState(0)
+    const observer = useRef()
+
+    const lastPost = useCallback(node => {
+      if(postsLoading) return
+      if(observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver(entries => {
+          if(entries[0].isIntersecting && hasMore){
+              setPageNumber(prev => prev + 1)
+          } 
+      })
+      if(node) observer.current.observe(node)
+    }, [postsLoading, hasMore])
+
 
     useEffect(() => {
         let unmounted = false;
@@ -23,6 +40,10 @@ function MyLikes() {
             if(response && !unmounted) {
                 setPosts(response.posts);
                 setIsLoading(false);
+                setIdObserver(response.posts[response.posts.length - 1].repostId ?
+                  response.posts.find((post,index) =>(index + 1 === response.posts.length))?.repostId :
+                  response.posts.find((post,index) =>(index + 1 === response.posts.length))?.id 
+                )  
             }
             else if(response === false) alert("Hoje é feriado ná terra dos servidores, te respondemos amanhã!");
         }
@@ -30,6 +51,29 @@ function MyLikes() {
         if(token) getLikedPosts();
         return () => { unmounted = true }
     }, [userData, newPosts])
+
+    useEffect(() => {
+      function getNewPostsData() {
+          setPostsLoading(true)
+          service.getOlderPosts(userData.token, idObserver, "/posts/liked")
+              .then(res => {
+                  setPostsLoading(false)
+  
+                  if(res.data.posts.length){
+                     setHasMore(true)
+                  } else setHasMore(false)
+  
+                  setPosts([...posts, ...res.data.posts])
+                  setIdObserver(res.data.posts[res.data.posts.length - 1].repostId ?
+                      res.data.posts[res.data.posts.length - 1]?.repostId :
+                      res.data.posts[res.data.posts.length - 1]?.id 
+                  )
+              })
+              .catch(() => alert("something's wrong with the server, please wait a while"))
+      }
+      
+      if(userData.token) getNewPostsData();
+    }, [pageNumber])
 
     return (
       <BaseLayout title="my likes">
@@ -57,9 +101,12 @@ function MyLikes() {
               repostCount={post.repostCount}
               repostedByUser={post.repostedBy?.username}
               repostedUserId={post.repostedBy?.id}
+              idObserver = {idObserver}
+              lastPost = {lastPost}
             />
           ))
         )}
+        {postsLoading ? <Loading spinnerSize={50} /> : <></> }
       </BaseLayout>
     );
 }

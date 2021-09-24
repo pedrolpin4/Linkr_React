@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import BaseLayout from "../components/BaseLayout";
@@ -18,6 +18,23 @@ function UsersPosts() {
   const [username, setUsername] = useState("");
   const [followButton, setFollowButton] = useState(false);
   const [clicked, setClicked] = useState(false);
+  const [idObserver, setIdObserver] = useState(null);
+  const [postsLoading, setPostsLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [pageNumber, setPageNumber] = useState(0)
+  const observer = useRef() 
+  
+  const lastPost = useCallback(node => {
+    if(postsLoading) return
+    if(observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(entries => {
+        if(entries[0].isIntersecting && hasMore){
+            setPageNumber(prev => prev + 1)
+        } 
+    })
+    if(node) observer.current.observe(node)
+  }, [postsLoading, hasMore])
+
 
   useEffect(() => {
     let unmounted = false;
@@ -26,6 +43,10 @@ function UsersPosts() {
       if (response && !unmounted) {
         setUserPosts(response.posts);
         setUsername(response.posts[0].repostedBy ? response.posts[0].repostedBy.username : response.posts[0].user.username);
+        setIdObserver(response.posts[response.posts.length - 1].repostId ?
+          response.posts.find((post,index) =>(index + 1 === response.posts.length))?.repostId :
+          response.posts.find((post,index) =>(index + 1 === response.posts.length))?.id 
+        )
       } else if (response === false)
         alert("The birds are eating our comunications lines, sorry.");
       setIsLoading(false);
@@ -95,6 +116,29 @@ function UsersPosts() {
     });
   }
 
+  useEffect(() => {
+    function getNewPostsData() {
+        setPostsLoading(true)
+        service.getOlderPosts(userData.token, idObserver, `/users/${id}/posts`)
+            .then(res => {
+                setPostsLoading(false)
+
+                if(res.data.posts.length){
+                   setHasMore(true)
+                } else setHasMore(false)
+
+                setUserPosts([...userPosts, ...res.data.posts])
+                setIdObserver(res.data.posts[res.data.posts.length - 1].repostId ?
+                    res.data.posts[res.data.posts.length - 1]?.repostId :
+                    res.data.posts[res.data.posts.length - 1]?.id 
+                )
+            })
+            .catch(() => alert("something's wrong with the server, please wait a while"))
+    }
+    
+    if(userData.token) getNewPostsData();
+  }, [pageNumber])
+
   return (
     <>
       {userData.user?.username === username ? (
@@ -131,9 +175,12 @@ function UsersPosts() {
               repostCount={post.repostCount}
               repostedByUser={post.repostedBy?.username}
               repostedUserId={post.repostedBy?.id}
+              idObserver = {idObserver}
+              lastPost = {lastPost}
             />
           ))
         )}
+        {postsLoading ? <Loading spinnerSize={50} /> : <></> }
       </BaseLayout>
     </>
   );

@@ -27,15 +27,15 @@ export default function Post({
   likes,
   userId,
   id,
-  index,
   setNewPosts,
   newPosts,
   repostCount,
   repostedByUser,
   repostedUserId,
+  lastPost,
 }) {
   const [isClicked, setIsClicked] = useState(false);
-  const inputRef = useRef(null);
+  const inputRef = useRef();
   const [isEditing, setIsEditing] = useState(false);
   const [currentValue, setCurrentValue] = useState(text);
   const [lastValue, setLastValue] = useState(text);
@@ -114,7 +114,7 @@ export default function Post({
       ) : (
         <></>
       )}
-      <PostContainer>
+      <PostContainer ref = {lastPost}>
         <LeftSection>
           <a href={`/user/${userId}`}>
             <img src={profilePic} alt="" />

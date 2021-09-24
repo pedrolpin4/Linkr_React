@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useCallback, useContext, useEffect, useRef, useState } from "react"
 import { useParams } from "react-router-dom"
 import UserContext from "../context/UserContext"
 import service from "../service/post"
@@ -12,8 +12,23 @@ function Hashtag() {
     const [ isLoading, setIsLoading ] = useState(true);
     const [hashtagsPosts, setHashtagsPosts] = useState([]);
     const { userData } = useContext(UserContext);
-    
-    
+    const [idObserver, setIdObserver] = useState(null);
+    const [postsLoading, setPostsLoading] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
+    const [pageNumber, setPageNumber] = useState(0)
+    const observer = useRef()
+
+    const lastPost = useCallback(node => {
+      if(postsLoading) return
+      if(observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver(entries => {
+          if(entries[0].isIntersecting && hasMore){
+              setPageNumber(prev => prev + 1)
+          } 
+      })
+      if(node) observer.current.observe(node)
+    }, [postsLoading, hasMore])
+
     useEffect(() => {
         let unmounted = false
 
@@ -23,6 +38,10 @@ function Hashtag() {
                     if(!unmounted && res) {
                         setHashtagsPosts(res.posts)
                         setIsLoading(false)
+                        setIdObserver(res.data.posts[res.data.posts.length - 1].repostId ?
+                          res.data.posts.find((post,index) =>(index + 1 === res.data.posts.length))?.repostId :
+                          res.data.posts.find((post,index) =>(index + 1 === res.data.posts.length))?.id 
+                        )          
                     }
                 })
                 .catch(() => alert(`There was an error while finding the posts with the hashtag ${hashtag}`))
@@ -33,35 +52,61 @@ function Hashtag() {
         return () => { unmounted = true }
    }, [hashtag, userData]);
 
-    return (
-      <BaseLayout title={`#${hashtag}`}>
-        {isLoading ? (
-          <Loading spinnerSize={30} />
-        ) : hashtagsPosts.length === 0 ? (
-          <ErrorMessage>#{hashtag} has no posts</ErrorMessage>
-        ) : (
-          hashtagsPosts.map((post) => (
-            <Post
-              key={post.repostId ? post.repostId : post.id}
-              id={post.id}
-              repostId={post.repostId ? post.repostId : false}
-              username={post.user.username}
-              text={post.text}
-              link={post.link}
-              profilePic={post.user.avatar}
-              prevTitle={post.linkTitle}
-              prevImage={post.linkImage}
-              prevDescription={post.linkDescription}
-              likes={post.likes}
-              userId={post.user.id}
-              repostCount={post.repostCount}
-              repostedByUser={post.repostedBy?.username}
-              repostedUserId={post.repostedBy?.id}
-            />
-          ))
-        )}
-      </BaseLayout>
-    );
+   useEffect(() => {
+    function getNewPostsData() {
+        setPostsLoading(true)
+        service.getOlderPosts(userData.token, idObserver, `/hashtags/${hashtag}/posts`)
+            .then(res => {
+                setPostsLoading(false)
+
+                if(res.data.posts.length){
+                   setHasMore(true)
+                } else setHasMore(false)
+
+                setHashtagsPosts([...hashtagsPosts, ...res.data.posts])
+                setIdObserver(res.data.posts[res.data.posts.length - 1].repostId ?
+                    res.data.posts[res.data.posts.length - 1]?.repostId :
+                    res.data.posts[res.data.posts.length - 1]?.id 
+                )
+            })
+            .catch(() => alert("something's wrong with the server, please wait a while"))
+    }
+    
+    if(userData.token) getNewPostsData();
+  }, [pageNumber])
+
+  return (
+    <BaseLayout title={`#${hashtag}`}>
+      {isLoading ? (
+        <Loading spinnerSize={30} />
+      ) : hashtagsPosts.length === 0 ? (
+        <ErrorMessage>#{hashtag} has no posts</ErrorMessage>
+      ) : (
+        hashtagsPosts.map((post) => (
+          <Post
+            key={post.repostId ? post.repostId : post.id}
+            id={post.id}
+            repostId={post.repostId ? post.repostId : false}
+            username={post.user.username}
+            text={post.text}
+            link={post.link}
+            profilePic={post.user.avatar}
+            prevTitle={post.linkTitle}
+            prevImage={post.linkImage}
+            prevDescription={post.linkDescription}
+            likes={post.likes}
+            userId={post.user.id}
+            repostCount={post.repostCount}
+            repostedByUser={post.repostedBy?.username}
+            repostedUserId={post.repostedBy?.id}
+            idObserver = {idObserver}
+            lastPost = {lastPost}
+          />
+        ))
+      )}
+      {postsLoading ? <Loading spinnerSize={50} /> : <></> }
+    </BaseLayout>
+  );
 }
 
 const ErrorMessage = styled.h1`

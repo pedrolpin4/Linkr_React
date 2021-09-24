@@ -4,6 +4,7 @@ import {useCallback, useEffect, useRef} from 'react';
 function PreviewModal ({showModal, setShowModal, link}){
     const modalRef = useRef();
     const siteRef = useRef();
+    
     function closeModal(e){
         if(modalRef.current === e.target){
             setShowModal(false)
@@ -52,7 +53,7 @@ function PreviewModal ({showModal, setShowModal, link}){
                     </ModalBackground>      
                 </>
                 :
-                null
+                <></>
             }
         </>
     )
