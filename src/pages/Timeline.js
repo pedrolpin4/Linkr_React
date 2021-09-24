@@ -42,7 +42,7 @@ function Timeline() {
       };
     }, []);
 
-    console.log(posts);
+    
 
     return (
         <BaseLayout
@@ -71,7 +71,9 @@ function Timeline() {
                                               newPosts={newPosts}
                                               repostCount={post.repostCount}
                                               repostedByUser={post.repostedBy?.username}
-                                              repostedUserId={post.repostedBy?.id} />)
+                                              repostedUserId={post.repostedBy?.id}
+                                              geoLocation={post.geolocation}
+                                             />)
         }</BaseLayout>
     )
 }

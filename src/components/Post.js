@@ -33,6 +33,7 @@ export default function Post({
   repostCount,
   repostedByUser,
   repostedUserId,
+  geoLocation,
 }) {
   const [isClicked, setIsClicked] = useState(false);
   const inputRef = useRef(null);
@@ -104,6 +105,8 @@ export default function Post({
     }
   }, [isEditing]);
 
+  console.log(geoLocation)
+
   return (
     <>
       {repostId ? (
@@ -135,7 +138,10 @@ export default function Post({
               <p className="username">
                 <a href={`/user/${userId}`}>{username}</a>
               </p>
+              {geoLocation ? 
               <LocationPin />
+              :
+              ""}
             </div>
             <FiEdit2
               size={16}

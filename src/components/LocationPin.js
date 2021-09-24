@@ -126,16 +126,6 @@ const ModalBackground = styled.div`
   z-index: 120;
 `
 const ModalContainer = styled.div`
-  position: fixed;
-  width: 966px;
-  height: calc(100vh - 120px);
-  display: flex;
-  flex-direction: column;
-  top: 60px;
-  left: calc((100vw - 966px) / 2);
-  background: #333333;
-  opacity: 1;
-  z-index: 130;
   padding: 15px 20px 21px 20px;
 
   @media (max-width: 1000px) {

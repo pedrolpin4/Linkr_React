@@ -131,6 +131,7 @@ function UsersPosts() {
               repostCount={post.repostCount}
               repostedByUser={post.repostedBy?.username}
               repostedUserId={post.repostedBy?.id}
+              geoLocation={post.geolocation}
             />
           ))
         )}

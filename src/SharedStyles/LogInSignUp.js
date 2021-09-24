@@ -140,6 +140,9 @@ const EnterInput = styled.input`
   &::placeholder {
     color: #9f9f9f;
   }
+  :focus {
+    outline: none;
+  }
   @media (max-width: 1000px) {
     font-size: 22px;
     line-height: 33px;
