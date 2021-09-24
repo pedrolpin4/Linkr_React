@@ -24,6 +24,10 @@ export default function CommentWritter({ postId, updateCommentsData, reference }
         setComment("");
     }
 
+    function keyPressHandler(e) {
+        if(e.key === 'Enter') submitComment(e)
+    }
+
     return (
         <CommentWriterContainer>
             {
@@ -37,7 +41,8 @@ export default function CommentWritter({ postId, updateCommentsData, reference }
                     e.stopPropagation();
                     setComment(e.target.value)
                 }}
-                value={comment}/>
+                value={comment}
+                onKeyPress={e => { keyPressHandler(e) }}/>
             <FiSend className="send-ico" size={20} onClick={e => { submitComment(e) }}/>
         </CommentWriterContainer>
     )

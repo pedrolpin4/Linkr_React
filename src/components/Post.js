@@ -461,8 +461,14 @@ const EditInput = styled.textarea`
 `;
 
 const variants = {
-  noRadius: { borderRadius: "0px" },
-  radius: { borderRadius: "15px", transition: {
-    delay: .1
+  noRadius: { 
+    borderBottomLeftRadius: "0",
+    borderBottomRightRadius: "0",
+  },
+  radius: { 
+    borderBottomLeftRadius: "15px",
+    borderBottomRightRadius: "15px",
+    transition: {
+      delay: .1
   }}
 }
