@@ -248,7 +248,10 @@ export default function Post({ postData }) {
           </ModalButtons>
         </Modal>
       </UpperContainer>
-      <CommentBox postId={id} isActive={isCommentBoxActive} setCommentsAmmount={setCommentsAmmount}/>
+      <CommentBox postId={id}
+                  postOwner={user}
+                  isActive={isCommentBoxActive}
+                  setCommentsAmmount={setCommentsAmmount}/>
     </PostContainer>
   );
 }

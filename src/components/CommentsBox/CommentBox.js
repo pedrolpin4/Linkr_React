@@ -1,4 +1,4 @@
-import { useEffect, useContext, useState } from 'react';
+import { useEffect, useContext, useState, useRef, useCallback } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
@@ -8,13 +8,28 @@ import Loading from '../Loading';
 import UserComment from './UserComment';
 import CommentWritter from './CommentWriter';
 
-export default function CommentBox({ postId, isActive, setCommentsAmmount }) {
-    const { userData } = useContext(UserContext);
+export default function CommentBox({ postId, isActive, setCommentsAmmount, postOwner }) {
+    const { userData, searchUserInFollowing } = useContext(UserContext);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ commentsData, setCommentsData ] = useState([]);
+    const [ refreshController, setRefreshController ] = useState(0); // this state is changed so that useEffect can update comments data and render new comments
+
+    const [ penultimate, setPenultimate ] = useState();
+    const lastChild = useRef();
+
+    function updateCommentsData() {
+        setRefreshController(prevState => prevState + 1);
+    }
+
+    const refCallback = useCallback((e, index) => {
+        if(isActive && (commentsData.length-1) === index) {
+            lastChild.current = e;
+        }
+    }, [isActive, commentsData])
 
     useEffect(() => {
         let unmounted = false;
+
         async function getData() {
             const { token } = userData;
             const response = await service.getComments(postId, token);
@@ -24,20 +39,38 @@ export default function CommentBox({ postId, isActive, setCommentsAmmount }) {
             else if(response === false) alert("Something went wrong");
             setIsLoading(false);
         }
-
-        if(userData.token) getData();
+        
+        
+        if(userData.token)  getData();
+        setPenultimate(lastChild.current)
         return () => { unmounted = true }
-    }, [userData, postId])
+    }, [userData, postId, refreshController])
+
+    useEffect(() => {
+        setTimeout(() => {
+            if(refreshController > 0) {
+                lastChild.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' })
+            }
+        }, 200)
+
+    }, [penultimate])
 
     return (
-        <CommentBoxContainer layout animate={isActive ? "active" : "unactive"} variants={variants}>{
-            isLoading && isActive
+        <CommentBoxContainer layout animate={isActive ? "active" : "unactive"} variants={variants}>
+            <div className="comments-wrapper">{
+                isLoading && isActive
                 ? <Loading size={30}/>
-                : commentsData.map(comment => <UserComment key={comment.id}
-                                                           commentData={comment}
-                                                           isActive={isActive} />)
-            }
-            <CommentWritter />
+                : commentsData.map((comment, index) => <UserComment key={comment.id}
+                                                                    commentData={comment}
+                                                                    isActive={isActive}
+                                                                    following={!!searchUserInFollowing(comment.user.id)}
+                                                                    postOwner={postOwner}
+                                                                    lastChild={refCallback}
+                                                                    index={index} />)
+                }</div>
+            <CommentWritter postId={postId}
+                            updateCommentsData={updateCommentsData}
+                            reference={lastChild} />
         </CommentBoxContainer>
     )
 }
@@ -49,6 +82,15 @@ const CommentBoxContainer = styled(motion.div)`
     width: 100%;
     border-radius: 0px 0px 15px 15px;
     padding: 10px;
+    position: relative;
+
+    .comments-wrapper {
+        overflow-y: auto;
+        position: relative;
+        top: 0;
+        left: 0;
+        max-height: calc(350px - 90px);
+    }
 `
 
 const variants = {

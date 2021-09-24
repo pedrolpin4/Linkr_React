@@ -1,12 +1,28 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { FiSend } from 'react-icons/fi';
 import styled from 'styled-components';
 
 import UserContext from '../../context/UserContext';
 import Loading from '../Loading';
+import service from '../../service/post'; 
 
-export default function CommentWritter({ postData }) {
+export default function CommentWritter({ postId, updateCommentsData, reference }) {
     const { userData } = useContext(UserContext);
+    const [ comment, setComment ] = useState("");
+
+
+    async function submitComment(e) {
+        e.stopPropagation();
+
+        const body = {
+            text: comment,
+            user: userData.user.id
+        }
+
+        const response = await service.sendPostComment(postId, body, userData.token)
+        if(response) updateCommentsData();
+        setComment("");
+    }
 
     return (
         <CommentWriterContainer>
@@ -15,8 +31,14 @@ export default function CommentWritter({ postData }) {
                     ? <img src={userData.user.avatar}/>
                     : <Loading spinnerSize={25}/>
             }
-            <textarea placeholder="write a comment..." />
-            <FiSend size={20}/>
+            <textarea
+                placeholder="write a comment..."
+                onChange={(e) => {
+                    e.stopPropagation();
+                    setComment(e.target.value)
+                }}
+                value={comment}/>
+            <FiSend className="send-ico" size={20} onClick={e => { submitComment(e) }}/>
         </CommentWriterContainer>
     )
 }
@@ -26,7 +48,6 @@ const CommentWriterContainer = styled.div`
     align-items: center;
     justify-content: space-between;
     padding: 20px 10px;
-    position: relative;
 
     img {
         width: 38px;
@@ -66,5 +87,9 @@ const CommentWriterContainer = styled.div`
 
     textarea::placeholder {
         color: #575757;  
+    }
+
+    .send-ico {
+        cursor: pointer;
     }
 `

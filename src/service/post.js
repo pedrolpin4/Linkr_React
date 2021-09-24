@@ -96,6 +96,14 @@ async function getMyFollows(token) {
     return false;
 }
 
+async function sendPostComment(postId, body, token) {
+    const response = await API.post(`posts/${postId}/comment`, body, head(token))
+        .catch(() => false);
+
+    if(response) return response;
+    return false;
+}
+
 const service =  {
     getHashtags,
     getHashtagsPosts,
@@ -109,7 +117,8 @@ const service =  {
     getComments,
     repostingPost,
     getMyFollowsPosts,
-    getMyFollows
+    getMyFollows,
+    sendPostComment
 }
 
 export default service;

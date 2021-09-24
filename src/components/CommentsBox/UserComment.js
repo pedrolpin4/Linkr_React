@@ -1,17 +1,25 @@
 import styled from 'styled-components';
 
-export default function UserComment({ commentData, isActive }) {
-    const { text, user } = commentData
+export default function UserComment({ commentData, isActive, following, postOwner, lastChild, index }) {
+    const { text, user } = commentData;
 
     return (
-        <UserCommentContainer isActive={isActive}>
+        <UserCommentContainer isActive={isActive} ref={e => { lastChild(e, index) }}>
             <LeftSection>
-                <img src={user.avatar}/>
+                <a href={`/user/${user.id}`}>
+                    <img src={user.avatar}/>
+                </a>
             </LeftSection>
             <RightSection>
                 <header>
-                    <p className="username">{user.username}</p>
-                    <p className="detail"></p>
+                    <a href={`/user/${user.id}`} className="username">{user.username}</a>
+                    <p className="detail">{
+                        postOwner.id === user.id
+                            ? " • post's author"
+                            : following 
+                                ? " • following" 
+                                : ""
+                    }</p>
                 </header>
                 <p className="comment-text">{text}</p>
             </RightSection>
@@ -54,6 +62,7 @@ const RightSection = styled.div`
     .detail {
         font-size: 14px;
         color: #565656;
+        margin-left: 5px;
     }
 
     .comment-text {
