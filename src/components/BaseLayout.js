@@ -14,7 +14,7 @@ export default function BaseLayout({ children, title }) {
   console.log(theme);
   return (
     <>
-      <NavBar theme = {theme}/>
+      <NavBar/>
       <BaseLayoutContainer theme = {theme}>
         <MainContentContainer>
           <LeftSection>

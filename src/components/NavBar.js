@@ -3,17 +3,22 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "../context/UserContext";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md"
+import {FaSun, FaMoon} from "react-icons/fa";
+import ThemeContext from "../context/ThemeContext";
 
-export default function NavBar ({theme}) {
+export default function NavBar () {
   const {
     userData,
     setUserData
   } = useContext(UserContext);
-  console.log(theme);
+  const {
+    theme,
+    setTheme
+  } = useContext(ThemeContext)
   const history = useHistory();
   const menu = useRef(null);
   const [openDropdown, setOpenDropdown] = useState(false);
-
+  console.log(setTheme);
   useEffect(() => {
     function hideMenu(e) {
       if(openDropdown && menu.current !== e.target) {
@@ -64,6 +69,11 @@ export default function NavBar ({theme}) {
         <p onClick={goToMyPosts}>My posts</p>
         <p onClick={goToMyLikes}>My likes</p>
         <p onClick={logOut}>Logout</p>
+        {theme === "light" ?
+           <p onClick = {() => setTheme("dark")}>Theme:<FaSun color = "#151515" /></p> : 
+           <p onClick = {() => setTheme("light")}>Theme:<FaMoon color = "#FFFFF" /></p>
+        }
+        <p></p>
       </DropdownMenu>
     </NavBarContainer>
   );
@@ -118,7 +128,7 @@ const DropdownMenu = styled.div`
   top: 72px;
   right: 0;
   z-index: 150;
-  height: 109px;
+  height: 135px;
   padding: 10px 29px 6px 28px;
   border-radius: 0px 0px 0px 20px;
   background-color: ${props => props.theme === "light" ? "#FAFAFA" :"#171717"};
@@ -137,6 +147,11 @@ const DropdownMenu = styled.div`
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
+  }
+
+  svg{
+    cursor: pointer;
+    margin-left: 10px;
   }
 
   @media(max-width: 600px){

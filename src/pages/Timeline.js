@@ -7,6 +7,7 @@ import service from '../service/post';
 import PostBox from "../components/PostBox";
 import UserContext from "../context/UserContext";
 import FeedbackMessage from '../components/FeedbackMessage';
+import ThemeContext from "../context/ThemeContext";
 
 
 function Timeline() {
@@ -14,6 +15,7 @@ function Timeline() {
     const [ isLoading, setIsLoading ] = useState(true);
     const [ posts, setPosts ] = useState([]);
     const [ newPosts, setNewPosts ] = useState(0);
+    const {theme} = useContext(ThemeContext)
     
     useEffect(() => {
         let unmounted = false;
@@ -47,7 +49,7 @@ function Timeline() {
             title="timeline"
             trends={[{name: "timeline"}]}            
         >
-            <PostBox setNewPosts={setNewPosts} newPosts={newPosts}/>
+            <PostBox setNewPosts={setNewPosts} newPosts={newPosts} theme = {theme}/>
             {
             isLoading
                 ? <Loading spinnerSize={30}/>
