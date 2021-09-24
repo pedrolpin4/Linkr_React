@@ -132,7 +132,7 @@ export default function Post({
           />
         </LeftSection>
 
-        <RightSection shouldhide={userId === userData.user?.id}>
+        <RightSection shouldhide={userId === userData.user?.id && repostId === false}>
           <header>
             <div>
               <p className="username">
