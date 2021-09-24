@@ -121,7 +121,6 @@ function UsersPosts() {
       if(userPosts.length) setPostsLoading(true)
       service.getOlderPosts(userData.token, idObserver, `/users/${id}/posts`)
         .then(res => {
-            console.log(res.data.posts)
             setPostsLoading(false)
 
             if(res.data.posts.length === 10){
