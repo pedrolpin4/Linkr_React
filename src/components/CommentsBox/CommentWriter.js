@@ -6,7 +6,7 @@ import UserContext from '../../context/UserContext';
 import Loading from '../Loading';
 import service from '../../service/post'; 
 
-export default function CommentWritter({ postId, updateCommentsData, reference }) {
+export default function CommentWritter({ postId, updateCommentsData, isActive }) {
     const { userData } = useContext(UserContext);
     const [ comment, setComment ] = useState("");
 
@@ -29,7 +29,7 @@ export default function CommentWritter({ postId, updateCommentsData, reference }
     }
 
     return (
-        <CommentWriterContainer>
+        <CommentWriterContainer isActive={isActive}>
             {
                 userData.user
                     ? <img src={userData.user.avatar} alt=""/>
@@ -53,6 +53,7 @@ const CommentWriterContainer = styled.div`
     align-items: center;
     justify-content: space-between;
     padding: 20px 10px;
+    visibility: ${props => props.isActive ? "visible" : "hidden"};
 
     img {
         width: 38px;

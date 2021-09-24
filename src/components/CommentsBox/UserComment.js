@@ -31,6 +31,7 @@ const UserCommentContainer = styled.div`
     width: 100%;
     margin-bottom: 1px solid #353535;
     display: flex;
+    visibility: ${props => props.isActive ? "visible" : "hidden"};
     padding: 10px;
     border-bottom: 1px solid #353535;
     font-family: "Lato", sans-serif;

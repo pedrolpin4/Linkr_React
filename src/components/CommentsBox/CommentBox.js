@@ -70,7 +70,8 @@ export default function CommentBox({ postId, isActive, setCommentsAmmount, postO
                 }</div>
             <CommentWritter postId={postId}
                             updateCommentsData={updateCommentsData}
-                            reference={lastChild} />
+                            reference={lastChild}
+                            isActive={isActive} />
         </CommentBoxContainer>
     )
 }
@@ -116,5 +117,7 @@ const variants = {
     active: { height: "auto", opacity: 1, transition: {
         stiffness: 100
     }},
-    unactive: { height: 0, opacity: 0 }
+    unactive: { height: 0, opacity: 0, transition: {
+        duration: .2
+    }}
 }
