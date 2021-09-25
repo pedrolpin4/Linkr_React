@@ -3,6 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import service from "../service/post"
 import UserContext from "../context/UserContext"
+import HashtagSearch from "./HashtagSearch";
 
 const TrendingBar = () => {
     const { 
@@ -33,6 +34,7 @@ const TrendingBar = () => {
                         </Link>    
                     </HashtagsName>
                 ))}
+            <HashtagSearch />
         </TrendingsContainer>
     )
 }
@@ -43,7 +45,7 @@ const TrendingsContainer = styled.div`
     width: 301px;
     background: #171717;
     border-radius: 16px;
-    height: 456px;
+    height: 100%;
     position: -webkit-sticky;
     position: sticky;
     top: 90px;

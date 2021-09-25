@@ -28,7 +28,7 @@ function MyPosts() {
         if(userData.token) getPosts();
         return () => { unmounted = true };
     }, [userData, newPosts])
-
+    
     return (
       <BaseLayout title="my posts">
         {isLoading ? (
@@ -55,6 +55,7 @@ function MyPosts() {
               repostCount={post.repostCount}
               repostedByUser={post.repostedBy?.username}
               repostedUserId={post.repostedBy?.id}
+              geoLocation={post.geolocation}
             />
           ))
         )}
