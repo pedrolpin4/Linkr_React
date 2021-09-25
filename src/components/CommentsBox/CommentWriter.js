@@ -14,6 +14,11 @@ export default function CommentWritter({ postId, updateCommentsData, isActive })
     async function submitComment(e) {
         e.stopPropagation();
 
+        if(comment.trim() === "") {
+            alert("You have to type something to comment");
+            return;
+        }
+
         const body = {
             text: comment,
             user: userData.user.id

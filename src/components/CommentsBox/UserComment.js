@@ -44,6 +44,14 @@ const UserCommentContainer = styled.div`
 `
 const LeftSection = styled.div`
     width: 10%;
+
+    @media screen and (max-width: 500px) {
+        width: 15%;
+    }
+
+    @media screen and (max-width: 300px) {
+        width: 20%;
+    }
 `
 
 const RightSection = styled.div`
@@ -70,5 +78,13 @@ const RightSection = styled.div`
         color: #ACACAC;
         font-size: 14px;
         word-break: break-word;
+    }
+
+    @media screen and (max-width: 500px) {
+        width: 85%;
+    }
+
+    @media screen and (max-width: 300px) {
+        width: 80%;
     }
 `

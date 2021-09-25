@@ -373,6 +373,10 @@ const ShowComments = styled.div`
     font-size: 11px;
     font-family: "Lato", sans-serif;
     color: #fff;
+
+    @media screen and (max-width: 600px) {
+      font-size: 9px;
+    }
   }
 
   .comments-ico {
