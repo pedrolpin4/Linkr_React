@@ -148,6 +148,9 @@ const URL = styled.input`
   padding-left: 10px;
   color: ${props => props.theme === "light" ? "#fff" : "black"};
   font-family: "Lato", sans-serif;
+  :focus {
+    outline: none;
+  }
   @media screen and (max-width: 600px) {
     width: 100%;
   }
@@ -166,6 +169,9 @@ const Text = styled.textarea`
   word-break: break-all;
   resize: none;
   font-family: "Lato", sans-serif;
+  :focus {
+    outline: none;
+  }
   @media screen and (max-width: 600px) {
     width: 100%;
     margin-bottom: 6px;

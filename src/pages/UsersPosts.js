@@ -43,7 +43,7 @@ function UsersPosts() {
       if (response && !unmounted) {
         setUserPosts(response.posts);
         setUsername(response.posts[0].repostedBy ? response.posts[0].repostedBy.username : response.posts[0].user.username);
-        setIdObserver(response.posts[response.posts.length - 1].repostId ?
+        setIdObserver(response.posts[response.posts.length - 1]?.repostId ?
           response.posts.find((post,index) =>(index + 1 === response.posts.length))?.repostId :
           response.posts.find((post,index) =>(index + 1 === response.posts.length))?.id 
         )
@@ -128,7 +128,7 @@ function UsersPosts() {
             } else setHasMore(false)
 
             setUserPosts([...userPosts, ...res.data.posts])
-            setIdObserver(res.data.posts[res.data.posts.length - 1].repostId ?
+            setIdObserver(res.data.posts[res.data.posts.length - 1]?.repostId ?
                 res.data.posts[res.data.posts.length - 1]?.repostId :
                 res.data.posts[res.data.posts.length - 1]?.id 
             )

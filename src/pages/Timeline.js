@@ -42,8 +42,8 @@ function Timeline() {
             const verifyNewPosts = (res) => {
                 let acumulator = []
                 for(let i = 0; i < 10; i++){
-                    if(res.posts[i].repostId){
-                        if(posts.every(post => post.repostId !== res.posts[i].repostId)) acumulator.push(res.posts[i]) 
+                    if(res.posts[i]?.repostId){
+                        if(posts.every(post => post?.repostId !== res.posts[i]?.repostId)) acumulator.push(res.posts[i]) 
                         else {
                             setPosts([...acumulator, ...posts])
                             return
@@ -64,7 +64,7 @@ function Timeline() {
                     verifyNewPosts(response)
                 } else{
                     setPosts(response.posts) 
-                    setIdObserver(response.posts[response.posts.length - 1].repostId ?
+                    setIdObserver(response.posts[response.posts.length - 1]?.repostId ?
                         response.posts.find((post,index) =>(index + 1 === response.posts.length))?.repostId :
                         response.posts.find((post,index) =>(index + 1 === response.posts.length))?.id 
                     )    

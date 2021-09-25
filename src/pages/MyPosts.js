@@ -40,7 +40,7 @@ function MyPosts() {
 
             if(response && !unmounted){
               setPosts(response.posts);
-              setIdObserver(response.posts[response.posts.length - 1].repostId ?
+              setIdObserver(response.posts[response.posts.length - 1]?.repostId ?
                 response.posts.find((post,index) =>(index + 1 === response.posts.length))?.repostId :
                 response.posts.find((post,index) =>(index + 1 === response.posts.length))?.id 
               )
@@ -64,7 +64,7 @@ function MyPosts() {
                 } else setHasMore(false)
 
                 setPosts([...posts, ...res.data.posts])
-                setIdObserver(res.data.posts[res.data.posts.length - 1].repostId ?
+                setIdObserver(res.data.posts[res.data.posts.length - 1]?.repostId ?
                     res.data.posts[res.data.posts.length - 1]?.repostId :
                     res.data.posts[res.data.posts.length - 1]?.id 
                 )

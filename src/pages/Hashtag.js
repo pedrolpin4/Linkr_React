@@ -45,7 +45,7 @@ function Hashtag() {
                   if(!unmounted && res) {
                       setHashtagsPosts(res.posts)
                       setIsLoading(false)
-                      setIdObserver(res.posts[res.posts.length - 1].repostId ?
+                      setIdObserver(res.posts[res.posts.length - 1]?.repostId ?
                         res.posts[res.posts.length - 1]?.repostId :
                         res.posts[res.posts.length - 1]?.id 
                       )          
@@ -71,7 +71,7 @@ function Hashtag() {
               } else setHasMore(false)
 
               setHashtagsPosts([...hashtagsPosts, ...res.data.posts])
-              setIdObserver(res.data.posts[res.data.posts.length - 1].repostId ?
+              setIdObserver(res.data.posts[res.data.posts.length - 1]?.repostId ?
                   res.data.posts[res.data.posts.length - 1]?.repostId :
                   res.data.posts[res.data.posts.length - 1]?.id 
               )
