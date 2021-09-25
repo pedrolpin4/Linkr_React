@@ -3,6 +3,7 @@ import styled from "styled-components";
 import TrendingBar from "../components/TrendingBar";
 import ThemeContext from "../context/ThemeContext";
 import NavBar from "./NavBar";
+import SearchBox from "../components/SearchBox";
 
 
 export default function BaseLayout({ children, title }) {
@@ -18,6 +19,7 @@ export default function BaseLayout({ children, title }) {
       <BaseLayoutContainer theme = {theme}>
         <MainContentContainer>
           <LeftSection>
+            <SearchBox mobile={true}/>
               <PageTitle>{title}</PageTitle>
             {children}
           </LeftSection>
@@ -39,12 +41,19 @@ const PageTitle = styled.h1`
   margin: 125px 0 45px 0;
   font-weight: bold;
   width: 100%;
+
   @media (max-width: 1000px) {
     font-size: 33px;
     line-height: 48.91px;
+    margin-top: 155px;
   }
+
   @media (max-width: 650px) {
-    margin: 91px 0px 19px 17px;
+    margin: 155px 0px 19px 17px;    
+  }
+
+  @media (max-width: 611px) {
+    margin: 150px 0px 19px 17px;
     overflow-wrap: break-word;
   }
 `;

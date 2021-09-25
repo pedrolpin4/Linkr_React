@@ -204,7 +204,12 @@ const FollowButton = styled.button`
   font-weight: bold;
   font-size: 14px;
   line-height: 17px;
+  
   @media (max-width: 611px){
-    top: 142px
+    top: 142px;
+  }
+
+  @media (max-width: 1000px) {
+    top: 200px;
   }
 `;
