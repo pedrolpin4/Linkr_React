@@ -157,6 +157,7 @@ export default function Post({
                 disabled={isDisabled}
                 onChange={(e) => setCurrentValue(e.target.value)}
                 onKeyDown={(e) => keyEvents(e)}
+                theme = {theme}
               />
             ) : (
               <ReactHashtag
@@ -401,7 +402,7 @@ const RightSection = styled.div`
 const EditInput = styled.textarea`
   width: 503px;
   min-height: 44px;
-  background: ${props => props.theme === "light" ? "#171717" : "#FFFFFF"};
+  background: ${props => props.theme === "light" ? "#DCDCDC" : "#FFFFFF"};
   border-radius: 7px;
   padding: 8px 10px;
   border: none;
@@ -409,7 +410,7 @@ const EditInput = styled.textarea`
   line-height: 17px;
   word-break: break-all;
   resize: none;
-  color: ${props => props.theme === "light" ? "#4c4c4c" :"#171717"};
+  color: ${props => props.theme === "light" ? "black" :"#171717"};
   font-family: "Lato", sans-serif;
   margin-top: 8px;
   :focus {
