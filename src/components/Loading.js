@@ -1,13 +1,12 @@
 import styled from 'styled-components';
 import { CgSpinner } from 'react-icons/cg';
-import { useContext } from 'react/cjs/react.development';
 
 export default function Loading({ spinnerSize,
                                   message,
                                   color     }) {
     return (
         <LoadingContainer>
-            <CgSpinner color={color ? color : "#ffffff"} 
+            <CgSpinner color={localStorage.getItem("currentTheme") === "light" ? "#333333" : "#ffffff"} 
                        size={spinnerSize} 
                        className="spinner"/>
             <Text color={color}>{
