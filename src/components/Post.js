@@ -272,6 +272,9 @@ const PostContainer = styled.div`
     margin-bottom: 5px;
     font-size: 17px;
     line-height: 20px;
+    -webkit-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
   }
 
   @media screen and (max-width: 600px) {

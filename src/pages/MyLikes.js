@@ -12,11 +12,6 @@ function MyLikes() {
   const [ isLoading, setIsLoading ] = useState(true);
   const [ posts, setPosts ] = useState([]);
   const [ newPosts, setNewPosts ] = useState(0);
-  const [idObserver, setIdObserver] = useState(null);
-  const [postsLoading, setPostsLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-  const [pageNumber, setPageNumber] = useState(0)
-  const observer = useRef()
 
   const lastPost = null
 
@@ -64,7 +59,6 @@ function MyLikes() {
             repostCount={post.repostCount}
             repostedByUser={post.repostedBy?.username}
             repostedUserId={post.repostedBy?.id}
-            idObserver = {idObserver}
             lastPost = {lastPost}
             geoLocation={post.geolocation}
           />
