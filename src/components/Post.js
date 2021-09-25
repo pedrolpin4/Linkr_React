@@ -15,6 +15,7 @@ import RepostComponent from "./RepostComponent";
 import RepostBar from "./RepostBar";
 import { customStyles, ModalButtons } from "../SharedStyles/StyledComponents";
 import ThemeContext from "../context/ThemeContext";
+import LocationPin from "./LocationPin";
 
 export default function Post({
   profilePic,
@@ -34,6 +35,7 @@ export default function Post({
   repostedByUser,
   repostedUserId,
   lastPost,
+  geoLocation,
 }) {
   const [isClicked, setIsClicked] = useState(false);
   const inputRef = useRef();
@@ -106,6 +108,8 @@ export default function Post({
     }
   }, [isEditing]);
 
+  console.log(geoLocation)
+
   return (
     <>
       {repostId ? (
@@ -132,11 +136,19 @@ export default function Post({
           />
         </LeftSection>
 
-        <RightSection shouldhide={userId === userData.user?.id} theme = {theme}>
+        <RightSection shouldhide={userId === userData.user?.id && repostId === false} theme = {theme}>
           <header>
-            <p className="username">
-              <a href={`/user/${userId}`}>{username}</a>
-            </p>
+            <div>
+              <p className="username">
+                <a href={`/user/${userId}`}>{username}</a>
+              </p>
+              {geoLocation ? 
+              <LocationPin
+                geoLocation={geoLocation}
+                username={username} />
+              :
+              ""}
+            </div>
             <FiEdit2
               size={16}
               className="edit"
@@ -258,11 +270,18 @@ const PostContainer = styled.div`
 
   .youtubeLink {
     margin-bottom: 5px;
+    font-size: 17px;
+    line-height: 20px;
   }
 
   @media screen and (max-width: 600px) {
     width: 100%;
     border-radius: 0px;
+
+    .youtubeLink {
+      font-size: 15px;
+      line-height: 18px;
+    }
   }
 `;
 
@@ -303,6 +322,7 @@ const LeftSection = styled.div`
   @media screen and (max-width: 600px) {
     .likes {
       font-size: 9px;
+      line-height: 11px;
       text-align: center;
     }
 
@@ -360,8 +380,13 @@ const RightSection = styled.div`
     user-select: text;
   }
 
+  header > div {
+    display: flex;
+    align-items: center;
+    margin: 5px 0 10px;
+  }
+
   .username {
-    margin-bottom: 10px;
     line-height: unset;
     color: ${props => props.theme === "light" ? "#171717" : "#FFFFFF"};
     font-size: 19px;
@@ -379,16 +404,15 @@ const RightSection = styled.div`
     }
 
     .delete {
-      top: 3px;
       right: 7px;
     }
 
     .edit {
-      top: 3px;
       right: 32px;
     }
 
-    svg {
+    .delete,
+    .edit {
       width: 12px;
       height: 14px;
     }

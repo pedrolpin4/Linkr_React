@@ -41,8 +41,9 @@ const PageTitle = styled.h1`
   width: 100%;
   @media (max-width: 1000px) {
     font-size: 33px;
+    line-height: 48.91px;
   }
-  @media (max-width: 611px) {
+  @media (max-width: 650px) {
     margin: 91px 0px 19px 17px;
     overflow-wrap: break-word;
   }

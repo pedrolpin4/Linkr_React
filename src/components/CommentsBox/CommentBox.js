@@ -15,9 +15,7 @@ export default function CommentBox({ postId }) {
         let unmounted = false;
         async function getData() {
             const { token } = userData;
-            console.log(token)
             const response = await service.getComments(postId, token);
-            console.log(response)
             if(response && !unmounted) setCommentsData(response);
             else if(response === false) alert("Something went wrong");
             setIsLoading(false);

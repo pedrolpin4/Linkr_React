@@ -3,12 +3,15 @@ import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
 import axios from "axios";
 import UserContext from "../context/UserContext";
+import LocationComponent from "./LocationComponent";
 
 function PostBox({newPosts, setNewPosts, theme}) {
   const { userData } = useContext(UserContext);
   const [url, setUrl] = useState("");
   const [text, setText] = useState("");
   const [clicked, setClicked] = useState(false);
+  const [getGeolocation, setGetGeolocation] = useState({});
+
 
   function toPublishPost() {
     setClicked(true);
@@ -24,6 +27,10 @@ function PostBox({newPosts, setNewPosts, theme}) {
         {
           text,
           link: url,
+          geolocation: {
+            latitude: getGeolocation.coords ? getGeolocation.coords.latitude : "",
+            longitude: getGeolocation.coords ? getGeolocation.coords.longitude : "",
+          },
         },
         config
       );
@@ -70,6 +77,7 @@ function PostBox({newPosts, setNewPosts, theme}) {
           theme = {theme}
         ></Text>
         <ButtonDiv>
+          <LocationComponent setGetGeolocation={setGetGeolocation} />
           <PublishButton onClick={toPublishPost} disabled={clicked} theme = {theme}>
             {clicked ? "Publishing..." : "Publish"}
           </PublishButton>
@@ -163,7 +171,7 @@ const Text = styled.textarea`
   color: ${props => props.theme === "light" ? "#fff" : "black"};
   border-radius: 5px;
   border: none;
-  margin: 0 auto 15px auto;
+  margin: 0 auto 5px auto;
   padding: 10px;
   word-break: break-word;
   word-break: break-all;
@@ -181,7 +189,8 @@ const Text = styled.textarea`
 
 const ButtonDiv = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: flex-start;
 `;
 
 const PublishButton = styled.button`
@@ -201,5 +210,7 @@ const PublishButton = styled.button`
 
   @media (max-width: 600px) {
     height: 22px;
+    font-size: 13px;
+    line-height: 16px;
   }
 `;

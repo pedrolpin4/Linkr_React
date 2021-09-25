@@ -98,4 +98,9 @@ const AmountReposts = styled.p`
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
+
+  @media (max-width: 600px) {
+    font-size: 9px;
+    line-height: 11px;
+  }
 `;

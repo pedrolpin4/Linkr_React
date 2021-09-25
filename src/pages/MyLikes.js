@@ -8,34 +8,34 @@ import service from '../service/post';
 import FeedbackMessage from '../components/FeedbackMessage';
 
 function MyLikes() {
-    const { userData } = useContext(UserContext);
-    const [ isLoading, setIsLoading ] = useState(true);
-    const [ posts, setPosts ] = useState([]);
-    const [ newPosts, setNewPosts ] = useState(0);
-    const [idObserver, setIdObserver] = useState(null);
-    const [postsLoading, setPostsLoading] = useState(false);
-    const [hasMore, setHasMore] = useState(true);
-    const [pageNumber, setPageNumber] = useState(0)
-    const observer = useRef()
+  const { userData } = useContext(UserContext);
+  const [ isLoading, setIsLoading ] = useState(true);
+  const [ posts, setPosts ] = useState([]);
+  const [ newPosts, setNewPosts ] = useState(0);
+  const [idObserver, setIdObserver] = useState(null);
+  const [postsLoading, setPostsLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [pageNumber, setPageNumber] = useState(0)
+  const observer = useRef()
 
-    const lastPost = null
+  const lastPost = null
 
 
   useEffect(() => {
-      let unmounted = false;
+    let unmounted = false;
 
-      async function getLikedPosts() {
-          const response = await service.getLikedPosts(userData.token);
+    async function getLikedPosts() {
+      const response = await service.getLikedPosts(userData.token);
 
-          if(response && !unmounted) {
-              setPosts(response.posts)
-              setIsLoading(false)
-          }
-          else if(response === false) alert("Hoje é feriado ná terra dos servidores, te respondemos amanhã!");
+      if(response && !unmounted) {
+        setPosts(response.posts)
+        setIsLoading(false)
       }
+      else if(response === false) alert("Hoje é feriado ná terra dos servidores, te respondemos amanhã!");
+    }
 
-      if(userData.token) getLikedPosts();
-      return () => { unmounted = true }
+    if(userData.token) getLikedPosts();
+    return () => { unmounted = true }
   }, [userData, newPosts])
 
   return (
@@ -66,6 +66,7 @@ function MyLikes() {
             repostedUserId={post.repostedBy?.id}
             idObserver = {idObserver}
             lastPost = {lastPost}
+            geoLocation={post.geolocation}
           />
         ))
       )}

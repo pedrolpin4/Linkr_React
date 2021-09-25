@@ -177,6 +177,7 @@ function UsersPosts() {
               repostedUserId={post.repostedBy?.id}
               idObserver = {idObserver}
               lastPost = {lastPost}
+              geoLocation={post.geolocation}
             />
           ))
         )}

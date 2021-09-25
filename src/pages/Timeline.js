@@ -89,6 +89,7 @@ function Timeline() {
       };
     }, []);
 
+<<<<<<< HEAD
     useEffect(() => {
         function getNewPostsData() {
             if(posts.length) setPostsLoading(true)
@@ -146,6 +147,39 @@ function Timeline() {
           ))}
         {postsLoading ? <Loading spinnerSize={50} /> : <></> }
       </BaseLayout>
+=======
+    return (
+        <BaseLayout
+            title="timeline"
+            trends={[{name: "timeline"}]}            
+        >
+            <PostBox setNewPosts={setNewPosts} newPosts={newPosts}/>
+            {
+            isLoading
+                ? <Loading spinnerSize={30}/>
+                : following.length === 0 && posts.length === 0
+                    ? <FeedbackMessage text="You don't follow anyone yet, search for someone"/>
+                    : posts.map(post => <Post key={post.repostId ? post.repostId : post.id}
+                                              username={post.user.username}
+                                              text={post.text}
+                                              link={post.link}
+                                              profilePic={post.user.avatar}
+                                              prevTitle={post.linkTitle}
+                                              prevImage={post.linkImage}
+                                              prevDescription={post.linkDescription}
+                                              likes={post.likes}
+                                              userId={post.user.id}
+                                              id={post.id}
+                                              repostId={post.repostId ? post.repostId : false}
+                                              setNewPosts={setNewPosts}
+                                              newPosts={newPosts}
+                                              repostCount={post.repostCount}
+                                              repostedByUser={post.repostedBy?.username}
+                                              repostedUserId={post.repostedBy?.id}
+                                              geoLocation={post.geolocation}
+                                             />)
+        }</BaseLayout>
+>>>>>>> location
     )
 }
 
