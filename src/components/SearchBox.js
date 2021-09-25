@@ -7,7 +7,7 @@ import { useEffect } from "react/cjs/react.development";
 import { Link } from "react-router-dom";
 import { ImSearch } from "react-icons/im";
 
-function SearchBox() {
+function SearchBox({ mobile }) {
   const { userData } = useContext(UserContext);
   const [searchInput, setSearchInput] = useState("");
   const [searchUsers, setSearchUsers] = useState("");
@@ -40,7 +40,7 @@ function SearchBox() {
 
   return (
     <>
-      <SearchContainer>
+      <SearchContainer mobile={mobile}>
         <DebounceInput
           placeholder="Search for people and friends"
           className="box"
@@ -50,7 +50,7 @@ function SearchBox() {
         ></DebounceInput>
         <ImSearch size={25} color="#c6c6c6" />
       </SearchContainer>
-      <UsersListBox toShow={searchInput.length >= 3}>
+      <UsersListBox toShow={searchInput.length >= 3} mobile={mobile}>
         {searchUsers === ""
           ? ""
           : searchUsers.map((user) => (
@@ -70,17 +70,29 @@ function SearchBox() {
 export default SearchBox;
 
 const SearchContainer = styled.div`
-  width: 563px;
+  width: ${(props) => (props.mobile ? "611px" : "563px")};
   height: 45px;
   background-color: #fff;
   border-radius: 8px;
-  display: flex;
+  display: ${(props) => (props.mobile ? "none" : "flex")};
   align-items: center;
   justify-content: space-between;
-  margin-left: calc((100vw / 2) - ((563px + 28px) / 2));
+  margin-left: ${(props) =>
+    props.mobile ? "0px" : "calc((100vw / 2) - ((563px + 28px) / 2))"};
   padding-right: 10px;
   position: absolute;
-  z-index: 2;
+  z-index: ${(props) => (props.mobile ? "3" : "2")};
+  left: ${(props) => (props.mobile ? "calc(((100vw - 611px) / 2))" : "")};
+  top: ${(props) => (props.mobile ? "95px" : "")};
+
+  @media (max-width: 1000px) {
+    display: ${(props) => (props.mobile ? "flex" : "none")};
+  }
+
+  @media (max-width: 611px) {
+    width: ${(props) => (props.mobile ? "calc(100vw - 30px)" : "")};
+    left: ${(props) => (props.mobile ? "15px" : "")};
+  }
 
   .box {
     width: 100%;
@@ -99,13 +111,22 @@ const UsersListBox = styled.ul`
   width: 563px;
   height: auto;
   background-color: #e7e7e7;
-  position: fixed;
-  top: 45px;
-  left: calc((100vw / 2) - ((563px - 28px) / 2));
+  position: ${(props) => (props.mobile ? "absolute" : "fixed")};
+  top: ${(props) => (props.mobile ? "115px" : "45px")};
+  left: ${(props) =>
+    props.mobile
+      ? "calc(((100vw - 563px) / 2))"
+      : "calc((100vw / 2) - ((563px - 28px) / 2))"};
   padding: 20px 0 3px 0;
   border-radius: 8px;
   display: ${(props) => (props.toShow ? "flex" : "none")};
   flex-direction: column;
+  z-index: ${(props) => (props.mobile ? "2" : "1")};
+
+  @media (max-width: 611px) {
+    width: calc(100vw - 30px);
+    left: 15px;
+  }
 `;
 
 const User = styled.li`

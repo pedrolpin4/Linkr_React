@@ -53,7 +53,7 @@ export default function NavBar () {
   return (
     <NavBarContainer>
       <NavBarTitle href="/timeline">linkr</NavBarTitle>
-      <SearchBox/>
+      <SearchBox mobile={false}/>
       <div>
         {openDropdown ? (
           <ArrowUp color="#FFFFFF" onClick={toggleMenu} />
