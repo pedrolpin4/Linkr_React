@@ -101,11 +101,11 @@ const Modal = styled.div`
     height: auto;
     left: 0px;
     padding: 0 15px 20px;
-  }
 
-  .leaflet-container {
-    height: 200px;
-    width: 100%;
+    .leaflet-container {
+      height: 200px;
+      width: 100%;
+    }
   }
 `;
 
