@@ -13,8 +13,6 @@ import Timeline from "./pages/Timeline";
 import UsersPosts from "./pages/UsersPosts";
 import BaseLayout from "./components/BaseLayout";
 
-import SearchBox from "./components/SearchBox"; //tirar depois
-
 import service from "./service/post";
 
 
@@ -78,7 +76,6 @@ function App() {
           <Route exact path="/hashtag/:hashtag" component={Hashtag} />
           <Route exact path="/my-likes" component={MyLikes} />
           <Route exact path="/baselayout" component={() => <BaseLayout title="teste" trends={[{name: "yoyooo"}]}><p>oiee</p></BaseLayout>} />
-          <Route exact path="/searchbox" component={SearchBox} />
         </Switch>
       </Router>
     </UserContext.Provider>

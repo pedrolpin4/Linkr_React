@@ -2,7 +2,8 @@ import { useContext, useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "../context/UserContext";
-import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md"
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
+import SearchBox from "./SearchBox";
 
 export default function NavBar () {
   const {
@@ -52,12 +53,14 @@ export default function NavBar () {
   return (
     <NavBarContainer>
       <NavBarTitle href="/timeline">linkr</NavBarTitle>
+      <SearchBox/>
       <div>
         {openDropdown ? (
           <ArrowUp color="#FFFFFF" onClick={toggleMenu} />
         ) : (
           <ArrowDown color="#FFFFFF" onClick={toggleMenu} />
         )}
+        
         <ProfileImg src={userData.user?.avatar} onClick={toggleMenu} />
       </div>
       <DropdownMenu openDropdown={openDropdown} ref={menu}>

@@ -39,11 +39,11 @@ function SearchBox() {
   }, [searchInput]);
 
   return (
-    <Container>
+    <>
       <SearchContainer>
         <DebounceInput
           placeholder="Search for people and friends"
-          className="caixa"
+          className="box"
           minLength={3}
           debounceTimeout={300}
           onChange={(e) => setSearchInput(e.target.value)}
@@ -63,39 +63,31 @@ function SearchBox() {
               </Link>
             ))}
       </UsersListBox>
-    </Container>
+    </>
   );
 }
 
 export default SearchBox;
 
-const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background-color: lightskyblue;
-  padding: 20px;
-`;
-
 const SearchContainer = styled.div`
-  width: 575px;
+  width: 563px;
   height: 45px;
-  background-color: #FFF;
+  background-color: #fff;
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-left: calc((100vw / 2) - 574px / 2);
+  margin-left: calc((100vw / 2) - ((563px + 28px) / 2));
   padding-right: 10px;
   position: absolute;
-  //z-index: 100;
+  z-index: 2;
 
-  .caixa {
+  .box {
     width: 100%;
     height: 45px;
     border-radius: 8px;
     border: none;
     outline: none;
-    //margin-left: calc((100vw / 2) - 563px / 2);
     font-family: Lato;
     font-size: 19px;
     padding: 0 0 0 15px;
@@ -104,15 +96,16 @@ const SearchContainer = styled.div`
 `;
 
 const UsersListBox = styled.ul`
-  width: 575px;
+  width: 563px;
   height: auto;
   background-color: #e7e7e7;
-  margin-left: calc((100vw / 2) - 575px / 2);
-  margin-top: 30px;
+  position: fixed;
+  top: 45px;
+  left: calc((100vw / 2) - ((563px - 28px) / 2));
   padding: 20px 0 3px 0;
   border-radius: 8px;
-  display: ${(props) => (props.toShow ? "inherit" : "none")};
-  //z-index: -1;
+  display: ${(props) => (props.toShow ? "flex" : "none")};
+  flex-direction: column;
 `;
 
 const User = styled.li`
@@ -136,6 +129,11 @@ const User = styled.li`
     color: #515151;
     margin-right: 12px;
     line-height: 23px;
+    max-width: 365px;
+    height: 22px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   h2 {

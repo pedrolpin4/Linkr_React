@@ -180,6 +180,7 @@ export default function Post({
                 height="290"
                 className="youtube"
                 src={`https://www.youtube.com/embed/${getYouTubeID(link)}`}
+                allowFullScreen="true" 
               ></iframe>
               <a href={link} className="youtubeLink">
                 {link}
