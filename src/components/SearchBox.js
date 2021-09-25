@@ -55,7 +55,7 @@ function SearchBox({ mobile }) {
           ? ""
           : searchUsers.map((user) => (
               <Link to={`/user/${user.id}`}>
-                <User>
+                <User onClick={() => setSearchInput("")}>
                   <img src={user.avatar} alt={user.username} />
                   <h1>{user.username}</h1>
                   <h2>{user.isFollowingLoggedUser ? "• following" : ""}</h2>
@@ -108,14 +108,14 @@ const SearchContainer = styled.div`
 `;
 
 const UsersListBox = styled.ul`
-  width: 563px;
+  width: ${(props) => (props.mobile ? "611px" : "563px")};
   height: auto;
   background-color: #e7e7e7;
   position: ${(props) => (props.mobile ? "absolute" : "fixed")};
   top: ${(props) => (props.mobile ? "115px" : "45px")};
   left: ${(props) =>
     props.mobile
-      ? "calc(((100vw - 563px) / 2))"
+      ? "calc(((100vw - 611px) / 2))"
       : "calc((100vw / 2) - ((563px - 28px) / 2))"};
   padding: 20px 0 3px 0;
   border-radius: 8px;
