@@ -84,8 +84,7 @@ const PageTitle = styled.h1`
   }
 
   @media (max-width: 611px) {
-    margin: 150px 0px 19px 17px;
-    overflow-wrap: break-word;
+    margin: 150px 0px 19px 10px;
   }
 `;
 

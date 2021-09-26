@@ -489,6 +489,7 @@ const RightSection = styled.div`
     line-height: unset;
     color: ${(props) => (props.theme === "light" ? "#171717" : "#FFFFFF")};
     font-size: 19px;
+    word-break: break-all;
   }
 
   .hashtag {
