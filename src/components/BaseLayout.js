@@ -43,12 +43,40 @@ const PageTitle = styled.h1`
   overflow-x: hidden;
   text-overflow: ellipsis;
   font-size: 43px;
-  
   font-weight: bold;
-  
+  height: 100%;
+  display: flex;
+  align-items: center;
+
   @media (max-width: 1000px) {
-    font-size: 26px;
-    line-height: 40px;
+    font-size: 33px;
+    line-height: 48.91px;
+    width: 400px;
+  }
+
+  @media (max-width: 650px) {
+    margin: 0px 0px 0px 0px; 
+    width: 320px;
+    font-size: 25px;
+  }
+
+  @media (max-width: 611px) {
+    overflow-wrap: break-word;
+  }
+
+  @media (max-width: 550px) {
+    width: 300px;
+  }
+
+  @media (max-width: 515px) {
+    width: 270px;
+  }
+
+  @media (max-width: 480px) {
+    width: 200px;
+    overflow-x: hidden;
+    white-space: nowrap;
+  text-overflow: ellipsis;
   }
 `;
 
@@ -81,7 +109,7 @@ const LeftSection = styled.section`
     align-items: center;
     justify-content: flex-start;
     margin: 125px 0 45px 0;
-    width: 100%;
+    width: 100%;   
 
     @media (max-width: 1000px) {
       margin-top: 155px;
