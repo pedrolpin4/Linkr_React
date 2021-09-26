@@ -5,7 +5,7 @@ import { FiEdit2 } from "react-icons/fi";
 import { AiOutlineComment } from "react-icons/ai";
 import ReactHashtag from "react-hashtag";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import getYouTubeID from "get-youtube-id";
 import { motion } from "framer-motion";
 import LikesComponent from "./LikesComponent";
@@ -19,8 +19,9 @@ import RepostBar from "./RepostBar";
 import { customStyles, ModalButtons } from "../SharedStyles/StyledComponents";
 import ThemeContext from "../context/ThemeContext";
 import LocationPin from "./LocationPin";
+import { useMediaQuery } from '../utils/useMediaQuery';
 
-export default function Post({ postData, lastPost, geoLocation }) {
+export default function Post({ postData, lastPost, geoLocation, setNewPosts, newPosts }) {
   const {
     repostId,
     link,
@@ -31,13 +32,9 @@ export default function Post({ postData, lastPost, geoLocation }) {
     linkImage,
     likes,
     id,
-    setNewPosts,
-    newPosts,
     repostCount,
     repostedBy
   } = postData;
-
-  console.log("pD", postData)
 
   const [isClicked, setIsClicked] = useState(false);
   const inputRef = useRef();
@@ -51,6 +48,38 @@ export default function Post({ postData, lastPost, geoLocation }) {
 
   const [isCommentBoxActive, setIsCommentBoxActive] = useState(false);
   const [commentsAmmount, setCommentsAmmount] = useState("");
+  const history = useHistory();
+
+  const isMobile = useMediaQuery('(min-width: 600px)');
+
+  const variants = 
+    isMobile
+    ? {
+        noRadius: {
+          borderBottomLeftRadius: "0",
+          borderBottomRightRadius: "0",
+        },
+        radius: {
+          borderBottomLeftRadius: "15px",
+          borderBottomRightRadius: "15px",
+          transition: {
+            delay: 0.1,
+          },
+        },
+      }
+    : {
+      noRadius: {
+        borderBottomLeftRadius: "0",
+        borderBottomRightRadius: "0",
+      },
+      radius: {
+        borderBottomLeftRadius: "0",
+        borderBottomRightRadius: "0",
+        transition: {
+          delay: 0.1,
+        },
+      },
+    }
 
   async function keyEvents(e) {
     if (e.code === "Escape") {
@@ -65,9 +94,7 @@ export default function Post({ postData, lastPost, geoLocation }) {
       );
 
       if (response) {
-        setIsEditing(false);
-        setLastValue(response.post.text);
-        setIsDisabled(false);
+        history.go();
       } else {
         setIsDisabled(false);
         inputRef.current.focus();
@@ -88,9 +115,7 @@ export default function Post({ postData, lastPost, geoLocation }) {
         }
       )
       .then(() => {
-        setIsOpen(false);
-        setNewPosts(newPosts - 1);
-        setIsClicked(false);
+        history.go();
       })
       .catch(() => {
         setIsOpen(false);
@@ -513,16 +538,4 @@ const EditInput = styled.textarea`
   }
 `;
 
-const variants = {
-  noRadius: {
-    borderBottomLeftRadius: "0",
-    borderBottomRightRadius: "0",
-  },
-  radius: {
-    borderBottomLeftRadius: "15px",
-    borderBottomRightRadius: "15px",
-    transition: {
-      delay: 0.1,
-    },
-  },
-};
+
