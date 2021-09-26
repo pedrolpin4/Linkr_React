@@ -2,41 +2,42 @@ import styled from "styled-components";
 import { useState, useContext, useRef, useEffect } from "react";
 import { FaTrash } from "react-icons/fa";
 import { FiEdit2 } from "react-icons/fi";
+import { AiOutlineComment } from "react-icons/ai";
 import ReactHashtag from "react-hashtag";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import getYouTubeID from "get-youtube-id";
+import { motion } from "framer-motion";
 import LikesComponent from "./LikesComponent";
 import Modal from "react-modal";
 import Preview from "./Preview";
-import axios from "axios";
 import UserContext from "../context/UserContext";
 import service from "../service/post";
-import { Link } from "react-router-dom";
-import getYouTubeID from "get-youtube-id";
+import CommentBox from "./CommentsBox/CommentBox";
 import RepostComponent from "./RepostComponent";
 import RepostBar from "./RepostBar";
 import { customStyles, ModalButtons } from "../SharedStyles/StyledComponents";
 import ThemeContext from "../context/ThemeContext";
 import LocationPin from "./LocationPin";
 
-export default function Post({
-  profilePic,
-  repostId,
-  link,
-  username,
-  text,
-  prevTitle,
-  prevDescription,
-  prevImage,
-  likes,
-  userId,
-  id,
-  setNewPosts,
-  newPosts,
-  repostCount,
-  repostedByUser,
-  repostedUserId,
-  lastPost,
-  geoLocation,
-}) {
+export default function Post({ postData, lastPost, geoLocation }) {
+  const {
+    repostId,
+    link,
+    user,
+    text,
+    linkTitle,
+    linkDescription,
+    linkImage,
+    likes,
+    id,
+    setNewPosts,
+    newPosts,
+    repostCount,
+    repostedByUser,
+    repostedUserId,
+  } = postData;
+
   const [isClicked, setIsClicked] = useState(false);
   const inputRef = useRef();
   const [isEditing, setIsEditing] = useState(false);
@@ -46,6 +47,9 @@ export default function Post({
   const [modalIsOpen, setIsOpen] = useState(false);
   const { userData } = useContext(UserContext);
   const { theme } = useContext(ThemeContext);
+
+  const [isCommentBoxActive, setIsCommentBoxActive] = useState(false);
+  const [commentsAmmount, setCommentsAmmount] = useState("");
 
   async function keyEvents(e) {
     if (e.code === "Escape") {
@@ -102,54 +106,79 @@ export default function Post({
     setIsOpen(false);
   }
 
+  function toggleCommentsView(e) {
+    e.stopPropagation();
+    setIsCommentBoxActive(!isCommentBoxActive);
+  }
+
   useEffect(() => {
     if (isEditing) {
       inputRef.current.focus();
     }
   }, [isEditing]);
 
-  console.log(geoLocation)
+  console.log(geoLocation);
 
   return (
-    <>
+    <PostContainer>
       {repostId ? (
         <RepostBar
           repostedByUser={repostedByUser}
           repostedUserId={repostedUserId}
-          theme = {theme}
+          theme={theme}
         />
-      ) : (
-        <></>
-      )}
-      <PostContainer ref = {lastPost} theme = {theme}>
-        <LeftSection theme = {theme}>
-          <a href={`/user/${userId}`}>
-            <img src={profilePic} alt="" />
+      ) : null}
+      <UpperContainer
+        animate={isCommentBoxActive ? "noRadius" : "radius"}
+        variants={variants}
+        ref={lastPost}
+        theme={theme}
+      >
+        <LeftSection theme={theme}>
+          <a href={`/user/${user.id}`}>
+            <img src={user.avatar} alt="" />
           </a>
-          <LikesComponent likes={likes} id={id} userId={userId} />
+          <LikesComponent likes={likes} id={id} userId={user.id} />
+
           <RepostComponent
             repostCount={repostCount}
             id={id}
-            userId={userId}
+            userId={user.id}
             setNewPosts={setNewPosts}
             newPosts={newPosts}
           />
+
+          <ShowComments>
+            <AiOutlineComment
+              className="comments-ico"
+              size={20}
+              color="#fff"
+              onClick={(e) => {
+                toggleCommentsView(e);
+              }}
+            />
+            <p className="comments-ammount">{`${commentsAmmount} comments`}</p>
+          </ShowComments>
         </LeftSection>
 
-        <RightSection shouldhide={userId === userData.user?.id && repostId === false} theme = {theme}>
+        <RightSection
+          shouldhide={user.id === userData.user?.id && !repostId}
+          theme={theme}
+        >
           <header>
             <div>
               <p className="username">
-                <a href={`/user/${userId}`}>{username}</a>
+                <a href={`/user/${user.id}`}>{user.username}</a>
               </p>
-              {geoLocation ? 
-              <LocationPin
-                theme={theme}
-                geoLocation={geoLocation}
-                username={username} />
-                
-              :
-              ""}
+              {geoLocation ? (
+                <LocationPin
+                  theme={theme}
+                  geoLocation={geoLocation}
+                  username={user.username}
+                />
+              ) : (
+                ""
+              )}
             </div>
             <FiEdit2
               size={16}
@@ -171,7 +200,7 @@ export default function Post({
                 disabled={isDisabled}
                 onChange={(e) => setCurrentValue(e.target.value)}
                 onKeyDown={(e) => keyEvents(e)}
-                theme = {theme}
+                theme={theme}
               />
             ) : (
               <ReactHashtag
@@ -198,7 +227,7 @@ export default function Post({
                 height="290"
                 className="youtube"
                 src={`https://www.youtube.com/embed/${getYouTubeID(link)}`}
-                allowFullScreen="true" 
+                allowFullScreen="true"
               ></iframe>
               <a href={link} className="youtubeLink">
                 {link}
@@ -206,11 +235,11 @@ export default function Post({
             </>
           ) : (
             <Preview
-              title={prevTitle}
-              description={prevDescription}
-              img={prevImage}
+              title={linkTitle}
+              description={linkDescription}
+              img={linkImage}
               link={link}
-              theme = {theme}
+              theme={theme}
             />
           )}
         </RightSection>
@@ -248,19 +277,29 @@ export default function Post({
             </button>
           </ModalButtons>
         </Modal>
-      </PostContainer>
-    </>
+      </UpperContainer>
+      <CommentBox
+        postId={id}
+        postOwner={user}
+        isActive={isCommentBoxActive}
+        setCommentsAmmount={setCommentsAmmount}
+      />
+    </PostContainer>
   );
 }
 
 const PostContainer = styled.div`
-  background-color: ${props => props.theme === "light" ? "#FFFFFF" : "#171717"};
+  margin-bottom: 20px;
+`;
+
+const UpperContainer = styled(motion.div)`
+  background-color: ${(props) =>
+    props.theme === "light" ? "#FFFFFF" : "#171717"};
   border-radius: 15px;
   width: 611px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
-  padding: 15px;
+  padding: 13px;
   min-height: 220px;
   position: relative;
   -webkit-user-select: none;
@@ -292,7 +331,7 @@ const PostContainer = styled.div`
 `;
 
 const LeftSection = styled.div`
-  width: 10%;
+  width: 12%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -321,7 +360,7 @@ const LeftSection = styled.div`
   }
 
   .unLikedHeart {
-    color: ${props => props.theme === "light" ? "#171717" : "#FFFFFF"};
+    color: ${(props) => (props.theme === "light" ? "#171717" : "#FFFFFF")};
     cursor: pointer;
   }
 
@@ -346,21 +385,45 @@ const LeftSection = styled.div`
   }
 `;
 
+const ShowComments = styled.div`
+  margin-top: 15px;
+  display: flex;
+  flex-direction: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+
+  p {
+    text-align: center;
+    font-size: 11px;
+    font-family: "Lato", sans-serif;
+    color: #fff;
+
+    @media screen and (max-width: 600px) {
+      font-size: 9px;
+    }
+  }
+
+  .comments-ico {
+    cursor: pointer;
+  }
+`;
+
 const RightSection = styled.div`
-  width: 90%;
+  width: 88%;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   height: 100%;
-  padding-left: 20px;
+  padding-left: 15px;
 
   .delete {
     cursor: pointer;
     position: absolute;
     right: 10px;
     top: 5px;
-    color: ${props => props.theme === "light" ? "#171717" : "#FFFFFF"};
+    color: ${(props) => (props.theme === "light" ? "#171717" : "#FFFFFF")};
     display: ${(props) => (!props.shouldhide ? "none" : "unset")};
   }
 
@@ -369,13 +432,13 @@ const RightSection = styled.div`
     position: absolute;
     right: 40px;
     top: 5px;
-    color: ${props => props.theme === "light" ? "#171717" : "#FFFFFF"};
+    color: ${(props) => (props.theme === "light" ? "#171717" : "#FFFFFF")};
     display: ${(props) => (!props.shouldhide ? "none" : "unset")};
   }
 
   header {
     margin-bottom: 10px;
-    color: ${props => props.theme === "light" ? "#333333" : "#cecece"};
+    color: ${(props) => (props.theme === "light" ? "#333333" : "#cecece")};
     line-height: 20px;
     white-space: pre-wrap;
     overflow-wrap: break-word;
@@ -394,13 +457,13 @@ const RightSection = styled.div`
 
   .username {
     line-height: unset;
-    color: ${props => props.theme === "light" ? "#171717" : "#FFFFFF"};
+    color: ${(props) => (props.theme === "light" ? "#171717" : "#FFFFFF")};
     font-size: 19px;
   }
 
   .hashtag {
     font-weight: bolder;
-    color: ${props => props.theme === "light" ? "#171717" : "#FFFFFF"};
+    color: ${(props) => (props.theme === "light" ? "#171717" : "#FFFFFF")};
   }
 
   @media (max-width: 600px) {
@@ -432,7 +495,7 @@ const RightSection = styled.div`
 const EditInput = styled.textarea`
   width: 503px;
   min-height: 44px;
-  background: ${props => props.theme === "light" ? "#DCDCDC" : "#FFFFFF"};
+  background: ${(props) => (props.theme === "light" ? "#DCDCDC" : "#FFFFFF")};
   border-radius: 7px;
   padding: 8px 10px;
   border: none;
@@ -440,10 +503,24 @@ const EditInput = styled.textarea`
   line-height: 17px;
   word-break: break-all;
   resize: none;
-  color: ${props => props.theme === "light" ? "black" :"#171717"};
+  color: ${(props) => (props.theme === "light" ? "black" : "#171717")};
   font-family: "Lato", sans-serif;
   margin-top: 8px;
   :focus {
     outline: none;
   }
 `;
+
+const variants = {
+  noRadius: {
+    borderBottomLeftRadius: "0",
+    borderBottomRightRadius: "0",
+  },
+  radius: {
+    borderBottomLeftRadius: "15px",
+    borderBottomRightRadius: "15px",
+    transition: {
+      delay: 0.1,
+    },
+  },
+};

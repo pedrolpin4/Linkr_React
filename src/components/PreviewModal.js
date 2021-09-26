@@ -87,6 +87,7 @@ const ModalContainer = styled.div`
     opacity: 1;
     z-index: 130;
     padding: 15px 20px 21px 20px;
+    border-radius: 20px;
 
     @media(max-width: 1000px){
         width: 580px;

@@ -23,9 +23,7 @@ async function getLikedPosts(token) {
     if(response) return response.data;
     else return false;
 }
-/** 
- * @author Yohan Lopes
-*/
+
 async function getMyPosts(token, userId) {
     const response = await API.get(`/users/${userId}/posts`, head(token))
         .catch(() => false);
@@ -69,6 +67,13 @@ async function editingPost (token, id, value) {
     return false;
 }
 
+async function getComments(postId, token) {
+    const response = await API.get(`/posts/${postId}/comments`, head(token))
+        .catch(() => false)
+    
+    if(response) return response.data;
+    return false;
+}
 async function repostingPost (token, id) {
     const response = await API.post(`/posts/${id}/share`, {}, head(token))
         .catch(() => false)
@@ -94,8 +99,14 @@ function getOlderPosts(token, idObserver, url){
     return API.get(`${url}${idObserver ? `?olderThan=${idObserver}`: ""}` , head(token))
 }
  
+async function sendPostComment(postId, body, token) {
+    const response = await API.post(`posts/${postId}/comment`, body, head(token))
+        .catch(() => false);
 
-   
+    if(response) return response;
+    return false;
+}
+
 const service =  {
     getHashtags,
     getHashtagsPosts,
@@ -106,10 +117,12 @@ const service =  {
     getMyPosts,
     getLikedPosts,
     editingPost,
+    getComments,
     repostingPost,
     getMyFollowsPosts,
     getMyFollows,
-    getOlderPosts
+    getOlderPosts,
+    sendPostComment
 }
 
 export default service;
