@@ -5,6 +5,7 @@ import Loading from "../components/Loading";
 import Post from '../components/Post';
 import service from '../service/post';
 import FeedbackMessage from '../components/FeedbackMessage';
+import LoadingMessage from '../components/LoadingMessage';
 
 
 
@@ -99,6 +100,7 @@ function MyPosts() {
         ))
       )}
       {postsLoading ? <Loading spinnerSize={50} /> : <></>}
+      {postsLoading ? <LoadingMessage/> : <></>}
     </BaseLayout>
   );
 }

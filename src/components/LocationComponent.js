@@ -61,5 +61,8 @@ const LocationText = styled.p`
   font-weight: 300;
   font-size: 13px;
   line-height: 16px;
-  color: ${(props) => (props.isActive ? "#238700" : "#949494")}
+  color: ${(props) => (props.isActive ? "#238700" : "#949494")};
+  @media(max-width: 611px){
+    font-size: 11px;
+  }
 `;

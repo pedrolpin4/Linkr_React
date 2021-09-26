@@ -7,6 +7,7 @@ import service from '../service/post';
 import PostBox from "../components/PostBox";
 import UserContext from "../context/UserContext";
 import FeedbackMessage from '../components/FeedbackMessage';
+import LoadingMessage from '../components/LoadingMessage';
 import ThemeContext from "../context/ThemeContext";
 
 
@@ -136,7 +137,8 @@ function Timeline() {
             />
           ))
         )}
-        {postsLoading ? <Loading spinnerSize={50} /> : <></>}
+        {postsLoading ? <Loading spinnerSize={30} /> : <></>}
+        {postsLoading ? <LoadingMessage/> : <></>}
       </BaseLayout>
     );
 }
