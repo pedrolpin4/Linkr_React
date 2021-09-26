@@ -25,6 +25,7 @@ function SignUp() {
 
     const response = await auth.register(body);
     if(response.sucess) {
+      console.log(response.message)
       alert(response.message)
       setEnabled(true)
       history.push("/")

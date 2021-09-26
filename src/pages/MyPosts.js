@@ -45,7 +45,7 @@ function MyPosts() {
             response.posts.find((post,index) =>(index + 1 === response.posts.length))?.id 
           )
         } 
-        else alert("Desculpe, nossas rotas estão engarrafadas no momento :(")
+        else alert("Sorry, the servers are jammed at the moment. Please, refresh the page and try again.")
         setIsLoading(false);
     }
     if(userData.token) getPosts();
@@ -69,7 +69,7 @@ function MyPosts() {
             res.data.posts[res.data.posts.length - 1]?.id 
           )
         })
-        .catch(() => {if(hasMore) alert("something's wrong with the server, please wait a while")})
+        .catch(() => {if(hasMore) alert("Something's wrong with the server, please wait a while")})
     }
     
     if(userData.token) getNewPostsData();

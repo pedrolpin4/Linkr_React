@@ -1,9 +1,11 @@
 import { useContext } from "react";
+import { motion } from 'framer-motion';
 import styled from "styled-components";
 import TrendingBar from "../components/TrendingBar";
 import ThemeContext from "../context/ThemeContext";
 import NavBar from "./NavBar";
 import SearchBox from "../components/SearchBox";
+
 
 
 export default function BaseLayout({ children, title }) {
@@ -12,11 +14,40 @@ export default function BaseLayout({ children, title }) {
     setTheme
   } = useContext(ThemeContext);
 
-  console.log(theme);
+  const variants = {
+    hidden: {
+      opacity: 0,
+      x: "100vw"
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        ease: "easeInOut",
+        delay: .2,
+        duration: .3
+      }
+    },
+    exit: {
+      x:"-100vw",
+      opacity: 0,
+      transition: {
+        ease: "easeInOut",
+        duration: .2
+      }
+    }
+  }
+
   return (
     <>
-      <NavBar/>
-      <BaseLayoutContainer theme = {theme}>
+      <NavBar />
+      <BaseLayoutContainer
+        theme={theme}
+        variants={variants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+      >
         <MainContentContainer>
           <LeftSection>
             <SearchBox mobile={true}/>
@@ -53,12 +84,11 @@ const PageTitle = styled.h1`
   }
 
   @media (max-width: 611px) {
-    margin: 150px 0px 19px 17px;
-    overflow-wrap: break-word;
+    margin: 150px 0px 19px 10px;
   }
 `;
 
-const BaseLayoutContainer = styled.div`
+const BaseLayoutContainer = styled(motion.div)`
   width: 100%;
   background-color: ${props => props.theme === "light" ? "#DCDCDC" :"#333333"};
   min-height: 100vh;

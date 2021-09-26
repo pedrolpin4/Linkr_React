@@ -14,7 +14,7 @@ export default function LocationComponent ({ setGetGeolocation, theme }) {
     }
 
     function GeoError() {
-      alert("Something went wrong. Your location wasn't acquired.");
+      alert("Something went wrong and your location wasn't acquired. Please, try again.");
       setIsActive(false);
     }
     if (!isActive) {
