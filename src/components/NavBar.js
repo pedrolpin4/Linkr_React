@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect, useRef } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "../context/UserContext";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md"
@@ -51,7 +51,7 @@ export default function NavBar () {
 
   return (
     <NavBarContainer>
-      <NavBarTitle href="/timeline">linkr</NavBarTitle>
+      <NavBarTitle to="/timeline">linkr</NavBarTitle>
       <div>
         {openDropdown ? (
           <ArrowUp color="#FFFFFF" onClick={toggleMenu} />
@@ -86,7 +86,7 @@ const NavBarContainer = styled.div`
   }
 `
 
-const NavBarTitle = styled.a`
+const NavBarTitle = styled(Link)`
   font-family: "Passion One", cursive;
   font-weight: bold;
   font-size: 49px;

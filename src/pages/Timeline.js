@@ -43,7 +43,7 @@ function Timeline() {
     }, []);
 
     return (
-      <BaseLayout title="timeline" trends={[{ name: "timeline" }]}>
+      <BaseLayout title="timeline">
         <PostBox setNewPosts={setNewPosts} newPosts={newPosts} />
         {isLoading ? (
           <Loading spinnerSize={30} />

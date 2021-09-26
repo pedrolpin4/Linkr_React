@@ -8,19 +8,24 @@ export default function BaseLayout({ children, title }) {
 
   const variants = {
     hidden: {
-      opacity: 0
+      opacity: 0,
+      x: "100vw"
     },
     visible: {
       opacity: 1,
+      x: 0,
       transition: {
-        delay: 1.5,
-        duration: 1.5
+        ease: "easeInOut",
+        delay: .2,
+        duration: .3
       }
     },
     exit: {
       x:"-100vw",
+      opacity: 0,
       transition: {
-        ease: "easeInOut"
+        ease: "easeInOut",
+        duration: .2
       }
     }
   }

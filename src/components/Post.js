@@ -116,8 +116,6 @@ export default function Post({ postData, geoLocation }) {
     }
   }, [isEditing]);
 
-  console.log(geoLocation)
-
   return (
     <PostContainer>
       {repostId ? (
@@ -127,11 +125,11 @@ export default function Post({ postData, geoLocation }) {
         />
       ) : null
       }
-      <UpperContainer animate={isCommentBoxActive ? "noRadius" : "radius"} variants={variants}>
+      <UpperContainer animate={isCommentBoxActive ? "noRadius" : "radius"} initial="initial" variants={variants}>
         <LeftSection>
-          <a href={`/user/${user.id}`}>
+          <Link to={`/user/${user.id}`}>
             <img src={user.avatar} alt="" />
-          </a>
+          </Link>
           <LikesComponent likes={likes} id={id} userId={user.id} />
 
           <RepostComponent
@@ -155,7 +153,7 @@ export default function Post({ postData, geoLocation }) {
           <header>
             <div>
               <p className="username">
-                <a href={`/user/${user.id}`}>{user.username}</a>
+                <Link to={`/user/${user.id}`}>{user.username}</Link>
               </p>
               {geoLocation ? 
               <LocationPin
@@ -211,9 +209,9 @@ export default function Post({ postData, geoLocation }) {
                 className="youtube"
                 src={`https://www.youtube.com/embed/${getYouTubeID(link)}`}
               ></iframe>
-              <a href={link} className="youtubeLink">
+              <Link to={link} className="youtubeLink">
                 {link}
-              </a>
+              </Link>
             </>
           ) : (
             <Preview
@@ -488,11 +486,15 @@ const EditInput = styled.textarea`
 `;
 
 const variants = {
+  initial: {
+    borderBottomLeftRadius: "15px",
+    borderBottomRightRadius: "15px",
+  },
   noRadius: { 
     borderBottomLeftRadius: "0",
     borderBottomRightRadius: "0",
   },
-  radius: { 
+  radius: {
     borderBottomLeftRadius: "15px",
     borderBottomRightRadius: "15px",
     transition: {

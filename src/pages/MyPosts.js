@@ -28,8 +28,6 @@ function MyPosts() {
         if(userData.token) getPosts();
         return () => { unmounted = true };
     }, [userData, newPosts])
-
-    console.log(posts)
     
     return (
       <BaseLayout title="my posts">
