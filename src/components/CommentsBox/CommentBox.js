@@ -51,7 +51,7 @@ export default function CommentBox({ postId, isActive, setCommentsAmmount, postO
             if(refreshController > 0) {
                 lastChild.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' })
             }
-        }, 200)
+        }, 350)
 
     }, [refreshController, penultimate])
 

@@ -118,8 +118,6 @@ export default function Post({ postData, lastPost, geoLocation }) {
     }
   }, [isEditing]);
 
-  console.log(geoLocation);
-
   return (
     <PostContainer hasRepostBar={repostId}>
       {repostId ? (
@@ -135,9 +133,9 @@ export default function Post({ postData, lastPost, geoLocation }) {
         theme={theme}
       >
         <LeftSection theme={theme}>
-          <a href={`/user/${user.id}`}>
+          <Link to={`/user/${user.id}`}>
             <img src={user.avatar} alt="" />
-          </a>
+          </Link>
           <LikesComponent likes={likes} id={id} userId={user.id} />
 
           <RepostComponent
@@ -168,7 +166,7 @@ export default function Post({ postData, lastPost, geoLocation }) {
           <header>
             <div>
               <p className="username">
-                <a href={`/user/${user.id}`}>{user.username}</a>
+                <Link to={`/user/${user.id}`}>{user.username}</Link>
               </p>
               {geoLocation ? (
                 <LocationPin
@@ -229,9 +227,9 @@ export default function Post({ postData, lastPost, geoLocation }) {
                 src={`https://www.youtube.com/embed/${getYouTubeID(link)}`}
                 allowFullScreen="true"
               ></iframe>
-              <a href={link} className="youtubeLink">
+              <Link to={link} className="youtubeLink">
                 {link}
-              </a>
+              </Link>
             </>
           ) : (
             <Preview
