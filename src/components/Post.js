@@ -37,8 +37,6 @@ export default function Post({ postData, lastPost, geoLocation }) {
     repostedBy
   } = postData;
 
-  console.log("pD", postData)
-
   const [isClicked, setIsClicked] = useState(false);
   const inputRef = useRef();
   const [isEditing, setIsEditing] = useState(false);
@@ -118,10 +116,8 @@ export default function Post({ postData, lastPost, geoLocation }) {
     }
   }, [isEditing]);
 
-  console.log(geoLocation);
-
   return (
-    <PostContainer hasRepostBar={repostId}>
+    <PostContainer hasRepostBar={repostId} ref ={lastPost}>
       {repostId ? (
         <RepostBar
           repostedBy={repostedBy}
@@ -131,7 +127,6 @@ export default function Post({ postData, lastPost, geoLocation }) {
       <UpperContainer
         animate={isCommentBoxActive ? "noRadius" : "radius"}
         variants={variants}
-        ref={lastPost}
         theme={theme}
       >
         <LeftSection theme={theme}>

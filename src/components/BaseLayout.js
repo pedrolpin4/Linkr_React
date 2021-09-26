@@ -8,11 +8,9 @@ import SearchBox from "../components/SearchBox";
 
 export default function BaseLayout({ children, title }) {
   const {
-    theme,
-    setTheme
+    theme
   } = useContext(ThemeContext);
 
-  console.log(theme);
   return (
     <>
       <NavBar/>

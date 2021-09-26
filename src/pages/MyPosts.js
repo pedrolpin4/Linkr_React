@@ -15,7 +15,7 @@ function MyPosts() {
   const [ newPosts, setNewPosts ] = useState(0);
   const [idObserver, setIdObserver] = useState(null);
   const [postsLoading, setPostsLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
   const [pageNumber, setPageNumber] = useState(0)
   const observer = useRef()
 
