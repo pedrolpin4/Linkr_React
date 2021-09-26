@@ -6,7 +6,8 @@ import Post from '../components/Post';
 import service from '../service/post';
 import PostBox from "../components/PostBox";
 import UserContext from "../context/UserContext";
-import {FeedbackMessage, LoadingMessage} from '../components/FeedbackMessage';
+import FeedbackMessage from '../components/FeedbackMessage';
+import LoadingMessage from '../components/LoadingMessage';
 import ThemeContext from "../context/ThemeContext";
 
 

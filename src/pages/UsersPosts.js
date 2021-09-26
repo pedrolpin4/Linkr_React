@@ -5,7 +5,8 @@ import BaseLayout from "../components/BaseLayout";
 import Post from "../components/Post";
 import service from "../service/post";
 import Loading from "../components/Loading";
-import {FeedbackMessage, LoadingMessage} from "../components/FeedbackMessage";
+import FeedbackMessage from "../components/FeedbackMessage";
+import LoadingMessage from '../components/LoadingMessage';
 import styled from "styled-components";
 import axios from "axios";
 

@@ -5,7 +5,7 @@ import BaseLayout from '../components/BaseLayout';
 import Loading from '../components/Loading';
 import Post from '../components/Post';
 import service from '../service/post';
-import { FeedbackMessage } from '../components/FeedbackMessage';
+import FeedbackMessage from '../components/FeedbackMessage';
 
 function MyLikes() {
   const { userData } = useContext(UserContext);
