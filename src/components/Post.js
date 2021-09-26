@@ -123,6 +123,7 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
         alert("It wasn't possible to delete this post. Try it later.");
       });
   }
+  console.log("manP", newPosts);
 
   function openModal() {
     setIsOpen(true);
@@ -312,7 +313,8 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
 }
 
 const PostContainer = styled.div`
-  margin-top: ${props => props.hasRepostBar ? "60px" : "20px"};
+  margin-top: ${(props) => (props.hasRepostBar ? "40px" : "0px")};
+  margin-bottom: 20px;
   position: relative;
 `;
 
