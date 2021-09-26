@@ -1,7 +1,11 @@
 import styled from "styled-components"
 
-export default function FeedbackMessage ({text}) {
+function FeedbackMessage ({text}) {
     return <Message>{text ? text : "No posts found yet :("}</Message>
+}
+
+function LoadingMessage () {
+  return <Message>Loading More posts...</Message>
 }
 
 const Message = styled.h1`
@@ -15,3 +19,17 @@ const Message = styled.h1`
     margin: 0 0 0 17px;
   }
 `;
+
+const Message = styled.h1`
+  color: #333333;
+  font-size: 25px;
+  line-height: 45px;
+  font-weight: bold;
+  font-family: "Oswald", sans-serif;
+  align-self: center;
+`;
+
+export {
+  FeedbackMessage,
+  LoadingMessage
+}

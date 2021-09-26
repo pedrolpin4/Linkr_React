@@ -46,9 +46,9 @@ export default function RepostComponent({ id, repostCount, newPosts, setNewPosts
       <AmountReposts>
         {numberOfReposts
           ? numberOfReposts === 1
-            ? `${numberOfReposts} re-post`
-            : `${numberOfReposts} re-posts`
-          : `${numberOfReposts} re-posts`}
+            ? `${numberOfReposts} repost`
+            : `${numberOfReposts} reposts`
+          : `${numberOfReposts} reposts`}
       </AmountReposts>
       <Modal
         isOpen={modalIsOpen}

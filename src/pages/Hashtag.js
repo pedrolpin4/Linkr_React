@@ -104,6 +104,7 @@ function Hashtag() {
           ))
         )}
         {postsLoading ? <Loading spinnerSize={50} /> : <></>}
+        {postsLoading ? <LoadingMessage/> : <></>}
       </BaseLayout>
     );
 }
