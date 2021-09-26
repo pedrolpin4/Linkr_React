@@ -32,7 +32,6 @@ function SearchBox({ mobile, theme }) {
               : 1;
           })
         );
-        console.log(resp.data.users);
       });
       req.catch((error) => console.log(error.response));
     }
@@ -120,6 +119,15 @@ const SearchContainer = styled.div`
     props.theme === "light" ? "#171717" : "gray"};
     background-color: ${(props) =>
       props.theme === "light" ? "#e2e2e2" : "#fff"};
+    
+  }
+  @media(max-width: 611px){
+      .box{
+        font-size: 14px;
+      }
+      svg{
+        font-size: 14px;
+      }
   }
 `;
 

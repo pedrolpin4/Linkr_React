@@ -6,6 +6,7 @@ import BaseLayout from "../components/BaseLayout"
 import Post from "../components/Post"
 import styled from "styled-components"
 import Loading from "../components/Loading";
+import LoadingMessage from '../components/LoadingMessage';
 
 function Hashtag() {
     const { hashtag } = useParams()
@@ -104,6 +105,7 @@ function Hashtag() {
           ))
         )}
         {postsLoading ? <Loading spinnerSize={50} /> : <></>}
+        {postsLoading ? <LoadingMessage/> : <></>}
       </BaseLayout>
     );
 }

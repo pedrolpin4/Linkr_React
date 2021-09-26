@@ -6,9 +6,9 @@ import Post from "../components/Post";
 import service from "../service/post";
 import Loading from "../components/Loading";
 import FeedbackMessage from "../components/FeedbackMessage";
+import LoadingMessage from '../components/LoadingMessage';
 import styled from "styled-components";
 import axios from "axios";
-//import { AiFillSketchCircle } from "react-icons/ai";
 
 function UsersPosts() {
   const { id } = useParams();
@@ -183,6 +183,7 @@ function UsersPosts() {
           ))
         )}
         {postsLoading ? <Loading spinnerSize={50} /> : <></> }
+        {postsLoading ? <LoadingMessage/> : <></>}
       </BaseLayout>
     </>
   );
