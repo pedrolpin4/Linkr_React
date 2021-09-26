@@ -2,13 +2,12 @@ import styled from "styled-components";
 import { useState, useContext, useRef, useEffect } from "react";
 import { FaTrash } from "react-icons/fa";
 import { FiEdit2 } from "react-icons/fi";
-import { AiOutlineComment } from 'react-icons/ai'
+import { AiOutlineComment } from "react-icons/ai";
 import ReactHashtag from "react-hashtag";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import getYouTubeID from "get-youtube-id";
 import { motion } from "framer-motion";
-
 import LikesComponent from "./LikesComponent";
 import Modal from "react-modal";
 import Preview from "./Preview";
@@ -23,21 +22,21 @@ import LocationPin from "./LocationPin";
 
 export default function Post({ postData, lastPost, geoLocation }) {
   const {
-      repostId,
-      link,
-      user,
-      text,
-      linkTitle,
-      linkDescription,
-      linkImage,
-      likes,
-      id,
-      setNewPosts,
-      newPosts,
-      repostCount,
-      repostedByUser,
-      repostedUserId,
-  } = postData
+    repostId,
+    link,
+    user,
+    text,
+    linkTitle,
+    linkDescription,
+    linkImage,
+    likes,
+    id,
+    setNewPosts,
+    newPosts,
+    repostCount,
+    repostedByUser,
+    repostedUserId,
+  } = postData;
 
   const [isClicked, setIsClicked] = useState(false);
   const inputRef = useRef();
@@ -49,8 +48,8 @@ export default function Post({ postData, lastPost, geoLocation }) {
   const { userData } = useContext(UserContext);
   const { theme } = useContext(ThemeContext);
 
-  const [ isCommentBoxActive, setIsCommentBoxActive ] = useState(false);
-  const [ commentsAmmount, setCommentsAmmount ] = useState("");
+  const [isCommentBoxActive, setIsCommentBoxActive] = useState(false);
+  const [commentsAmmount, setCommentsAmmount] = useState("");
 
   async function keyEvents(e) {
     if (e.code === "Escape") {
@@ -118,7 +117,7 @@ export default function Post({ postData, lastPost, geoLocation }) {
     }
   }, [isEditing]);
 
-  console.log(geoLocation)
+  console.log(geoLocation);
 
   return (
     <PostContainer>
@@ -126,12 +125,16 @@ export default function Post({ postData, lastPost, geoLocation }) {
         <RepostBar
           repostedByUser={repostedByUser}
           repostedUserId={repostedUserId}
-          theme = {theme}
+          theme={theme}
         />
-      ) : null
-      }
-      <UpperContainer animate={isCommentBoxActive ? "noRadius" : "radius"} variants={variants} ref = {lastPost} theme = {theme}>
-        <LeftSection  theme = {theme}>
+      ) : null}
+      <UpperContainer
+        animate={isCommentBoxActive ? "noRadius" : "radius"}
+        variants={variants}
+        ref={lastPost}
+        theme={theme}
+      >
+        <LeftSection theme={theme}>
           <a href={`/user/${user.id}`}>
             <img src={user.avatar} alt="" />
           </a>
@@ -146,26 +149,36 @@ export default function Post({ postData, lastPost, geoLocation }) {
           />
 
           <ShowComments>
-            <AiOutlineComment className="comments-ico"
-                              size={20}
-                              color="#fff"
-                              onClick={e => {toggleCommentsView(e)}}/>
+            <AiOutlineComment
+              className="comments-ico"
+              size={20}
+              color="#fff"
+              onClick={(e) => {
+                toggleCommentsView(e);
+              }}
+            />
             <p className="comments-ammount">{`${commentsAmmount} comments`}</p>
           </ShowComments>
         </LeftSection>
 
-        <RightSection shouldhide={user.id === userData.user?.id && repostId === false} theme = {theme}>
+        <RightSection
+          shouldhide={user.id === userData.user?.id && !repostId}
+          theme={theme}
+        >
           <header>
             <div>
               <p className="username">
                 <a href={`/user/${user.id}`}>{user.username}</a>
               </p>
-              {geoLocation ? 
-              <LocationPin
-                geoLocation={geoLocation}
-                username={user.username} />
-              :
-              ""}
+              {geoLocation ? (
+                <LocationPin
+                  theme={theme}
+                  geoLocation={geoLocation}
+                  username={user.username}
+                />
+              ) : (
+                ""
+              )}
             </div>
             <FiEdit2
               size={16}
@@ -187,7 +200,7 @@ export default function Post({ postData, lastPost, geoLocation }) {
                 disabled={isDisabled}
                 onChange={(e) => setCurrentValue(e.target.value)}
                 onKeyDown={(e) => keyEvents(e)}
-                theme = {theme}
+                theme={theme}
               />
             ) : (
               <ReactHashtag
@@ -214,7 +227,7 @@ export default function Post({ postData, lastPost, geoLocation }) {
                 height="290"
                 className="youtube"
                 src={`https://www.youtube.com/embed/${getYouTubeID(link)}`}
-                allowFullScreen="true" 
+                allowFullScreen="true"
               ></iframe>
               <a href={link} className="youtubeLink">
                 {link}
@@ -226,7 +239,7 @@ export default function Post({ postData, lastPost, geoLocation }) {
               description={linkDescription}
               img={linkImage}
               link={link}
-              theme = {theme}
+              theme={theme}
             />
           )}
         </RightSection>
@@ -265,21 +278,23 @@ export default function Post({ postData, lastPost, geoLocation }) {
           </ModalButtons>
         </Modal>
       </UpperContainer>
-      <CommentBox postId={id}
-                  postOwner={user}
-                  isActive={isCommentBoxActive}
-                  setCommentsAmmount={setCommentsAmmount}/>
+      <CommentBox
+        postId={id}
+        postOwner={user}
+        isActive={isCommentBoxActive}
+        setCommentsAmmount={setCommentsAmmount}
+      />
     </PostContainer>
   );
 }
 
-const PostContainer = styled.div` 
+const PostContainer = styled.div`
   margin-bottom: 20px;
-`
+`;
 
 const UpperContainer = styled(motion.div)`
   background-color: ${(props) =>
-  props.theme === "light" ? "#FFFFFF" : "#171717"};
+    props.theme === "light" ? "#FFFFFF" : "#171717"};
   border-radius: 15px;
   width: 611px;
   display: flex;
@@ -345,7 +360,7 @@ const LeftSection = styled.div`
   }
 
   .unLikedHeart {
-    color: ${props => props.theme === "light" ? "#171717" : "#FFFFFF"};
+    color: ${(props) => (props.theme === "light" ? "#171717" : "#FFFFFF")};
     cursor: pointer;
   }
 
@@ -392,7 +407,7 @@ const ShowComments = styled.div`
   .comments-ico {
     cursor: pointer;
   }
-`
+`;
 
 const RightSection = styled.div`
   width: 88%;
@@ -408,7 +423,7 @@ const RightSection = styled.div`
     position: absolute;
     right: 10px;
     top: 5px;
-    color: ${props => props.theme === "light" ? "#171717" : "#FFFFFF"};
+    color: ${(props) => (props.theme === "light" ? "#171717" : "#FFFFFF")};
     display: ${(props) => (!props.shouldhide ? "none" : "unset")};
   }
 
@@ -417,13 +432,13 @@ const RightSection = styled.div`
     position: absolute;
     right: 40px;
     top: 5px;
-    color: ${props => props.theme === "light" ? "#171717" : "#FFFFFF"};
+    color: ${(props) => (props.theme === "light" ? "#171717" : "#FFFFFF")};
     display: ${(props) => (!props.shouldhide ? "none" : "unset")};
   }
 
   header {
     margin-bottom: 10px;
-    color: ${props => props.theme === "light" ? "#333333" : "#cecece"};
+    color: ${(props) => (props.theme === "light" ? "#333333" : "#cecece")};
     line-height: 20px;
     white-space: pre-wrap;
     overflow-wrap: break-word;
@@ -442,13 +457,13 @@ const RightSection = styled.div`
 
   .username {
     line-height: unset;
-    color: ${props => props.theme === "light" ? "#171717" : "#FFFFFF"};
+    color: ${(props) => (props.theme === "light" ? "#171717" : "#FFFFFF")};
     font-size: 19px;
   }
 
   .hashtag {
     font-weight: bolder;
-    color: ${props => props.theme === "light" ? "#171717" : "#FFFFFF"};
+    color: ${(props) => (props.theme === "light" ? "#171717" : "#FFFFFF")};
   }
 
   @media (max-width: 600px) {
@@ -480,7 +495,7 @@ const RightSection = styled.div`
 const EditInput = styled.textarea`
   width: 503px;
   min-height: 44px;
-  background: ${props => props.theme === "light" ? "#DCDCDC" : "#FFFFFF"};
+  background: ${(props) => (props.theme === "light" ? "#DCDCDC" : "#FFFFFF")};
   border-radius: 7px;
   padding: 8px 10px;
   border: none;
@@ -488,7 +503,7 @@ const EditInput = styled.textarea`
   line-height: 17px;
   word-break: break-all;
   resize: none;
-  color: ${props => props.theme === "light" ? "black" :"#171717"};
+  color: ${(props) => (props.theme === "light" ? "black" : "#171717")};
   font-family: "Lato", sans-serif;
   margin-top: 8px;
   :focus {
@@ -497,14 +512,15 @@ const EditInput = styled.textarea`
 `;
 
 const variants = {
-  noRadius: { 
+  noRadius: {
     borderBottomLeftRadius: "0",
     borderBottomRightRadius: "0",
   },
-  radius: { 
+  radius: {
     borderBottomLeftRadius: "15px",
     borderBottomRightRadius: "15px",
     transition: {
-      delay: .1
-  }}
-}
+      delay: 0.1,
+    },
+  },
+};

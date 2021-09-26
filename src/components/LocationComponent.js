@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { IoLocationOutline } from "react-icons/io5";
 import { useState } from "react";
 
-export default function LocationComponent ({ setGetGeolocation }) {
+export default function LocationComponent ({ setGetGeolocation, theme }) {
 
   const [ isActive, setIsActive ] = useState(false);
 
@@ -27,7 +27,7 @@ export default function LocationComponent ({ setGetGeolocation }) {
   }
 
   return (
-    <LocationButton onClick={toggleLocation}>
+    <LocationButton onClick={toggleLocation} theme={theme}>
       <LocationIcon isActive={isActive} />
       <LocationText isActive={isActive}>
         {isActive ? "Localização ativada" : "Localização desativada"}
@@ -37,7 +37,7 @@ export default function LocationComponent ({ setGetGeolocation }) {
 }
 
 const LocationButton = styled.button`
-  background-color: #ffffff;
+  background-color: ${props => props.theme === "light" ? "#171717" : "#fff"};
   border: none;
   display: flex;
   align-items: center;

@@ -12,7 +12,7 @@ import ThemeContext from "../context/ThemeContext";
 
 function Timeline() {
     const { userData, following } = useContext(UserContext);
-    const {theme} = useContext(ThemeContext)
+    const {theme} = useContext(ThemeContext);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ posts, setPosts ] = useState([]);
     const [ newPosts, setNewPosts ] = useState(0);

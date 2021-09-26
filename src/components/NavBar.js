@@ -56,7 +56,7 @@ export default function NavBar() {
       <NavBarTitle href="/timeline" theme={theme}>
         linkr
       </NavBarTitle>
-      <SearchBox mobile={false} />
+      <SearchBox mobile={false} theme={theme}/>
 
       <div>
         {openDropdown ? (
