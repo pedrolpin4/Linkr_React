@@ -1,12 +1,39 @@
+import { motion } from 'framer-motion';
 import styled from "styled-components";
 import TrendingBar from "../components/TrendingBar";
 import NavBar from "./NavBar";
 
+
 export default function BaseLayout({ children, title }) {
+
+  const variants = {
+    hidden: {
+      opacity: 0
+    },
+    visible: {
+      opacity: 1,
+      transition: {
+        delay: 1.5,
+        duration: 1.5
+      }
+    },
+    exit: {
+      x:"-100vw",
+      transition: {
+        ease: "easeInOut"
+      }
+    }
+  }
+
   return (
     <>
       <NavBar />
-      <BaseLayoutContainer>
+      <BaseLayoutContainer 
+        variants={variants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+      >
         <MainContentContainer>
           <LeftSection>
               <PageTitle>{title}</PageTitle>
@@ -39,7 +66,7 @@ const PageTitle = styled.h1`
   }
 `;
 
-const BaseLayoutContainer = styled.div`
+const BaseLayoutContainer = styled(motion.div)`
   width: 100%;
   background-color: #333333;
   min-height: 100vh;

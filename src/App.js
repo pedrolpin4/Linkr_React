@@ -1,7 +1,8 @@
-import { BrowserRouter as Router,
-         Switch,
-         Route } from "react-router-dom";
+import { Switch,
+         Route,
+         useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from 'framer-motion';
 
 import UserContext from "./context/UserContext";
 import Hashtag from './pages/Hashtag';
@@ -11,12 +12,15 @@ import MyLikes from "./pages/MyLikes";
 import MyPosts from "./pages/MyPosts";
 import Timeline from "./pages/Timeline";
 import UsersPosts from "./pages/UsersPosts";
-import BaseLayout from "./components/BaseLayout";
 import service from "./service/post";
 
 function App() {
   const [ userData, setUserData ] = useState({});
   const [ following, setFollowing ] = useState([]);
+
+
+  const location = useLocation();
+  console.log(location)
 
   useEffect(() => {
     const userLogin = JSON.parse(localStorage.getItem("userLogin"));
@@ -54,6 +58,26 @@ function App() {
     return following.find(element => element.id === userId);
   }
 
+
+  const variants = {
+    hidden: {
+      opacity: 0
+    },
+    visible: {
+      opacity: 1,
+      transition: {
+        delay: 1.5,
+        duration: 1.5
+      }
+    },
+    exit: {
+      x:"-100vw",
+      transition: {
+        ease: "easeInOut"
+      }
+    }
+  }
+
   return (
     <UserContext.Provider
       value={{
@@ -64,20 +88,37 @@ function App() {
         searchUserInFollowing
       }}
     >
-      <Router>
-        <Switch>
+      <AnimatePresence exitBeforeEnter>
+        <Switch location={location} key={location}>
           <Route exact path="/" component={Login} />
           <Route exact path="/sign-up" component={SignUp} />
-          <Route exact path="/timeline" component={Timeline} />
-          <Route exact path="/my-posts" component={MyPosts} />
-          <Route exact path="/user/:id" component={UsersPosts} />
-          <Route exact path="/hashtag/:hashtag" component={Hashtag} />
-          <Route exact path="/my-likes" component={MyLikes} />
-          <Route exact path="/baselayout" component={() => <BaseLayout title="teste" trends={[{name: "yoyooo"}]}><p>oiee</p></BaseLayout>} />
+
+
+          <Route exact path="/timeline" /* component={Timeline} */ >
+              <Timeline />
+          </Route>
+          <Route exact path="/my-posts" /* component={MyPosts} */>
+                <MyPosts />
+
+          </Route>
+          <Route exact path="/user/:id" /* component={UsersPosts} */ >
+                <UsersPosts />
+
+          </Route>
+          <Route exact path="/hashtag/:hashtag"/*  component={Hashtag} */ >
+                <Hashtag />
+
+          </Route>
+          <Route exact path="/my-likes" /* component={MyLikes} */ >
+                <MyLikes />
+
+          </Route>
         </Switch>
-      </Router>
+      </AnimatePresence>
     </UserContext.Provider>
   );
 }
+
+
 
 export default App;
