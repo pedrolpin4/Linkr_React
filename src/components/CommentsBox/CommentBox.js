@@ -55,7 +55,7 @@ export default function CommentBox({ postId, isActive, setCommentsAmmount, postO
                     inline: 'start'
                 })
             }
-        }, 200)
+        }, 350)
 
     }, [refreshController, penultimate])
 
