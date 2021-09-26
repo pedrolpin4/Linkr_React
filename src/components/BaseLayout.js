@@ -41,20 +41,35 @@ const PageTitle = styled.h1`
   margin: 125px 0 45px 0;
   font-weight: bold;
   width: 100%;
+  
 
   @media (max-width: 1000px) {
     font-size: 33px;
     line-height: 48.91px;
     margin-top: 155px;
+    width: 470px;
   }
 
   @media (max-width: 650px) {
-    margin: 155px 0px 19px 17px;    
+    margin: 155px 0px 19px 17px; 
+    width: 370px;
   }
 
   @media (max-width: 611px) {
     margin: 150px 0px 19px 17px;
     overflow-wrap: break-word;
+  }
+
+  @media (max-width: 550px) {
+    width: 300px;
+  }
+
+  @media (max-width: 450px) {
+    width: 250px;
+    overflow-x: hidden;
+    white-space: nowrap;
+  text-overflow: ellipsis;
+  height: 50px;
   }
 `;
 
