@@ -8,8 +8,8 @@ const Title = styled.h1`
 `
 
 const Retweet = styled(FaRetweet)`
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   cursor: pointer;
 
   @media(max-width: 600px) {
