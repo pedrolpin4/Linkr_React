@@ -7,7 +7,7 @@ import { useEffect } from "react/cjs/react.development";
 import { Link } from "react-router-dom";
 import { ImSearch } from "react-icons/im";
 
-function SearchBox({ mobile }) {
+function SearchBox({ mobile, theme }) {
   const { userData } = useContext(UserContext);
   const [searchInput, setSearchInput] = useState("");
   const [searchUsers, setSearchUsers] = useState("");
@@ -40,7 +40,7 @@ function SearchBox({ mobile }) {
 
   return (
     <>
-      <SearchContainer mobile={mobile}>
+      <SearchContainer mobile={mobile} theme={theme}>
         <DebounceInput
           placeholder="Search for people and friends"
           className="box"
@@ -50,12 +50,12 @@ function SearchBox({ mobile }) {
         ></DebounceInput>
         <ImSearch size={25} color="#c6c6c6" />
       </SearchContainer>
-      <UsersListBox toShow={searchInput.length >= 3} mobile={mobile}>
+      <UsersListBox toShow={searchInput.length >= 3} mobile={mobile} theme={theme}>
         {searchUsers === ""
           ? ""
           : searchUsers.map((user) => (
               <Link to={`/user/${user.id}`}>
-                <User onClick={() => setSearchInput("")}>
+                <User onClick={() => setSearchInput("")} theme={theme}>
                   <img src={user.avatar} alt={user.username} />
                   <h1>{user.username}</h1>
                   <h2>{user.isFollowingLoggedUser ? "• following" : ""}</h2>
@@ -72,7 +72,7 @@ export default SearchBox;
 const SearchContainer = styled.div`
   width: ${(props) => (props.mobile ? "611px" : "563px")};
   height: 45px;
-  background-color: #fff;
+  background-color: ${(props) => (props.theme === "light" ? "#2a2a2a" : "#fff")};
   border-radius: 8px;
   display: ${(props) => (props.mobile ? "none" : "flex")};
   align-items: center;
@@ -104,13 +104,14 @@ const SearchContainer = styled.div`
     font-size: 19px;
     padding: 0 0 0 15px;
     color: gray;
+    background-color: ${(props) => (props.theme === "light" ? "#2a2a2a" : "#fff")};
   }
 `;
 
 const UsersListBox = styled.ul`
   width: ${(props) => (props.mobile ? "611px" : "563px")};
   height: auto;
-  background-color: #e7e7e7;
+  background-color: ${(props) => (props.theme === "light" ? "#6D6E70" : "#e7e7e7")};
   position: ${(props) => (props.mobile ? "absolute" : "fixed")};
   top: ${(props) => (props.mobile ? "115px" : "45px")};
   left: ${(props) =>
@@ -147,7 +148,7 @@ const User = styled.li`
   h1 {
     font-family: Lato;
     font-size: 19px;
-    color: #515151;
+    color: ${(props) => (props.theme === "light" ? "#2a2a2a" : "#515151")};
     margin-right: 12px;
     line-height: 23px;
     max-width: 365px;

@@ -83,7 +83,7 @@ const ModalContainer = styled.div`
     flex-direction: column;
     top: 60px;
     left: calc((100vw - 966px)/2);
-    background: ${props => props.theme === "light" ? "#fafafa" : "#333333"};
+    background: ${props => props.theme === "light" ? "#e2e2e2" : "#333333"};
     opacity: 1;
     z-index: 130;
     padding: 15px 20px 21px 20px;

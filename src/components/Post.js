@@ -144,8 +144,10 @@ export default function Post({
               </p>
               {geoLocation ? 
               <LocationPin
+                theme={theme}
                 geoLocation={geoLocation}
                 username={username} />
+                
               :
               ""}
             </div>

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
-export default function LocationPin({ geoLocation, username }) {
+export default function LocationPin({ geoLocation, username, theme }) {
 
   const [ showModal, setShowModal ] = useState(false);
   const modalRef = useRef();
@@ -30,15 +30,16 @@ export default function LocationPin({ geoLocation, username }) {
 
   return (
     <>
-      <LocationIcon onClick={() => setShowModal(true)} />
+      <LocationIcon onClick={() => setShowModal(true)} theme={theme}/>
       {showModal ? (
         <>
           <ModalBackground
             ref={modalRef}
             onClick={closeLocation}
+            theme={theme}
           ></ModalBackground>
-          <Modal>
-            <TopSection>
+          <Modal theme={theme}>
+            <TopSection theme={theme}>
               <h2>{username}’s location</h2>
               <p onClick={() => setShowModal(false)}>X</p>
             </TopSection>
@@ -66,7 +67,7 @@ export default function LocationPin({ geoLocation, username }) {
 }
 
 const LocationIcon = styled(IoLocationSharp)`
-  color: #ffffff;
+  color: ${(props) => (props.theme === "light" ? "#2a2a2a" : "#fff")};
   margin: 0 0 0 5px;
   width: 18.5px;
   height: 18.5px;
@@ -83,7 +84,7 @@ const Modal = styled.div`
   left: calc((100vw - 790px) / 2);
   height: 375px;
   width: 790px;
-  background-color: #333333;
+  background-color: ${(props) => (props.theme === "light" ? "#e2e2e2" : "#333333")};
   opacity: 1;
   z-index: 130;
   border-radius: 20px;
@@ -94,6 +95,7 @@ const Modal = styled.div`
   .leaflet-container {
     height: 240px;
     width: 713px;
+    border: 2px solid #333333;
   }
 
   @media (max-width: 790px) {
@@ -121,7 +123,7 @@ const TopSection = styled.div`
     font-weight: bold;
     font-size: 38px;
     line-height: 56px;
-    color: #ffffff;
+    color: ${(props) => (props.theme === "light" ? "#2a2a2a" : "#ffffff")};
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -130,7 +132,7 @@ const TopSection = styled.div`
 
   p {
     font-size: 19.74px;
-    color: #ffffff;
+    color: ${(props) => (props.theme === "light" ? "#2a2a2a" : "#ffffff")};
     cursor: pointer;
   }
 
@@ -141,9 +143,6 @@ const TopSection = styled.div`
       font-size: 22px;
       line-height: 28px;
     }
-
-    p {
-    }
   } ;
 `;
 
@@ -153,6 +152,6 @@ const ModalBackground = styled.div`
   position: fixed;
   top: 0px;
   right: 0px;
-  background-color: rgba(255,255,255,0.6);
+  background-color: ${props => props.theme === "light" ? "rgba(0,0,0, 0.6)" : "rgba(255,255,255, 0.6)"};
   z-index: 120;
 `

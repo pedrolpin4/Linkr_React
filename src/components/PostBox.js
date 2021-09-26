@@ -77,7 +77,7 @@ function PostBox({newPosts, setNewPosts, theme}) {
           theme = {theme}
         ></Text>
         <ButtonDiv>
-          <LocationComponent setGetGeolocation={setGetGeolocation} />
+          <LocationComponent setGetGeolocation={setGetGeolocation} theme = {theme}/>
           <PublishButton onClick={toPublishPost} disabled={clicked} theme = {theme}>
             {clicked ? "Publishing..." : "Publish"}
           </PublishButton>
@@ -109,7 +109,7 @@ const CreatePostBox = styled.div`
 
 const ImageUser = styled.div`
   width: 100%;
-  height: 100%;
+  height: 50px;
   display: flex;
   justify-content: center;
   margin-right: 15px;
