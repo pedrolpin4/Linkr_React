@@ -121,7 +121,7 @@ function Timeline() {
         ) : following.length === 0 && posts.length === 0 ? (
           <FeedbackMessage text="We didn't find any posts :(" />
         ) : (
-          posts.map((post) => (
+          posts.map((post, index) => (
             <Post
               key={post.repostId ? post.repostId : post.id}
               postData={post}
@@ -134,6 +134,8 @@ function Timeline() {
               idObserver={idObserver}
               lastPost={lastPost}
               geoLocation={post.geolocation}
+              index ={index}
+              setPosts = {setPosts}
             />
           ))
         )}

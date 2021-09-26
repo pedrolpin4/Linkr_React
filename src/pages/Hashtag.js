@@ -90,7 +90,7 @@ function Hashtag() {
         ) : hashtagsPosts.length === 0 ? (
           <ErrorMessage>#{hashtag} has no posts yet</ErrorMessage>
         ) : (
-          hashtagsPosts.map((post) => (
+          hashtagsPosts.map((post, index) => (
             <Post
               key={post.repostId ? post.repostId : post.id}
               postData={post}
@@ -101,6 +101,8 @@ function Hashtag() {
               idObserver={idObserver}
               lastPost={lastPost}
               geoLocation={post.geolocation}
+              index = {index}
+              setPosts = {setHashtagsPosts}
             />
           ))
         )}

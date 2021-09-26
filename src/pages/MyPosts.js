@@ -83,7 +83,7 @@ function MyPosts() {
       ) : posts.length === 0 ? (
         <FeedbackMessage />
       ) : (
-        posts.map((post) => (
+        posts.map((post, index) => (
           <Post
             key={post.repostId ? post.repostId : post.id}
             postData={post}
@@ -96,6 +96,8 @@ function MyPosts() {
             idObserver={idObserver}
             lastPost={lastPost}
             geoLocation={post.geolocation}
+            index = {index}
+            setPosts = {setPosts}
           />
         ))
       )}

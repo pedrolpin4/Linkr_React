@@ -168,7 +168,7 @@ function UsersPosts() {
         ) : userPosts.length === 0 ? (
           <FeedbackMessage text="Bip Bop, this user has no posts" />
         ) : (
-          userPosts.map((post) => (
+          userPosts.map((post, index) => (
             <Post
               key={post.repostId ? post.repostId : post.id}
               postData={post}
@@ -179,6 +179,8 @@ function UsersPosts() {
               idObserver = {idObserver}
               lastPost = {lastPost}
               geoLocation={post.geolocation}
+              index = {index}
+              setPosts = {setUserPosts}
             />
           ))
         )}
@@ -213,9 +215,5 @@ const FollowButton = styled.button`
 
   @media (max-width: 1000px) {
     top: 200px;
-  }
-
-  @media (max-width: 450px) {
-    top: 190px;
   }
 `;
