@@ -133,7 +133,7 @@ function UsersPosts() {
                 res.data.posts[res.data.posts.length - 1]?.id 
             )
         })
-        .catch(() => {if(hasMore) alert("something's wrong with the server, please wait a while")})
+        .catch(() => {if(hasMore) alert("Something's wrong with the server, please wait a while")})
     }
     
     if(userData.token) getNewPostsData();

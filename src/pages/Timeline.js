@@ -70,7 +70,7 @@ function Timeline() {
                     )    
                 }
             } 
-            else if(response === false) alert("Desculpe, o servidor saiu pra almoço, por favor atualize a página")
+            else if(response === false) alert("Sorry, the server is out for lunch. Please, refresh the page to try again.")
 
             setIsLoading(false);
         }
@@ -106,7 +106,7 @@ function Timeline() {
                         res.data.posts[res.data.posts.length - 1]?.id 
                     )
                 })
-                .catch(() => {if(hasMore) alert("something's wrong with the server, please wait a while")})
+                .catch(() => {if(hasMore) alert("Something's wrong with the server, please wait a while")})
         }
         
         if(token) getNewPostsData();

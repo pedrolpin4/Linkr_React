@@ -26,7 +26,7 @@ function MyLikes() {
         setPosts(response.posts)
         setIsLoading(false)
       }
-      else if(response === false) alert("Hoje é feriado ná terra dos servidores, te respondemos amanhã!");
+      else if(response === false) alert("Today is a holiday in the land of servers. They'll get back to you tomorrow!");
     }
 
     if(userData.token) getLikedPosts();
