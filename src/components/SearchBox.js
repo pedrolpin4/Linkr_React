@@ -32,7 +32,6 @@ function SearchBox({ mobile, theme }) {
               : 1;
           })
         );
-        console.log(resp.data.users);
       });
       req.catch((error) => console.log(error.response));
     }

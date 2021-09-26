@@ -1,7 +1,8 @@
-import { BrowserRouter as Router,
-         Switch,
-         Route } from "react-router-dom";
+import { Switch,
+         Route,
+         useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { AnimatePresence } from 'framer-motion';
 
 import UserContext from "./context/UserContext";
 import Hashtag from './pages/Hashtag';
@@ -19,6 +20,9 @@ function App() {
   const [ userData, setUserData ] = useState({});
   const [ following, setFollowing ] = useState([]);
   const [theme, setTheme] = useState(localStorage.getItem("currentTheme") ? localStorage.getItem("currentTheme") : "dark")
+
+
+  const location = useLocation();
 
   useEffect(() => {
     const userLogin = JSON.parse(localStorage.getItem("userLogin"));
@@ -67,8 +71,8 @@ function App() {
         searchUserInFollowing
       }}
     >
-      <Router>
-        <Switch>
+      <AnimatePresence exitBeforeEnter initial={false}>
+        <Switch location={location} key={location.pathname}>
           <ThemeContext.Provider value = {{theme, setTheme}}>
             <Route exact path="/" component={Login} />
             <Route exact path="/sign-up" component={SignUp} />
@@ -79,9 +83,11 @@ function App() {
             <Route exact path="/my-likes" component={MyLikes} />
           </ThemeContext.Provider>
         </Switch>
-      </Router>
+      </AnimatePresence>
     </UserContext.Provider>
   );
 }
+
+
 
 export default App;

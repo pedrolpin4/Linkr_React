@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect, useRef } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "../context/UserContext";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
@@ -15,7 +15,7 @@ export default function NavBar() {
   const history = useHistory();
   const menu = useRef();
   const [openDropdown, setOpenDropdown] = useState(false);
-  console.log(setTheme);
+
   useEffect(() => {
     function hideMenu(e) {
       if (openDropdown && menu.current !== e.target) {
@@ -53,11 +53,10 @@ export default function NavBar() {
 
   return (
     <NavBarContainer theme={theme}>
-      <NavBarTitle href="/timeline" theme={theme}>
+      <NavBarTitle to="/timeline" theme={theme}>
         linkr
       </NavBarTitle>
       <SearchBox mobile={false} theme={theme}/>
-
       <div>
         {openDropdown ? (
           <ArrowUp
@@ -120,7 +119,7 @@ const NavBarContainer = styled.div`
   }
 `;
 
-const NavBarTitle = styled.a`
+const NavBarTitle = styled(Link)`
   font-family: "Passion One", cursive;
   font-weight: bold;
   font-size: 49px;

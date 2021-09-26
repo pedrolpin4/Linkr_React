@@ -8,8 +8,6 @@ export default function RepostBar({ repostedBy, theme }) {
 
   const { userData } = useContext(UserContext);
 
-  console.log("uDuu", userData.user.username);
-
   return (
     <TopBar theme = {theme}>
       <Retweet />
