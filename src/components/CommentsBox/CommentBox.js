@@ -60,10 +60,12 @@ export default function CommentBox({ postId, isActive, setCommentsAmmount, postO
 
     return (
         <CommentBoxContainer 
-            layout animate={isActive ? "active" : "unactive"}
+            layout 
+            animate={isActive ? "active" : "unactive"}
             variants={variants}
             theme ={theme}
             isMobile={isMobile}
+            isActive={isActive}
         >
             <div className="comments-wrapper">{
                 isLoading && isActive
@@ -124,10 +126,10 @@ const CommentBoxContainer = styled(motion.div)`
 `
 
 const variants = {
-    active: { height: "auto", opacity: 1, transition: {
+    active: { height: "auto", opacity: 1, padding: "10px", transition: {
         stiffness: 100
     }},
-    unactive: { height: 0, opacity: 0, transition: {
+    unactive: { height: 0, opacity: 0, padding: 0, transition: {
         duration: .2
     }}
 }
