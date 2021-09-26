@@ -87,7 +87,7 @@ function Hashtag() {
         {isLoading ? (
           <Loading spinnerSize={30} />
         ) : hashtagsPosts.length === 0 ? (
-          <ErrorMessage>#{hashtag} has no posts</ErrorMessage>
+          <ErrorMessage>#{hashtag} has no posts yet</ErrorMessage>
         ) : (
           hashtagsPosts.map((post) => (
             <Post

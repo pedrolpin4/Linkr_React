@@ -148,11 +148,11 @@ export default function Post({ postData, lastPost, geoLocation }) {
             newPosts={newPosts}
           />
 
-          <ShowComments>
+          <ShowComments theme ={theme}>
             <AiOutlineComment
               className="comments-ico"
               size={20}
-              color="#fff"
+              color= {theme === "light" ? "#171717" : "#FFFFFF"}
               onClick={(e) => {
                 toggleCommentsView(e);
               }}
@@ -283,6 +283,7 @@ export default function Post({ postData, lastPost, geoLocation }) {
         postOwner={user}
         isActive={isCommentBoxActive}
         setCommentsAmmount={setCommentsAmmount}
+        theme = {theme}
       />
     </PostContainer>
   );
@@ -397,7 +398,7 @@ const ShowComments = styled.div`
     text-align: center;
     font-size: 11px;
     font-family: "Lato", sans-serif;
-    color: #fff;
+    color: ${props => props.theme === "light" ? "#171717" : "#FFFFFF"};
 
     @media screen and (max-width: 600px) {
       font-size: 9px;

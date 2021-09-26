@@ -34,7 +34,7 @@ const TrendingBar = ({theme}) => {
                         </Link>    
                     </HashtagsName>
                 ))}
-            <HashtagSearch />
+            <HashtagSearch theme = {theme}/>
         </TrendingsContainer>
     )
 }

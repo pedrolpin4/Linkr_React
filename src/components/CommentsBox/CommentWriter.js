@@ -6,7 +6,7 @@ import UserContext from '../../context/UserContext';
 import Loading from '../Loading';
 import service from '../../service/post'; 
 
-export default function CommentWritter({ postId, updateCommentsData, isActive }) {
+export default function CommentWritter({ postId, updateCommentsData, isActive, theme }) {
     const { userData } = useContext(UserContext);
     const [ comment, setComment ] = useState("");
 
@@ -34,7 +34,7 @@ export default function CommentWritter({ postId, updateCommentsData, isActive })
     }
 
     return (
-        <CommentWriterContainer isActive={isActive}>
+        <CommentWriterContainer isActive={isActive} theme = {theme}>
             {
                 userData.user
                     ? <img src={userData.user.avatar} alt=""/>
@@ -67,7 +67,7 @@ const CommentWriterContainer = styled.div`
     }
 
     textarea {
-        background-color: #252525;
+        background-color: ${props => props.theme === "light" ? "#e2e2e2" : "#252525"};
         font-family: "Lato", sans-serif;
         border: none;
         resize: none;
@@ -75,9 +75,9 @@ const CommentWriterContainer = styled.div`
         width: 80%;
         border-radius: 5px;
         outline: none;
-        color: #fff;
+        color: ${props => props.theme === "light" ? "#171717" : "#FFFFFF"};;
         font-size: 16px;
-        padding: 5px;
+        padding: 6px 15px;
     }
 
     textarea::-webkit-input-placeholder {

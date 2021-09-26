@@ -3,7 +3,7 @@ import { FaHashtag } from "react-icons/fa";
 import { useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 
-export default function HashtagSearch () {
+export default function HashtagSearch ({theme}) {
 
   const history = useHistory();
   let { hashtag } = useParams();
@@ -17,9 +17,9 @@ export default function HashtagSearch () {
   }
 
   return (
-    <FormHolder onSubmit={goToHashtag}>
+    <FormHolder onSubmit={goToHashtag} theme = {theme}>
       <label for="hashtag-input">
-        <HashtagIcon />
+        <HashtagIcon theme ={theme}/>
       </label>
       <HashtagInput 
         id="hashtag-input" 
@@ -27,7 +27,8 @@ export default function HashtagSearch () {
         type="text" 
         value={inputContent}
         onChange={(e) => setInputContent(e.target.value)}
-        required />
+        required 
+        theme = {theme}/>
     </FormHolder>
   );
 }
@@ -46,9 +47,10 @@ const FormHolder = styled.form`
 const HashtagInput = styled.input`
   width: 269px;
   height: 35px;
-  background: #252525;
+  background: ${(props) => props.theme === "light" ? "#e2e2e2" : "#252525"};
   border-radius: 8px;
-  color: #ffffff;
+  color: ${(props) => props.theme === "light" ? "#171717" : "#FFFFFF"};
+  font-weight: bold;
   font-family: Lato, sans-serif;
   font-style: italic;
   font-size: 16px;
@@ -70,5 +72,5 @@ const HashtagInput = styled.input`
 const HashtagIcon = styled(FaHashtag)`
   width: 12px;
   height: 23px;
-  color: #ffffff;
+  color: ${(props) => props.theme === "light" ? "#171717" : "#FFFFFF"};
 `;

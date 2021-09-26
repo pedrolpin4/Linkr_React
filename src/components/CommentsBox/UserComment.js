@@ -1,16 +1,16 @@
 import styled from 'styled-components';
 
-export default function UserComment({ commentData, isActive, following, postOwner, lastChild, index }) {
+export default function UserComment({ commentData, isActive, following, postOwner, lastChild, index, theme }) {
     const { text, user } = commentData;
 
     return (
-        <UserCommentContainer isActive={isActive} ref={e => { lastChild(e, index) }}>
-            <LeftSection>
+        <UserCommentContainer isActive={isActive} ref={e => { lastChild(e, index) }} theme = {theme}>
+            <LeftSection theme = {theme}>
                 <a href={`/user/${user.id}`}>
                     <img src={user.avatar} alt=""/>
                 </a>
             </LeftSection>
-            <RightSection>
+            <RightSection theme= {theme}>
                 <header>
                     <a href={`/user/${user.id}`} className="username">{user.username}</a>
                     <p className="detail">{
@@ -29,11 +29,10 @@ export default function UserComment({ commentData, isActive, following, postOwne
 
 const UserCommentContainer = styled.div`
     width: 100%;
-    margin-bottom: 1px solid #353535;
     display: flex;
     visibility: ${props => props.isActive ? "visible" : "hidden"};
     padding: 10px;
-    border-bottom: 1px solid #353535;
+    border-bottom: ${props => props.theme === "light" ? "1px solid #e2e2e2" : "1px solid #353535"};
     font-family: "Lato", sans-serif;
 
     img {
@@ -64,7 +63,8 @@ const RightSection = styled.div`
     }
 
     .username {
-        color: #fff;
+        color: ${props => props.theme === "light" ? "#171717" : "#FFFFFF"};
+        line-height: 20px;
         font-weight: bold;
     }
 
@@ -75,7 +75,7 @@ const RightSection = styled.div`
     }
 
     .comment-text {
-        color: #ACACAC;
+        color: ${props => props.theme === "light" ? "#333333" : "#ACACAC"};
         font-size: 14px;
         word-break: break-word;
     }

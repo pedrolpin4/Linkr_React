@@ -85,7 +85,7 @@ const SearchContainer = styled.div`
   width: ${(props) => (props.mobile ? "611px" : "563px")};
   height: 45px;
   background-color: ${(props) =>
-    props.theme === "light" ? "#2a2a2a" : "#fff"};
+    props.theme === "light" ? "#e2e2e2" : "#fff"};
   border-radius: 8px;
   display: ${(props) => (props.mobile ? "none" : "flex")};
   align-items: center;
@@ -116,9 +116,10 @@ const SearchContainer = styled.div`
     font-family: Lato;
     font-size: 19px;
     padding: 0 0 0 15px;
-    color: gray;
+    color: ${(props) =>
+    props.theme === "light" ? "#171717" : "gray"};
     background-color: ${(props) =>
-      props.theme === "light" ? "#2a2a2a" : "#fff"};
+      props.theme === "light" ? "#e2e2e2" : "#fff"};
   }
 `;
 
@@ -126,7 +127,7 @@ const UsersListBox = styled.ul`
   width: ${(props) => (props.mobile ? "611px" : "563px")};
   height: auto;
   background-color: ${(props) =>
-    props.theme === "light" ? "#6D6E70" : "#e7e7e7"};
+    props.theme === "light" ? "#ededed" : "#e7e7e7"};
   position: ${(props) => (props.mobile ? "absolute" : "fixed")};
   top: ${(props) => (props.mobile ? "115px" : "45px")};
   left: ${(props) =>

@@ -8,7 +8,7 @@ import Loading from '../Loading';
 import UserComment from './UserComment';
 import CommentWritter from './CommentWriter';
 
-export default function CommentBox({ postId, isActive, setCommentsAmmount, postOwner }) {
+export default function CommentBox({ postId, isActive, setCommentsAmmount, postOwner, theme }) {
     const { userData, searchUserInFollowing } = useContext(UserContext);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ commentsData, setCommentsData ] = useState([]);
@@ -56,7 +56,7 @@ export default function CommentBox({ postId, isActive, setCommentsAmmount, postO
     }, [refreshController, penultimate])
 
     return (
-        <CommentBoxContainer layout animate={isActive ? "active" : "unactive"} variants={variants}>
+        <CommentBoxContainer layout animate={isActive ? "active" : "unactive"} variants={variants} theme ={theme}>
             <div className="comments-wrapper">{
                 isLoading && isActive
                 ? <Loading size={30}/>
@@ -66,12 +66,14 @@ export default function CommentBox({ postId, isActive, setCommentsAmmount, postO
                                                                     following={!!searchUserInFollowing(comment.user.id)}
                                                                     postOwner={postOwner}
                                                                     lastChild={refCallback}
-                                                                    index={index} />)
+                                                                    index={index} 
+                                                                    theme ={theme}/>)
                 }</div>
             <CommentWritter postId={postId}
                             updateCommentsData={updateCommentsData}
                             reference={lastChild}
-                            isActive={isActive} />
+                            isActive={isActive} 
+                            theme ={theme}/>
         </CommentBoxContainer>
     )
 }
@@ -79,7 +81,7 @@ export default function CommentBox({ postId, isActive, setCommentsAmmount, postO
 const CommentBoxContainer = styled(motion.div)`
     height: 0;
     max-height: 350px;
-    background-color: #1E1E1E;
+    background-color: ${props => props.theme === "light" ? "#F1F1F1" : "#1E1E1E"};
     width: 100%;
     border-radius: 0px 0px 15px 15px;
     padding: 10px;
