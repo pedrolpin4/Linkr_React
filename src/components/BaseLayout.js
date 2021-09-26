@@ -12,7 +12,6 @@ export default function BaseLayout({ children, title }) {
     setTheme
   } = useContext(ThemeContext);
 
-  console.log(theme);
   return (
     <>
       <NavBar/>

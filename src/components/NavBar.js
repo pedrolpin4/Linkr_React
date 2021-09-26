@@ -15,7 +15,7 @@ export default function NavBar() {
   const history = useHistory();
   const menu = useRef();
   const [openDropdown, setOpenDropdown] = useState(false);
-  console.log(setTheme);
+
   useEffect(() => {
     function hideMenu(e) {
       if (openDropdown && menu.current !== e.target) {

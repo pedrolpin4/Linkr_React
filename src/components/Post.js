@@ -20,7 +20,7 @@ import { customStyles, ModalButtons } from "../SharedStyles/StyledComponents";
 import ThemeContext from "../context/ThemeContext";
 import LocationPin from "./LocationPin";
 
-export default function Post({ postData, lastPost, geoLocation }) {
+export default function Post({ postData, lastPost, geoLocation, setNewPosts, newPosts }) {
   const {
     repostId,
     link,
@@ -31,13 +31,9 @@ export default function Post({ postData, lastPost, geoLocation }) {
     linkImage,
     likes,
     id,
-    setNewPosts,
-    newPosts,
     repostCount,
     repostedBy
   } = postData;
-
-  console.log("pD", postData)
 
   const [isClicked, setIsClicked] = useState(false);
   const inputRef = useRef();
@@ -89,8 +85,10 @@ export default function Post({ postData, lastPost, geoLocation }) {
       )
       .then(() => {
         setIsOpen(false);
+        console.log("bnP", newPosts)
         setNewPosts(newPosts - 1);
         setIsClicked(false);
+        console.log("anP", newPosts);
       })
       .catch(() => {
         setIsOpen(false);
@@ -98,6 +96,7 @@ export default function Post({ postData, lastPost, geoLocation }) {
         alert("It wasn't possible to delete this post. Try it later.");
       });
   }
+  console.log("manP", newPosts);
 
   function openModal() {
     setIsOpen(true);
@@ -117,8 +116,6 @@ export default function Post({ postData, lastPost, geoLocation }) {
       inputRef.current.focus();
     }
   }, [isEditing]);
-
-  console.log(geoLocation);
 
   return (
     <PostContainer hasRepostBar={repostId}>
@@ -290,7 +287,8 @@ export default function Post({ postData, lastPost, geoLocation }) {
 }
 
 const PostContainer = styled.div`
-  margin-top: ${props => props.hasRepostBar ? "60px" : "20px"};
+  margin-top: ${(props) => (props.hasRepostBar ? "40px" : "0px")};
+  margin-bottom: 20px;
   position: relative;
 `;
 
