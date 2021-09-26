@@ -15,14 +15,15 @@ function UsersPosts() {
   const [userPosts, setUserPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { userData } = useContext(UserContext);
-  const [username, setUsername] = useState("");
   const [followButton, setFollowButton] = useState(false);
   const [clicked, setClicked] = useState(false);
   const [idObserver, setIdObserver] = useState(null);
   const [postsLoading, setPostsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [pageNumber, setPageNumber] = useState(0)
-  const observer = useRef() 
+  const observer = useRef()
+
+  const [ profileUserData, setProfileUserData ] = useState();
   
   const lastPost = useCallback(node => {
     if(postsLoading) return
@@ -35,14 +36,23 @@ function UsersPosts() {
     if(node) observer.current.observe(node)
   }, [postsLoading, hasMore])
 
+  useEffect(() => {
+    async function getUserData() {
+      const response = await service.getSomeUserData(id, userData.token);
+
+      if(response) setProfileUserData(response.user);
+    }
+
+    if(userData.token) getUserData();
+  }, [id, userData])
 
   useEffect(() => {
     let unmounted = false;
     async function getThisUserPosts() {
       const response = await service.getUserPosts(id, userData.token);
+
       if (response && !unmounted) {
         setUserPosts(response.posts);
-        setUsername(response.posts[0].repostedBy ? response.posts[0].repostedBy.username : response.posts[0].user.username);
         setIdObserver(response.posts[response.posts.length - 1]?.repostId ?
           response.posts.find((post,index) =>(index + 1 === response.posts.length))?.repostId :
           response.posts.find((post,index) =>(index + 1 === response.posts.length))?.id 
@@ -141,7 +151,7 @@ function UsersPosts() {
 
   return (
     <>
-      {userData.user?.username === username ? (
+      {userData.user?.username === profileUserData?.username ? (
         ""
       ) : (
         <FollowButton
@@ -152,7 +162,7 @@ function UsersPosts() {
           {followButton ? "Unfollow" : "Follow"}
         </FollowButton>
       )}
-      <BaseLayout title={`${username}'s posts`}>
+      <BaseLayout title={`${profileUserData?.username}'s posts`} img={profileUserData?.avatar}>
         {isLoading ? (
           <Loading spinnerSize={30} />
         ) : userPosts.length === 0 ? (

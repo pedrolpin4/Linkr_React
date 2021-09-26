@@ -6,7 +6,7 @@ import NavBar from "./NavBar";
 import SearchBox from "../components/SearchBox";
 
 
-export default function BaseLayout({ children, title }) {
+export default function BaseLayout({ children, title, img }) {
   const {
     theme
   } = useContext(ThemeContext);
@@ -18,7 +18,14 @@ export default function BaseLayout({ children, title }) {
         <MainContentContainer>
           <LeftSection>
             <SearchBox mobile={true}/>
+            <div className="user-info">
+              {
+                img
+                  ? <img src={img} alt="" className="profile-img"/>
+                  : null
+              }
               <PageTitle>{title}</PageTitle>
+            </div>
             {children}
           </LeftSection>
           <TrendingBar className="trending-bar" theme = {theme}/>
@@ -36,23 +43,12 @@ const PageTitle = styled.h1`
   overflow-x: hidden;
   text-overflow: ellipsis;
   font-size: 43px;
-  margin: 125px 0 45px 0;
+  
   font-weight: bold;
-  width: 100%;
-
+  
   @media (max-width: 1000px) {
-    font-size: 33px;
-    line-height: 48.91px;
-    margin-top: 155px;
-  }
-
-  @media (max-width: 650px) {
-    margin: 155px 0px 19px 17px;    
-  }
-
-  @media (max-width: 611px) {
-    margin: 150px 0px 19px 17px;
-    overflow-wrap: break-word;
+    font-size: 26px;
+    line-height: 40px;
   }
 `;
 
@@ -79,6 +75,32 @@ const LeftSection = styled.section`
   flex-direction: column;
   justify-content: flex-start;
   overflow: hidden;
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 125px 0 45px 0;
+    width: 100%;
+
+    @media (max-width: 1000px) {
+      margin-top: 155px;
+    }
+    @media (max-width: 650px) {
+      margin: 155px 0px 19px 17px;    
+    }
+    @media (max-width: 611px) {
+      margin: 150px 0px 19px 10px;
+    }
+  }
+
+  .profile-img {
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    margin-right: 10px;
+  }
+
   @media (max-width: 611px) {
     width: 100vw;
   }

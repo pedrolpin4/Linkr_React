@@ -171,6 +171,10 @@ const DropdownMenu = styled.div`
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   svg {
