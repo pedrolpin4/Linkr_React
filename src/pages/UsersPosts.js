@@ -161,17 +161,8 @@ function UsersPosts() {
           userPosts.map((post) => (
             <Post
               key={post.repostId ? post.repostId : post.id}
-              username={post.user.username}
-              text={post.text}
-              link={post.link}
-              profilePic={post.user.avatar}
-              prevTitle={post.linkTitle}
-              prevImage={post.linkImage}
-              prevDescription={post.linkDescription}
-              id={post.id}
+              postData={post}
               repostId={post.repostId ? post.repostId : false}
-              likes={post.likes}
-              userId={post.user.id}
               repostCount={post.repostCount}
               repostedByUser={post.repostedBy?.username}
               repostedUserId={post.repostedBy?.id}

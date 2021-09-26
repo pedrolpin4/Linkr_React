@@ -2,41 +2,43 @@ import styled from "styled-components";
 import { useState, useContext, useRef, useEffect } from "react";
 import { FaTrash } from "react-icons/fa";
 import { FiEdit2 } from "react-icons/fi";
+import { AiOutlineComment } from 'react-icons/ai'
 import ReactHashtag from "react-hashtag";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import getYouTubeID from "get-youtube-id";
+import { motion } from "framer-motion";
+
 import LikesComponent from "./LikesComponent";
 import Modal from "react-modal";
 import Preview from "./Preview";
-import axios from "axios";
 import UserContext from "../context/UserContext";
 import service from "../service/post";
-import { Link } from "react-router-dom";
-import getYouTubeID from "get-youtube-id";
+import CommentBox from "./CommentsBox/CommentBox";
 import RepostComponent from "./RepostComponent";
 import RepostBar from "./RepostBar";
 import { customStyles, ModalButtons } from "../SharedStyles/StyledComponents";
 import ThemeContext from "../context/ThemeContext";
 import LocationPin from "./LocationPin";
 
-export default function Post({
-  profilePic,
-  repostId,
-  link,
-  username,
-  text,
-  prevTitle,
-  prevDescription,
-  prevImage,
-  likes,
-  userId,
-  id,
-  setNewPosts,
-  newPosts,
-  repostCount,
-  repostedByUser,
-  repostedUserId,
-  lastPost,
-  geoLocation,
-}) {
+export default function Post({ postData, lastPost, geoLocation }) {
+  const {
+      repostId,
+      link,
+      user,
+      text,
+      linkTitle,
+      linkDescription,
+      linkImage,
+      likes,
+      id,
+      setNewPosts,
+      newPosts,
+      repostCount,
+      repostedByUser,
+      repostedUserId,
+  } = postData
+
   const [isClicked, setIsClicked] = useState(false);
   const inputRef = useRef();
   const [isEditing, setIsEditing] = useState(false);
@@ -46,6 +48,9 @@ export default function Post({
   const [modalIsOpen, setIsOpen] = useState(false);
   const { userData } = useContext(UserContext);
   const { theme } = useContext(ThemeContext);
+
+  const [ isCommentBoxActive, setIsCommentBoxActive ] = useState(false);
+  const [ commentsAmmount, setCommentsAmmount ] = useState("");
 
   async function keyEvents(e) {
     if (e.code === "Escape") {
@@ -102,6 +107,11 @@ export default function Post({
     setIsOpen(false);
   }
 
+  function toggleCommentsView(e) {
+    e.stopPropagation();
+    setIsCommentBoxActive(!isCommentBoxActive);
+  }
+
   useEffect(() => {
     if (isEditing) {
       inputRef.current.focus();
@@ -111,41 +121,49 @@ export default function Post({
   console.log(geoLocation)
 
   return (
-    <>
+    <PostContainer>
       {repostId ? (
         <RepostBar
           repostedByUser={repostedByUser}
           repostedUserId={repostedUserId}
           theme = {theme}
         />
-      ) : (
-        <></>
-      )}
-      <PostContainer ref = {lastPost} theme = {theme}>
-        <LeftSection theme = {theme}>
-          <a href={`/user/${userId}`}>
-            <img src={profilePic} alt="" />
+      ) : null
+      }
+      <UpperContainer animate={isCommentBoxActive ? "noRadius" : "radius"} variants={variants} ref = {lastPost} theme = {theme}>
+        <LeftSection  theme = {theme}>
+          <a href={`/user/${user.id}`}>
+            <img src={user.avatar} alt="" />
           </a>
-          <LikesComponent likes={likes} id={id} userId={userId} />
+          <LikesComponent likes={likes} id={id} userId={user.id} />
+
           <RepostComponent
             repostCount={repostCount}
             id={id}
-            userId={userId}
+            userId={user.id}
             setNewPosts={setNewPosts}
             newPosts={newPosts}
           />
+
+          <ShowComments>
+            <AiOutlineComment className="comments-ico"
+                              size={20}
+                              color="#fff"
+                              onClick={e => {toggleCommentsView(e)}}/>
+            <p className="comments-ammount">{`${commentsAmmount} comments`}</p>
+          </ShowComments>
         </LeftSection>
 
-        <RightSection shouldhide={userId === userData.user?.id && repostId === false} theme = {theme}>
+        <RightSection shouldhide={user.id === userData.user?.id && repostId === false} theme = {theme}>
           <header>
             <div>
               <p className="username">
-                <a href={`/user/${userId}`}>{username}</a>
+                <a href={`/user/${user.id}`}>{user.username}</a>
               </p>
               {geoLocation ? 
               <LocationPin
                 geoLocation={geoLocation}
-                username={username} />
+                username={user.username} />
               :
               ""}
             </div>
@@ -204,9 +222,9 @@ export default function Post({
             </>
           ) : (
             <Preview
-              title={prevTitle}
-              description={prevDescription}
-              img={prevImage}
+              title={linkTitle}
+              description={linkDescription}
+              img={linkImage}
               link={link}
               theme = {theme}
             />
@@ -246,19 +264,27 @@ export default function Post({
             </button>
           </ModalButtons>
         </Modal>
-      </PostContainer>
-    </>
+      </UpperContainer>
+      <CommentBox postId={id}
+                  postOwner={user}
+                  isActive={isCommentBoxActive}
+                  setCommentsAmmount={setCommentsAmmount}/>
+    </PostContainer>
   );
 }
 
-const PostContainer = styled.div`
-  background-color: ${props => props.theme === "light" ? "#FFFFFF" : "#171717"};
+const PostContainer = styled.div` 
+  margin-bottom: 20px;
+`
+
+const UpperContainer = styled(motion.div)`
+  background-color: ${(props) =>
+  props.theme === "light" ? "#FFFFFF" : "#171717"};
   border-radius: 15px;
   width: 611px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
-  padding: 15px;
+  padding: 13px;
   min-height: 220px;
   position: relative;
   -webkit-user-select: none;
@@ -290,7 +316,7 @@ const PostContainer = styled.div`
 `;
 
 const LeftSection = styled.div`
-  width: 10%;
+  width: 12%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -344,14 +370,38 @@ const LeftSection = styled.div`
   }
 `;
 
+const ShowComments = styled.div`
+  margin-top: 15px;
+  display: flex;
+  flex-direction: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+
+  p {
+    text-align: center;
+    font-size: 11px;
+    font-family: "Lato", sans-serif;
+    color: #fff;
+
+    @media screen and (max-width: 600px) {
+      font-size: 9px;
+    }
+  }
+
+  .comments-ico {
+    cursor: pointer;
+  }
+`
+
 const RightSection = styled.div`
-  width: 90%;
+  width: 88%;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   height: 100%;
-  padding-left: 20px;
+  padding-left: 15px;
 
   .delete {
     cursor: pointer;
@@ -445,3 +495,16 @@ const EditInput = styled.textarea`
     outline: none;
   }
 `;
+
+const variants = {
+  noRadius: { 
+    borderBottomLeftRadius: "0",
+    borderBottomRightRadius: "0",
+  },
+  radius: { 
+    borderBottomLeftRadius: "15px",
+    borderBottomRightRadius: "15px",
+    transition: {
+      delay: .1
+  }}
+}
