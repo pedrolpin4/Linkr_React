@@ -34,9 +34,10 @@ export default function Post({ postData, lastPost, geoLocation }) {
     setNewPosts,
     newPosts,
     repostCount,
-    repostedByUser,
-    repostedUserId,
+    repostedBy
   } = postData;
+
+  console.log("pD", postData)
 
   const [isClicked, setIsClicked] = useState(false);
   const inputRef = useRef();
@@ -120,11 +121,10 @@ export default function Post({ postData, lastPost, geoLocation }) {
   console.log(geoLocation);
 
   return (
-    <PostContainer>
+    <PostContainer hasRepostBar={repostId}>
       {repostId ? (
         <RepostBar
-          repostedByUser={repostedByUser}
-          repostedUserId={repostedUserId}
+          repostedBy={repostedBy}
           theme={theme}
         />
       ) : null}
@@ -290,7 +290,8 @@ export default function Post({ postData, lastPost, geoLocation }) {
 }
 
 const PostContainer = styled.div`
-  margin-bottom: 20px;
+  margin-top: ${props => props.hasRepostBar ? "60px" : "20px"};
+  position: relative;
 `;
 
 const UpperContainer = styled(motion.div)`

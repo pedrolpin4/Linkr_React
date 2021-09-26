@@ -60,6 +60,7 @@ const RightSection = styled.div`
         display: flex;
         justify-content: flex-start;
         margin-bottom: 5px;
+        align-items: center;
     }
 
     .username {

@@ -4,21 +4,23 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import UserContext from "../context/UserContext";
 
-export default function RepostBar({ repostedByUser, repostedUserId, theme }) {
+export default function RepostBar({ repostedBy, theme }) {
 
   const { userData } = useContext(UserContext);
+
+  console.log("uDuu", userData.user.username);
 
   return (
     <TopBar theme = {theme}>
       <Retweet />
       <p>
         {`Re-posted by `}
-        <Link to={`/user/${repostedUserId}`}>
-          {repostedByUser === userData.user.username
+        <Link to={`/user/${repostedBy.id}`}>
+          {repostedBy.username === userData.user.username
           ?
           'you'
           :
-          repostedByUser}
+          repostedBy.username}
         </Link>
       </p>
     </TopBar>
@@ -32,7 +34,9 @@ const TopBar = styled.div`
   line-height: 13px;
   color:  ${props => props.theme === "light" ? "#171717" : "#FFFFFF"};
   border-radius: 15px 15px 0 0;
-  margin-bottom: -20px;
+  position: absolute;
+  top: -40px;
+  left: 0;
   width: 611px;
   padding: 11px 13px 31px;
   display: flex;
@@ -47,6 +51,7 @@ const TopBar = styled.div`
 
   a {
     font-weight: 700;
+    cursor: pointer;
   }
 
   @media (max-width: 600px) {
