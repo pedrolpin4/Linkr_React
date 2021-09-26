@@ -19,6 +19,7 @@ import RepostBar from "./RepostBar";
 import { customStyles, ModalButtons } from "../SharedStyles/StyledComponents";
 import ThemeContext from "../context/ThemeContext";
 import LocationPin from "./LocationPin";
+import {useMediaQuery} from '../utils/useMediaQuery';
 
 export default function Post({ postData, lastPost, geoLocation }) {
   const {
@@ -37,8 +38,6 @@ export default function Post({ postData, lastPost, geoLocation }) {
     repostedBy
   } = postData;
 
-  console.log("pD", postData)
-
   const [isClicked, setIsClicked] = useState(false);
   const inputRef = useRef();
   const [isEditing, setIsEditing] = useState(false);
@@ -51,6 +50,37 @@ export default function Post({ postData, lastPost, geoLocation }) {
 
   const [isCommentBoxActive, setIsCommentBoxActive] = useState(false);
   const [commentsAmmount, setCommentsAmmount] = useState("");
+  
+  const isMobile = useMediaQuery('(min-width: 600px)');
+
+  const variants = 
+    isMobile
+    ? {
+        noRadius: {
+          borderBottomLeftRadius: "0",
+          borderBottomRightRadius: "0",
+        },
+        radius: {
+          borderBottomLeftRadius: "15px",
+          borderBottomRightRadius: "15px",
+          transition: {
+            delay: 0.1,
+          },
+        },
+      }
+    : {
+      noRadius: {
+        borderBottomLeftRadius: "0",
+        borderBottomRightRadius: "0",
+      },
+      radius: {
+        borderBottomLeftRadius: "0",
+        borderBottomRightRadius: "0",
+        transition: {
+          delay: 0.1,
+        },
+      },
+    }
 
   async function keyEvents(e) {
     if (e.code === "Escape") {
@@ -510,17 +540,3 @@ const EditInput = styled.textarea`
     outline: none;
   }
 `;
-
-const variants = {
-  noRadius: {
-    borderBottomLeftRadius: "0",
-    borderBottomRightRadius: "0",
-  },
-  radius: {
-    borderBottomLeftRadius: "15px",
-    borderBottomRightRadius: "15px",
-    transition: {
-      delay: 0.1,
-    },
-  },
-};

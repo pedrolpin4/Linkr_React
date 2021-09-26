@@ -7,6 +7,7 @@ import service from '../../service/post';
 import Loading from '../Loading';
 import UserComment from './UserComment';
 import CommentWritter from './CommentWriter';
+import { useMediaQuery } from '../../utils/useMediaQuery';
 
 export default function CommentBox({ postId, isActive, setCommentsAmmount, postOwner, theme }) {
     const { userData, searchUserInFollowing } = useContext(UserContext);
@@ -16,6 +17,8 @@ export default function CommentBox({ postId, isActive, setCommentsAmmount, postO
 
     const [ penultimate, setPenultimate ] = useState();
     const lastChild = useRef();
+
+    const isMobile = useMediaQuery('(max-width: 600px)')
 
     function updateCommentsData() {
         setRefreshController(prevState => prevState + 1);
@@ -56,7 +59,12 @@ export default function CommentBox({ postId, isActive, setCommentsAmmount, postO
     }, [refreshController, penultimate])
 
     return (
-        <CommentBoxContainer layout animate={isActive ? "active" : "unactive"} variants={variants} theme ={theme}>
+        <CommentBoxContainer 
+            layout animate={isActive ? "active" : "unactive"}
+            variants={variants}
+            theme ={theme}
+            isMobile={isMobile}
+        >
             <div className="comments-wrapper">{
                 isLoading && isActive
                 ? <Loading size={30}/>
@@ -83,7 +91,7 @@ const CommentBoxContainer = styled(motion.div)`
     max-height: 350px;
     background-color: ${props => props.theme === "light" ? "#F1F1F1" : "#1E1E1E"};
     width: 100%;
-    border-radius: 0px 0px 15px 15px;
+    border-radius: ${props => props.isMobile ? "0px" : "0px 0px 15px 15px"};
     padding: 10px;
     position: relative;
 
