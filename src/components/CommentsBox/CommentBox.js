@@ -48,8 +48,12 @@ export default function CommentBox({ postId, isActive, setCommentsAmmount, postO
 
     useEffect(() => {
         setTimeout(() => {
-            if(refreshController > 0) {
-                lastChild.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' })
+            if(refreshController > 0 && lastChild.current) {
+                lastChild.current.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'nearest',
+                    inline: 'start'
+                })
             }
         }, 200)
 
