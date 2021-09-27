@@ -80,7 +80,7 @@ function SearchBox({ mobile, theme }) {
               <User onClick={() => setSearchInput("")} theme={theme}>
                 <img src={user.avatar} alt={user.username} />
                 <h1>{user.username}</h1>
-                <h2>{user.isFollowingLoggedUser ? "• following" : ""}</h2>
+                <h2>{user.isFollowingLoggedUser ? `${mobile ? "" : "•"} following` : ""}</h2>
               </User>
             </Link>
           ))
