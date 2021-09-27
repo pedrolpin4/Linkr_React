@@ -4,25 +4,34 @@ import PreviewModal from './PreviewModal';
 
 export default function Preview({ title, description, link, img, theme }) {
     const [showModal, setShowModal] = useState(false);
+    console.log("img", img)
 
     return (
-        <>
-            <PreviewContainer onClick = {() => setShowModal(true)} theme = {theme}>
-                <LeftSection theme = {theme}>
-                    <h1>{title}</h1>
-                    <p>{description}</p>
-                    <p className="link" href={link}>{link}</p>
-                </LeftSection>
-                <RightSection img={img}/>
-            </PreviewContainer>
-            <PreviewModal 
-                showModal = {showModal}
-                setShowModal = {setShowModal} 
-                link = {link}
-                theme = {theme}
-            />
-        </>
-    )
+      <>
+        <PreviewContainer onClick={() => setShowModal(true)} theme={theme}>
+          <LeftSection theme={theme}>
+            <h1>{title !== null ? title : link}</h1>
+            <p>{description}</p>
+            <p className="link" href={link}>
+              {link}
+            </p>
+          </LeftSection>
+          <RightSection
+            img={
+              img !== null || img !== ""
+                ? img
+                : "https://forestgreenslimplots.andrezzasoares.repl.co/download.png"
+            }
+          />
+        </PreviewContainer>
+        <PreviewModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          link={link}
+          theme={theme}
+        />
+      </>
+    );
 }
 
 const PreviewContainer = styled.a`

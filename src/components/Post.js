@@ -94,7 +94,9 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
       );
 
       if (response) {
-        history.go();
+        setIsEditing(false);
+        setLastValue(response.post.text);
+        setIsDisabled(false);
       } else {
         setIsDisabled(false);
         inputRef.current.focus();
@@ -146,14 +148,10 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
     }
   }, [isEditing]);
 
+  console.log("pD", postData)
   return (
-    <PostContainer hasRepostBar={repostId} ref ={lastPost}>
-      {repostId ? (
-        <RepostBar
-          repostedBy={repostedBy}
-          theme={theme}
-        />
-      ) : null}
+    <PostContainer hasRepostBar={repostId} ref={lastPost}>
+      {repostId ? <RepostBar repostedBy={repostedBy} theme={theme} /> : null}
       <UpperContainer
         animate={isCommentBoxActive ? "noRadius" : "radius"}
         variants={variants}
@@ -173,16 +171,20 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
             newPosts={newPosts}
           />
 
-          <ShowComments theme ={theme}>
+          <ShowComments theme={theme}>
             <AiOutlineComment
               className="comments-ico"
               size={20}
-              color= {theme === "light" ? "#171717" : "#FFFFFF"}
+              color={theme === "light" ? "#171717" : "#FFFFFF"}
               onClick={(e) => {
                 toggleCommentsView(e);
               }}
             />
-            <p className="comments-ammount">{`${commentsAmmount} comments`}</p>
+            {commentsAmmount === 1 ? (
+              <p className="comments-ammount">{`${commentsAmmount} comment`}</p>
+            ) : (
+              <p className="comments-ammount">{`${commentsAmmount} comments`}</p>
+            )}
           </ShowComments>
         </LeftSection>
 
@@ -190,11 +192,16 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
           shouldhide={user.id === userData.user?.id && !repostId}
           theme={theme}
         >
-          <header>
-            <div>
-              <p className="username">
-                <a href={`/user/${user.id}`}>{user.username}</a>
-              </p>
+          <Header
+            myPost={user.username === userData.user ? true : false}
+            theme={theme}
+          >
+            <NameAndLoc myPost={user.username === userData.user ? true : false}>
+              <div>
+                <p className="username">
+                  <a href={`/user/${user.id}`}>{user.username}</a>
+                </p>
+              </div>
               {geoLocation ? (
                 <LocationPin
                   theme={theme}
@@ -204,7 +211,7 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
               ) : (
                 ""
               )}
-            </div>
+            </NameAndLoc>
             <FiEdit2
               size={16}
               className="edit"
@@ -243,7 +250,7 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
                 {currentValue}
               </ReactHashtag>
             )}
-          </header>
+          </Header>
           {link.match("^https?://www.youtube.com/watch") ? (
             <>
               <iframe
@@ -308,7 +315,7 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
         postOwner={user}
         isActive={isCommentBoxActive}
         setCommentsAmmount={setCommentsAmmount}
-        theme = {theme}
+        theme={theme}
       />
     </PostContainer>
   );
@@ -345,6 +352,7 @@ const UpperContainer = styled(motion.div)`
     -webkit-user-select: text;
     -ms-user-select: text;
     user-select: text;
+    word-break: break-all;
   }
 
   @media screen and (max-width: 600px) {
@@ -464,29 +472,11 @@ const RightSection = styled.div`
     display: ${(props) => (!props.shouldhide ? "none" : "unset")};
   }
 
-  header {
-    margin-bottom: 10px;
-    color: ${(props) => (props.theme === "light" ? "#333333" : "#cecece")};
-    line-height: 20px;
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
-    font-size: 17px;
-    max-width: 95%;
-    -webkit-user-select: text;
-    -ms-user-select: text;
-    user-select: text;
-  }
-
-  header > div {
-    display: flex;
-    align-items: center;
-    margin: 5px 0 10px;
-  }
-
   .username {
     line-height: unset;
     color: ${(props) => (props.theme === "light" ? "#171717" : "#FFFFFF")};
     font-size: 19px;
+    word-break: break-all;
   }
 
   .hashtag {
@@ -495,11 +485,6 @@ const RightSection = styled.div`
   }
 
   @media (max-width: 600px) {
-    header {
-      font-size: 15px;
-      width: calc(90% - 30px);
-    }
-
     .delete {
       right: 7px;
     }
@@ -517,6 +502,36 @@ const RightSection = styled.div`
     .username {
       font-size: 17px;
     }
+  }
+`;
+
+const Header = styled.header`
+  margin-bottom: 10px;
+  color: ${(props) => (props.theme === "light" ? "#333333" : "#cecece")};
+  line-height: 20px;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  font-size: 17px;
+  max-width: 95%;
+  -webkit-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+
+  @media (max-width: 600px) {
+    font-size: 15px;
+    width: ${props => props.myPost ? `calc(90% - 30px)` : '100%'};
+  }
+`;
+
+const NameAndLoc = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 5px 0 10px;
+  max-width: ${props => props.myPost ? '91.5%' : '100%'};
+  width: fit-content;
+  @media (max-width: 600px) {
+    max-width: 100%;
   }
 `;
 

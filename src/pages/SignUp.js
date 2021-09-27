@@ -42,9 +42,9 @@ function SignUp() {
           <h2>save, share and discover the best links on the web</h2>
         </div>
       </LogoHolder>
-      <LoginForm onSubmit={createAccount}>
+      <LoginForm>
         <div>
-          <form>
+          <form onSubmit={createAccount}>
             <EnterInput
               type="email"
               placeholder="e-mail"

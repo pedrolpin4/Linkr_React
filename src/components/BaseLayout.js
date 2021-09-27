@@ -76,7 +76,7 @@ const PageTitle = styled.h1`
     width: 200px;
     overflow-x: hidden;
     white-space: nowrap;
-  text-overflow: ellipsis;
+    text-overflow: ellipsis;
   }
 `;
 
