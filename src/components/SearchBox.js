@@ -33,7 +33,7 @@ function SearchBox({ mobile, theme }) {
           })
         );
       });
-      req.catch((error) => void(0));
+      req.catch((error) => console.log(error));
     }
   }
   //eslint-disable-next-line
