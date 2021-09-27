@@ -181,6 +181,7 @@ function UsersPosts() {
               geoLocation={post.geolocation}
               index = {index}
               setPosts = {setUserPosts}
+              setHasMore = {setHasMore}
             />
           ))
         )}

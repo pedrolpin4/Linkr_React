@@ -21,7 +21,7 @@ import ThemeContext from "../context/ThemeContext";
 import LocationPin from "./LocationPin";
 import { useMediaQuery } from '../utils/useMediaQuery';
 
-export default function Post({ postData, lastPost, geoLocation, setNewPosts, newPosts, index, setPosts }) {
+export default function Post({ postData, lastPost, geoLocation, setNewPosts, newPosts, index, setPosts, setHasMore }) {
   const {
     repostId,
     link,
@@ -118,6 +118,7 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
         setIsOpen(false);
         setIsClicked(false);
         setPosts(prev => prev.filter((e, i) => i !== index))
+        setHasMore(true)
       })
       .catch(() => {
         setIsOpen(false);
