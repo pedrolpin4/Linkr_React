@@ -147,11 +147,11 @@ function UsersPosts() {
     }
     
     if(userData.token) getNewPostsData();
-  }, [pageNumber])
+  }, [pageNumber]);
 
   return (
     <>
-      {userData.user?.username === profileUserData?.username ? (
+      {userData.user?.username === profileUserData?.username || profileUserData === undefined ? (
         ""
       ) : (
         <FollowButton
@@ -162,7 +162,7 @@ function UsersPosts() {
           {followButton ? "Unfollow" : "Follow"}
         </FollowButton>
       )}
-      <BaseLayout title={`${profileUserData?.username}'s posts`} img={profileUserData?.avatar}>
+      <BaseLayout title={profileUserData?.username ? `${profileUserData?.username}'s posts` : ``} img={profileUserData?.avatar}>
         {isLoading ? (
           <Loading spinnerSize={30} />
         ) : userPosts.length === 0 ? (
