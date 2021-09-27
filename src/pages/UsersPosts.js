@@ -72,7 +72,7 @@ function UsersPosts() {
         }
       );
       req.then((resp) => {
-        setFollowButton(resp.data.users.some(i => i.id === `${id}`));
+        setFollowButton(resp.data.users.some(i => i.id == id));
       });
       req.catch((error) => alert("The birds are eating our comunications lines, sorry."));
     }
