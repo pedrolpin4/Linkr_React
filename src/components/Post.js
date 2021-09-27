@@ -126,7 +126,6 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
         alert("It wasn't possible to delete this post. Try it later.");
       });
   }
-  console.log("manP", newPosts);
 
   function openModal() {
     setIsOpen(true);

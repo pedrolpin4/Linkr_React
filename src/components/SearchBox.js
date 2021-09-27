@@ -33,9 +33,11 @@ function SearchBox({ mobile, theme }) {
           })
         );
       });
-      req.catch((error) => console.log(error.response));
+      req.catch((error) => void(0));
     }
-  }, [searchInput]);
+  }
+  //eslint-disable-next-line
+  , [searchInput]);
 
   return (
     <>
