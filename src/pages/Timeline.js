@@ -92,6 +92,7 @@ function Timeline() {
 
     useEffect(() => {
         function getNewPostsData() {
+            let hasmore = true
             if(posts.length) setPostsLoading(true)
             service.getOlderPosts(token, idObserver, "/following/posts")
                 .then(res => {
@@ -99,7 +100,11 @@ function Timeline() {
 
                     if(res.data.posts.length === 10){
                        setHasMore(true)
-                    } else setHasMore(false)
+                       hasmore = true
+                    } else {
+                      setHasMore(false)
+                      hasmore = false
+                    }
 
                     setPosts([...posts, ...res.data.posts])
                     setIdObserver(res.data.posts[res.data.posts.length - 1].repostId ?
@@ -107,7 +112,7 @@ function Timeline() {
                         res.data.posts[res.data.posts.length - 1]?.id 
                     )
                 })
-                .catch(() => {if(hasMore && posts.length > 0) alert("Something's wrong with the server, please wait a while")})
+                .catch(() => { if(hasmore && posts.length > 0) alert("Something's wrong with the server, please wait a while") })
         }
         
         if(token) getNewPostsData();
