@@ -52,9 +52,9 @@ function Login() {
           <h2>save, share and discover the best links on the web</h2>
         </div>
       </LogoHolder>
-      <LoginForm onSubmit={logIntoAccount}>
+      <LoginForm>
         <div>
-          <form>
+          <form onSubmit={logIntoAccount}>
             <EnterInput
               type="email"
               placeholder="e-mail"

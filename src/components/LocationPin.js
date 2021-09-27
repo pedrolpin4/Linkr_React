@@ -73,7 +73,7 @@ const LocationIcon = styled(IoLocationSharp)`
   height: 18.5px;
   cursor: pointer;
 
-  @media(max-width: 600px) {
+  @media (max-width: 600px) {
     width: 16px;
   }
 `;

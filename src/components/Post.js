@@ -147,13 +147,8 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
   }, [isEditing]);
 
   return (
-    <PostContainer hasRepostBar={repostId} ref ={lastPost}>
-      {repostId ? (
-        <RepostBar
-          repostedBy={repostedBy}
-          theme={theme}
-        />
-      ) : null}
+    <PostContainer hasRepostBar={repostId} ref={lastPost}>
+      {repostId ? <RepostBar repostedBy={repostedBy} theme={theme} /> : null}
       <UpperContainer
         animate={isCommentBoxActive ? "noRadius" : "radius"}
         variants={variants}
@@ -173,16 +168,20 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
             newPosts={newPosts}
           />
 
-          <ShowComments theme ={theme}>
+          <ShowComments theme={theme}>
             <AiOutlineComment
               className="comments-ico"
               size={20}
-              color= {theme === "light" ? "#171717" : "#FFFFFF"}
+              color={theme === "light" ? "#171717" : "#FFFFFF"}
               onClick={(e) => {
                 toggleCommentsView(e);
               }}
             />
-            <p className="comments-ammount">{`${commentsAmmount} comments`}</p>
+            {commentsAmmount === 1 ? (
+              <p className="comments-ammount">{`${commentsAmmount} comment`}</p>
+            ) : (
+              <p className="comments-ammount">{`${commentsAmmount} comments`}</p>
+            )}
           </ShowComments>
         </LeftSection>
 
@@ -308,7 +307,7 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
         postOwner={user}
         isActive={isCommentBoxActive}
         setCommentsAmmount={setCommentsAmmount}
-        theme = {theme}
+        theme={theme}
       />
     </PostContainer>
   );
@@ -345,6 +344,7 @@ const UpperContainer = styled(motion.div)`
     -webkit-user-select: text;
     -ms-user-select: text;
     user-select: text;
+    word-break: break-all;
   }
 
   @media screen and (max-width: 600px) {

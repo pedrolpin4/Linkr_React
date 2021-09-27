@@ -149,6 +149,8 @@ function UsersPosts() {
     if(userData.token) getNewPostsData();
   }, [pageNumber])
 
+  console.log("pUD", profileUserData)
+
   return (
     <>
       {userData.user?.username === profileUserData?.username ? (
@@ -162,7 +164,7 @@ function UsersPosts() {
           {followButton ? "Unfollow" : "Follow"}
         </FollowButton>
       )}
-      <BaseLayout title={`${profileUserData?.username}'s posts`} img={profileUserData?.avatar}>
+      <BaseLayout title={profileUserData?.username ? `${profileUserData?.username}'s posts` : ``} img={profileUserData?.avatar}>
         {isLoading ? (
           <Loading spinnerSize={30} />
         ) : userPosts.length === 0 ? (
