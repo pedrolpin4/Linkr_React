@@ -133,7 +133,8 @@ const SearchContainer = styled.div`
 
 const UsersListBox = styled.ul`
   width: ${(props) => (props.mobile ? "611px" : "563px")};
-  height: auto;
+  height: 300px;
+  overflow-y: scroll;
   background-color: ${(props) =>
     props.theme === "light" ? "#ededed" : "#e7e7e7"};
   position: ${(props) => (props.mobile ? "absolute" : "fixed")};
