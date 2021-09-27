@@ -63,7 +63,6 @@ export default function LocationPin({ geoLocation, username, theme }) {
       )}
     </>
   );
-  
 }
 
 const LocationIcon = styled(IoLocationSharp)`

@@ -94,7 +94,9 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
       );
 
       if (response) {
-        history.go();
+        setIsEditing(false);
+        setLastValue(response.post.text);
+        setIsDisabled(false);
       } else {
         setIsDisabled(false);
         inputRef.current.focus();
@@ -145,6 +147,7 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
     }
   }, [isEditing]);
 
+  console.log("pD", postData)
   return (
     <PostContainer hasRepostBar={repostId} ref={lastPost}>
       {repostId ? <RepostBar repostedBy={repostedBy} theme={theme} /> : null}
@@ -486,6 +489,7 @@ const RightSection = styled.div`
     line-height: unset;
     color: ${(props) => (props.theme === "light" ? "#171717" : "#FFFFFF")};
     font-size: 19px;
+    word-break: break-all;
   }
 
   .hashtag {

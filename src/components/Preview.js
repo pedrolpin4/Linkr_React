@@ -4,7 +4,7 @@ import PreviewModal from './PreviewModal';
 
 export default function Preview({ title, description, link, img, theme }) {
     const [showModal, setShowModal] = useState(false);
-    console.log("title", title)
+    console.log("img", img)
 
     return (
       <>
@@ -18,9 +18,9 @@ export default function Preview({ title, description, link, img, theme }) {
           </LeftSection>
           <RightSection
             img={
-              img !== null
+              img !== null || img !== ""
                 ? img
-                : "https://cdn.neemo.com.br/uploads/settings_webdelivery/logo/996/notfound.png"
+                : "https://forestgreenslimplots.andrezzasoares.repl.co/download.png"
             }
           />
         </PreviewContainer>
