@@ -1,22 +1,20 @@
 import styled from "styled-components";
-import { useState, useContext, useRef, useEffect } from "react";
+import { useState, useContext, useRef, useEffect, useCallback } from "react";
 import { FaTrash } from "react-icons/fa";
 import { FiEdit2 } from "react-icons/fi";
 import { AiOutlineComment } from "react-icons/ai";
 import ReactHashtag from "react-hashtag";
 import axios from "axios";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import getYouTubeID from "get-youtube-id";
 import { motion } from "framer-motion";
 import LikesComponent from "./LikesComponent";
-import Modal from "react-modal";
 import Preview from "./Preview";
 import UserContext from "../context/UserContext";
 import service from "../service/post";
 import CommentBox from "./CommentsBox/CommentBox";
 import RepostComponent from "./RepostComponent";
 import RepostBar from "./RepostBar";
-import { customStyles, ModalButtons } from "../SharedStyles/StyledComponents";
 import ThemeContext from "../context/ThemeContext";
 import LocationPin from "./LocationPin";
 import { useMediaQuery } from '../utils/useMediaQuery';
@@ -48,7 +46,6 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
 
   const [isCommentBoxActive, setIsCommentBoxActive] = useState(false);
   const [commentsAmmount, setCommentsAmmount] = useState("");
-  const history = useHistory();
 
   const isMobile = useMediaQuery('(min-width: 600px)');
 
@@ -80,6 +77,7 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
         },
       },
     }
+    const modalRef = useRef()
 
   async function keyEvents(e) {
     if (e.code === "Escape") {
@@ -133,9 +131,26 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
     setIsOpen(true);
   }
 
-  function closeModal() {
-    setIsOpen(false);
+  function closeModal (e) {
+    if (modalRef.current === e.target) {
+      setIsOpen(false);
+      setIsClicked(false)
+    }
   }
+
+  const modalKeyEvents = useCallback(
+    (e) => {
+      if (e.key === "Escape" && modalIsOpen === true) {
+        setIsOpen(false);
+      }
+    },
+    [setIsOpen, modalIsOpen]
+  );
+
+  useEffect(() => {
+    document.addEventListener("keydown", modalKeyEvents);
+    return () => {document.removeEventListener("keydown", modalKeyEvents)}
+  }, [modalKeyEvents]);
 
   function toggleCommentsView(e) {
     e.stopPropagation();
@@ -168,6 +183,10 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
             userId={user.id}
             setNewPosts={setNewPosts}
             newPosts={newPosts}
+            theme = {theme}
+            modalRef = {modalRef}
+            closeModal = {closeModal}
+            modalKeyEvents = {modalKeyEvents}
           />
 
           <ShowComments theme={theme}>
@@ -274,40 +293,34 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
             />
           )}
         </RightSection>
-        <Modal
-          isOpen={modalIsOpen}
-          onRequestClose={closeModal}
-          style={customStyles}
-          ariaHideApp={false}
-          contentLabel="Example Modal"
-        >
-          <h2
-            style={{
-              color: "white",
-              fontSize: "34px",
-              fontWeight: "bold",
-              width: "358px",
-              fontFamily: "Lato",
-              textAlign: "center",
-            }}
-          >
-            {isClicked
-              ? "Loading..."
-              : "Are you sure you want to delete this post?"}
-          </h2>
-          <ModalButtons>
-            <button disabled={isClicked} onClick={closeModal}>
-              No, return
-            </button>
-            <button
-              className="second"
-              disabled={isClicked}
-              onClick={() => toDeletePost(id)}
-            >
-              Yes, delete it
-            </button>
-          </ModalButtons>
-        </Modal>
+        {modalIsOpen ? (
+        <>
+          <ModalBackground
+            ref={modalRef}
+            onClick={closeModal}
+            theme={theme}
+          ></ModalBackground>
+          <Modal theme={theme}>
+            <TopSection theme={theme}>
+              <h2>{isClicked ? "Loading..." : "Are you sure you want to delete this post?"}</h2>
+            </TopSection>
+            <ModalButtons>
+              <button disabled={isClicked} onClick={closeModal}>
+                No, cancel
+              </button>
+              <button
+                className="second"
+                disabled={isClicked}
+                onClick={() => toDeletePost(id)}
+              >
+                Yes, delete!
+              </button>
+            </ModalButtons>
+          </Modal>
+        </>
+      ) : (
+        ""
+      )}
       </UpperContainer>
       <CommentBox
         postId={id}
@@ -553,4 +566,91 @@ const EditInput = styled.textarea`
   }
 `;
 
+const Modal = styled.div`
+  position: fixed;
+  top: calc((100vh - 262px) / 2);
+  left: calc((100vw - 597px) / 2);
+  height: 262px;
+  width: 597px;
+  background-color: ${(props) => (props.theme === "light" ? "#e2e2e2" : "#333333")};
+  opacity: 1;
+  z-index: 130;
+  border-radius: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
+  @media (max-width: 597px) {
+    width: 100vw;
+    height: auto;
+    left: 0px;
+    padding: 0 15px 20px;
+  }
+`;
+
+const TopSection = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 38px 36px 15px 40px;
+  width: 100%;
+
+  h2 {
+    font-family: "Oswald", sans-serif;
+    width: 350px;
+    font-weight: bold;
+    font-size: 34px;
+    line-height: 41px;
+    color: ${(props) => (props.theme === "light" ? "#2a2a2a" : "#ffffff")};
+    overflow-wrap: break-word;
+    margin: 0 5px 0 0;
+    text-align: center;
+  }
+
+  p {
+    font-size: 19.74px;
+    color: ${(props) => (props.theme === "light" ? "#2a2a2a" : "#ffffff")};
+    cursor: pointer;
+  }
+
+  @media (max-width: 611px) {
+    h2 {
+      font-size: 30px;
+      line-height: 30px;
+    }
+  };
+`;
+
+const ModalBackground = styled.div`
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  background-color: ${props => props.theme === "light" ? "rgba(0,0,0, 0.6)" : "rgba(255,255,255, 0.6)"};
+  z-index: 120;
+`;
+
+const ModalButtons = styled.div`
+  margin-top: 30px;
+  margin-bottom: 25px;
+  button {
+    width: 134px;
+    height: 37px;
+    border-radius: 5px;
+    border: none;
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 22px;
+    color: #1877f2;
+    cursor: pointer;
+  }
+
+  .second {
+    background-color: #1877f2;
+    color: #fff;
+    margin-left: 27px;
+  }
+`;
