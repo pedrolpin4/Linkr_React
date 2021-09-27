@@ -9,14 +9,12 @@ import { Link, useHistory } from "react-router-dom";
 import getYouTubeID from "get-youtube-id";
 import { motion } from "framer-motion";
 import LikesComponent from "./LikesComponent";
-import Modal from "react-modal";
 import Preview from "./Preview";
 import UserContext from "../context/UserContext";
 import service from "../service/post";
 import CommentBox from "./CommentsBox/CommentBox";
 import RepostComponent from "./RepostComponent";
 import RepostBar from "./RepostBar";
-import { customStyles, ModalButtons } from "../SharedStyles/StyledComponents";
 import ThemeContext from "../context/ThemeContext";
 import LocationPin from "./LocationPin";
 import { useMediaQuery } from '../utils/useMediaQuery';
@@ -48,7 +46,6 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
 
   const [isCommentBoxActive, setIsCommentBoxActive] = useState(false);
   const [commentsAmmount, setCommentsAmmount] = useState("");
-  const history = useHistory();
 
   const isMobile = useMediaQuery('(min-width: 600px)');
 
@@ -275,40 +272,14 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
             />
           )}
         </RightSection>
-        <Modal
-          isOpen={modalIsOpen}
-          onRequestClose={closeModal}
-          style={customStyles}
-          ariaHideApp={false}
-          contentLabel="Example Modal"
-        >
-          <h2
-            style={{
-              color: "white",
-              fontSize: "34px",
-              fontWeight: "bold",
-              width: "358px",
-              fontFamily: "Lato",
-              textAlign: "center",
-            }}
-          >
-            {isClicked
-              ? "Loading..."
-              : "Are you sure you want to delete this post?"}
-          </h2>
-          <ModalButtons>
-            <button disabled={isClicked} onClick={closeModal}>
-              No, return
-            </button>
-            <button
-              className="second"
-              disabled={isClicked}
-              onClick={() => toDeletePost(id)}
-            >
-              Yes, delete it
-            </button>
-          </ModalButtons>
-        </Modal>
+        <DeleteModal 
+          showModal = {showModal}
+          isClicked = {isClicked}
+          setIsClicked = {setIsClicked}
+          modalIsOpen = {modalIsOpen}
+          setModalIsOpen = {setModalIsOpen}
+          closeModal = {closeModal}
+        />
       </UpperContainer>
       <CommentBox
         postId={id}
