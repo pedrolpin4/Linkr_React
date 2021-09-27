@@ -68,9 +68,13 @@ export default function LocationPin({ geoLocation, username, theme }) {
 const LocationIcon = styled(IoLocationSharp)`
   color: ${(props) => (props.theme === "light" ? "#2a2a2a" : "#fff")};
   margin: 0 0 0 5px;
-  width: 18.5px;
-  height: 18.5px;
+  width: 19px;
+  height: 19px;
   cursor: pointer;
+  min-width: 19px;
+  /* position: absolute;
+  right: 0;
+  top: 0; */
 
   @media (max-width: 600px) {
     width: 16px;

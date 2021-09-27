@@ -191,11 +191,16 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
           shouldhide={user.id === userData.user?.id && !repostId}
           theme={theme}
         >
-          <header>
-            <div>
-              <p className="username">
-                <a href={`/user/${user.id}`}>{user.username}</a>
-              </p>
+          <Header
+            myPost={user.username === userData.user ? true : false}
+            theme={theme}
+          >
+            <NameAndLoc myPost={user.username === userData.user ? true : false}>
+              <div>
+                <p className="username">
+                  <a href={`/user/${user.id}`}>{user.username}</a>
+                </p>
+              </div>
               {geoLocation ? (
                 <LocationPin
                   theme={theme}
@@ -205,7 +210,7 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
               ) : (
                 ""
               )}
-            </div>
+            </NameAndLoc>
             <FiEdit2
               size={16}
               className="edit"
@@ -244,7 +249,7 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
                 {currentValue}
               </ReactHashtag>
             )}
-          </header>
+          </Header>
           {link.match("^https?://www.youtube.com/watch") ? (
             <>
               <iframe
@@ -466,25 +471,6 @@ const RightSection = styled.div`
     display: ${(props) => (!props.shouldhide ? "none" : "unset")};
   }
 
-  header {
-    margin-bottom: 10px;
-    color: ${(props) => (props.theme === "light" ? "#333333" : "#cecece")};
-    line-height: 20px;
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
-    font-size: 17px;
-    max-width: 95%;
-    -webkit-user-select: text;
-    -ms-user-select: text;
-    user-select: text;
-  }
-
-  header > div {
-    display: flex;
-    align-items: center;
-    margin: 5px 0 10px;
-  }
-
   .username {
     line-height: unset;
     color: ${(props) => (props.theme === "light" ? "#171717" : "#FFFFFF")};
@@ -498,11 +484,6 @@ const RightSection = styled.div`
   }
 
   @media (max-width: 600px) {
-    header {
-      font-size: 15px;
-      width: calc(90% - 30px);
-    }
-
     .delete {
       right: 7px;
     }
@@ -520,6 +501,36 @@ const RightSection = styled.div`
     .username {
       font-size: 17px;
     }
+  }
+`;
+
+const Header = styled.header`
+  margin-bottom: 10px;
+  color: ${(props) => (props.theme === "light" ? "#333333" : "#cecece")};
+  line-height: 20px;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  font-size: 17px;
+  max-width: 95%;
+  -webkit-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+
+  @media (max-width: 600px) {
+    font-size: 15px;
+    width: ${props => props.myPost ? `calc(90% - 30px)` : '100%'};
+  }
+`;
+
+const NameAndLoc = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 5px 0 10px;
+  max-width: ${props => props.myPost ? '91.5%' : '100%'};
+  width: fit-content;
+  @media (max-width: 600px) {
+    max-width: 100%;
   }
 `;
 
