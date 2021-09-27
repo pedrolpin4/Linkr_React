@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { DebounceInput } from "react-debounce-input";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import UserContext from "../context/UserContext";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -15,7 +15,6 @@ function SearchBox({ mobile, theme }) {
 
   useEffect(() => {
     if (searchInput.length > 2) {
-      console.log("dentro do if")
       const req = axios.get(
         `https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr/users/search?username=${searchInput}`,
         {
@@ -35,7 +34,7 @@ function SearchBox({ mobile, theme }) {
           })
         );
       });
-      req.catch((error) => console.log(error.response));
+      req.catch((error) => void(0));
     }
   }, [searchInput]);
 

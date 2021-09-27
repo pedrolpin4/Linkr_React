@@ -4,7 +4,6 @@ import PreviewModal from './PreviewModal';
 
 export default function Preview({ title, description, link, img, theme }) {
     const [showModal, setShowModal] = useState(false);
-    console.log("img", img)
 
     return (
       <>

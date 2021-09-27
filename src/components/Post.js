@@ -148,7 +148,6 @@ export default function Post({ postData, lastPost, geoLocation, setNewPosts, new
     }
   }, [isEditing]);
 
-  console.log("pD", postData)
   return (
     <PostContainer hasRepostBar={repostId} ref={lastPost}>
       {repostId ? <RepostBar repostedBy={repostedBy} theme={theme} /> : null}

@@ -211,7 +211,8 @@ const FollowButton = styled.button`
   line-height: 17px;
   
   @media (max-width: 611px){
-    top: 142px;
+    width: 90px;
+    top: 193px !important;
   }
 
   @media (max-width: 1000px) {
