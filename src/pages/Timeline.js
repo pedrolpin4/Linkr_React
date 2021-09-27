@@ -107,7 +107,7 @@ function Timeline() {
                         res.data.posts[res.data.posts.length - 1]?.id 
                     )
                 })
-                .catch(() => {if(hasMore) alert("Something's wrong with the server, please wait a while")})
+                .catch(() => {if(hasMore && posts.length > 0) alert("Something's wrong with the server, please wait a while")})
         }
         
         if(token) getNewPostsData();
