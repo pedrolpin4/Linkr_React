@@ -103,6 +103,7 @@ function Hashtag() {
               geoLocation={post.geolocation}
               index = {index}
               setPosts = {setHashtagsPosts}
+              setHasMore = {setHasMore}
             />
           ))
         )}
