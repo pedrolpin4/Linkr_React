@@ -147,13 +147,11 @@ function UsersPosts() {
     }
     
     if(userData.token) getNewPostsData();
-  }, [pageNumber])
-
-  console.log("pUD", profileUserData)
+  }, [pageNumber]);
 
   return (
     <>
-      {userData.user?.username === profileUserData?.username ? (
+      {userData.user?.username === profileUserData?.username || profileUserData === undefined ? (
         ""
       ) : (
         <FollowButton
