@@ -11,6 +11,8 @@ function SearchBox({ mobile, theme }) {
   const { userData } = useContext(UserContext);
   const [searchInput, setSearchInput] = useState("");
   const [searchUsers, setSearchUsers] = useState([]);
+  const userBox = useRef();
+  const searchBox = useRef();
 
   useEffect(() => {
     if (searchInput.length > 2) {
@@ -33,15 +35,23 @@ function SearchBox({ mobile, theme }) {
           })
         );
       });
-      req.catch((error) => void(0));
+      req.catch((error) => console.log(error.response));
     }
-  }
-  //eslint-disable-next-line
-  , [searchInput]);
+  }, [searchInput]);
+
+  useEffect(() => {
+    function hideSearch(e) {
+      if (userBox.current !== e.target || searchBox.current !== e.target) {
+        setSearchInput("");
+      }
+    }
+    window.addEventListener("click", hideSearch);
+    return () => window.removeEventListener("click", hideSearch);
+  }, [searchUsers]);
 
   return (
     <>
-      <SearchContainer mobile={mobile} theme={theme}>
+      <SearchContainer mobile={mobile} theme={theme} ref = {searchBox}>
         <DebounceInput
           placeholder="Search for people and friends"
           className="box"
@@ -55,6 +65,7 @@ function SearchBox({ mobile, theme }) {
         toShow={searchInput.length >= 3}
         mobile={mobile}
         theme={theme}
+        ref = {userBox}
       >
         {searchUsers.length === 0 ? (
           <User theme={theme}>
