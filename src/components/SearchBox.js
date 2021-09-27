@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { DebounceInput } from "react-debounce-input";
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import UserContext from "../context/UserContext";
 import axios from "axios";
 import { useEffect } from "react/cjs/react.development";
@@ -11,6 +11,8 @@ function SearchBox({ mobile, theme }) {
   const { userData } = useContext(UserContext);
   const [searchInput, setSearchInput] = useState("");
   const [searchUsers, setSearchUsers] = useState([]);
+  const userBox = useRef();
+  const searchBox = useRef();
 
   useEffect(() => {
     if (searchInput.length > 2) {
@@ -39,9 +41,19 @@ function SearchBox({ mobile, theme }) {
   //eslint-disable-next-line
   , [searchInput]);
 
+  useEffect(() => {
+    function hideSearch(e) {
+      if (userBox.current !== e.target || searchBox.current !== e.target) {
+        setSearchInput("");
+      }
+    }
+    window.addEventListener("click", hideSearch);
+    return () => window.removeEventListener("click", hideSearch);
+  }, [searchUsers]);
+
   return (
     <>
-      <SearchContainer mobile={mobile} theme={theme}>
+      <SearchContainer mobile={mobile} theme={theme} ref = {searchBox}>
         <DebounceInput
           placeholder="Search for people and friends"
           className="box"
@@ -55,6 +67,7 @@ function SearchBox({ mobile, theme }) {
         toShow={searchInput.length >= 3}
         mobile={mobile}
         theme={theme}
+        ref = {userBox}
       >
         {searchUsers.length === 0 ? (
           <User theme={theme}>
@@ -135,7 +148,7 @@ const SearchContainer = styled.div`
 
 const UsersListBox = styled.ul`
   width: ${(props) => (props.mobile ? "611px" : "563px")};
-  height: 300px;
+  max-height: 300px;
   overflow-y: scroll;
   background-color: ${(props) =>
     props.theme === "light" ? "#ededed" : "#e7e7e7"};
