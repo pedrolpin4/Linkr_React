@@ -13,5 +13,7 @@ const Message = styled.h1`
   font-family: "Oswald", sans-serif;
   @media(max-width: 611px){
     margin: 0 0 0 17px;
+    font-size: 28px;
+    line-height: 38px;
   }
 `;
