@@ -6,13 +6,13 @@ export default function Loading({ spinnerSize,
                                   color     }) {
     return (
         <LoadingContainer>
-            <CgSpinner color={color ? color : "#ffffff"} 
+            <CgSpinner color={localStorage.getItem("currentTheme") === "light" ? "#333333" : "#ffffff"} 
                        size={spinnerSize} 
                        className="spinner"/>
             <Text color={color}>{
                 message
                  ? message
-                 : null    
+                 : ""    
             }</Text>
         </LoadingContainer>
     )

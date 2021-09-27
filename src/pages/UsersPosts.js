@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import BaseLayout from "../components/BaseLayout";
@@ -6,26 +6,57 @@ import Post from "../components/Post";
 import service from "../service/post";
 import Loading from "../components/Loading";
 import FeedbackMessage from "../components/FeedbackMessage";
+import LoadingMessage from '../components/LoadingMessage';
 import styled from "styled-components";
 import axios from "axios";
-//import { AiFillSketchCircle } from "react-icons/ai";
 
 function UsersPosts() {
   const { id } = useParams();
   const [userPosts, setUserPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { userData } = useContext(UserContext);
-  const [username, setUsername] = useState("");
   const [followButton, setFollowButton] = useState(false);
   const [clicked, setClicked] = useState(false);
+  const [idObserver, setIdObserver] = useState(null);
+  const [postsLoading, setPostsLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [pageNumber, setPageNumber] = useState(0)
+  const observer = useRef()
+
+  const [ profileUserData, setProfileUserData ] = useState();
+  
+  const lastPost = useCallback(node => {
+    if(postsLoading) return
+    if(observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(entries => {
+        if(entries[0].isIntersecting && hasMore){
+            setPageNumber(prev => prev + 1)
+        } 
+    })
+    if(node) observer.current.observe(node)
+  }, [postsLoading, hasMore])
+
+  useEffect(() => {
+    async function getUserData() {
+      const response = await service.getSomeUserData(id, userData.token);
+
+      if(response) setProfileUserData(response.user);
+    }
+
+    if(userData.token) getUserData();
+  }, [id, userData])
 
   useEffect(() => {
     let unmounted = false;
     async function getThisUserPosts() {
       const response = await service.getUserPosts(id, userData.token);
+
       if (response && !unmounted) {
         setUserPosts(response.posts);
-        setUsername(response.posts[0].repostedBy ? response.posts[0].repostedBy.username : response.posts[0].user.username);
+        setIdObserver(response.posts[response.posts.length - 1]?.repostId ?
+          response.posts.find((post,index) =>(index + 1 === response.posts.length))?.repostId :
+          response.posts.find((post,index) =>(index + 1 === response.posts.length))?.id 
+        )
       } else if (response === false)
         alert("The birds are eating our comunications lines, sorry.");
       setIsLoading(false);
@@ -95,9 +126,32 @@ function UsersPosts() {
     });
   }
 
+  useEffect(() => {
+    function getNewPostsData() {
+      if(userPosts.length) setPostsLoading(true)
+      service.getOlderPosts(userData.token, idObserver, `/users/${id}/posts`)
+        .then(res => {
+            setPostsLoading(false)
+
+            if(res.data.posts.length === 10){
+                setHasMore(true)
+            } else setHasMore(false)
+
+            setUserPosts([...userPosts, ...res.data.posts])
+            setIdObserver(res.data.posts[res.data.posts.length - 1]?.repostId ?
+                res.data.posts[res.data.posts.length - 1]?.repostId :
+                res.data.posts[res.data.posts.length - 1]?.id 
+            )
+        })
+        .catch(() => {if(hasMore) alert("Something's wrong with the server, please wait a while")})
+    }
+    
+    if(userData.token) getNewPostsData();
+  }, [pageNumber]);
+
   return (
     <>
-      {userData.user?.username === username ? (
+      {userData.user?.username === profileUserData?.username || profileUserData === undefined ? (
         ""
       ) : (
         <FollowButton
@@ -108,32 +162,31 @@ function UsersPosts() {
           {followButton ? "Unfollow" : "Follow"}
         </FollowButton>
       )}
-      <BaseLayout title={`${username}'s posts`}>
+      <BaseLayout title={profileUserData?.username ? `${profileUserData?.username}'s posts` : ``} img={profileUserData?.avatar}>
         {isLoading ? (
           <Loading spinnerSize={30} />
         ) : userPosts.length === 0 ? (
           <FeedbackMessage text="Bip Bop, this user has no posts" />
         ) : (
-          userPosts.map((post) => (
+          userPosts.map((post, index) => (
             <Post
               key={post.repostId ? post.repostId : post.id}
-              username={post.user.username}
-              text={post.text}
-              link={post.link}
-              profilePic={post.user.avatar}
-              prevTitle={post.linkTitle}
-              prevImage={post.linkImage}
-              prevDescription={post.linkDescription}
-              id={post.id}
+              postData={post}
               repostId={post.repostId ? post.repostId : false}
-              likes={post.likes}
-              userId={post.user.id}
               repostCount={post.repostCount}
               repostedByUser={post.repostedBy?.username}
               repostedUserId={post.repostedBy?.id}
+              idObserver = {idObserver}
+              lastPost = {lastPost}
+              geoLocation={post.geolocation}
+              index = {index}
+              setPosts = {setUserPosts}
+              setHasMore = {setHasMore}
             />
           ))
         )}
+        {postsLoading ? <Loading spinnerSize={30} /> : <></> }
+        {postsLoading ? <LoadingMessage/> : <></>}
       </BaseLayout>
     </>
   );
@@ -142,6 +195,7 @@ function UsersPosts() {
 export default UsersPosts;
 
 const FollowButton = styled.button`
+  cursor: pointer;
   width: 112px;
   height: 31px;
   background-color: ${(props) => (props.follow ? "#FFF" : "#1877f2")};
@@ -155,4 +209,13 @@ const FollowButton = styled.button`
   font-weight: bold;
   font-size: 14px;
   line-height: 17px;
+  
+  @media (max-width: 611px){
+    width: 90px;
+    top: 193px !important;
+  }
+
+  @media (max-width: 1000px) {
+    top: 200px;
+  }
 `;

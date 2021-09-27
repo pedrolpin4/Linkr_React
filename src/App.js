@@ -11,12 +11,14 @@ import MyLikes from "./pages/MyLikes";
 import MyPosts from "./pages/MyPosts";
 import Timeline from "./pages/Timeline";
 import UsersPosts from "./pages/UsersPosts";
-import BaseLayout from "./components/BaseLayout";
 import service from "./service/post";
+import ThemeContext from "./context/ThemeContext";
+
 
 function App() {
   const [ userData, setUserData ] = useState({});
   const [ following, setFollowing ] = useState([]);
+  const [theme, setTheme] = useState(localStorage.getItem("currentTheme") ? localStorage.getItem("currentTheme") : "dark")
 
   useEffect(() => {
     const userLogin = JSON.parse(localStorage.getItem("userLogin"));
@@ -27,6 +29,7 @@ function App() {
     if(userData.token) {
       updateFollowsList(userData.token)
     }
+
   }, [userData])
 
   /**
@@ -66,14 +69,15 @@ function App() {
     >
       <Router>
         <Switch>
-          <Route exact path="/" component={Login} />
-          <Route exact path="/sign-up" component={SignUp} />
-          <Route exact path="/timeline" component={Timeline} />
-          <Route exact path="/my-posts" component={MyPosts} />
-          <Route exact path="/user/:id" component={UsersPosts} />
-          <Route exact path="/hashtag/:hashtag" component={Hashtag} />
-          <Route exact path="/my-likes" component={MyLikes} />
-          <Route exact path="/baselayout" component={() => <BaseLayout title="teste" trends={[{name: "yoyooo"}]}><p>oiee</p></BaseLayout>} />
+          <ThemeContext.Provider value = {{theme, setTheme}}>
+            <Route exact path="/" component={Login} />
+            <Route exact path="/sign-up" component={SignUp} />
+            <Route exact path="/timeline" component={Timeline} />
+            <Route exact path="/my-posts" component={MyPosts} />
+            <Route exact path="/user/:id" component={UsersPosts} />
+            <Route exact path="/hashtag/:hashtag" component={Hashtag} />
+            <Route exact path="/my-likes" component={MyLikes} />
+          </ThemeContext.Provider>
         </Switch>
       </Router>
     </UserContext.Provider>

@@ -111,7 +111,7 @@ export default function LikesComponent ( {likes, id}) {
             : 
             "Be the first to like it"
         )
-    }, [isLiked, likesArray, numberOfLikes, userData.user.id])
+    }, [isLiked])
 
     useEffect(() => {updateTooltipContent("user.id", "user.username")}, [updateTooltipContent])
 
@@ -120,9 +120,9 @@ export default function LikesComponent ( {likes, id}) {
             {
                 isLiked 
                 ? 
-                <AiFillHeart  onClick = {() => unLikePost(userData.token, id)} className="likedHeart" size={25} /> 
+                <AiFillHeart  onClick = {() => unLikePost(userData.token, id)} className="likedHeart" size={20} /> 
                 : 
-                <AiOutlineHeart onClick = {() => likePost(userData.token, id)} className="unLikedHeart" size={25} />
+                <AiOutlineHeart onClick = {() => likePost(userData.token, id)} className="unLikedHeart" size={20} />
             }
         
             <Tippy content = {tooltipContent} placement = "bottom">

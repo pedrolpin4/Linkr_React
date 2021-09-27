@@ -3,12 +3,15 @@ import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
 import axios from "axios";
 import UserContext from "../context/UserContext";
+import LocationComponent from "./LocationComponent";
 
-function PostBox({newPosts, setNewPosts}) {
+function PostBox({newPosts, setNewPosts, theme}) {
   const { userData } = useContext(UserContext);
   const [url, setUrl] = useState("");
   const [text, setText] = useState("");
   const [clicked, setClicked] = useState(false);
+  const [getGeolocation, setGetGeolocation] = useState({});
+
 
   function toPublishPost() {
     setClicked(true);
@@ -24,6 +27,10 @@ function PostBox({newPosts, setNewPosts}) {
         {
           text,
           link: url,
+          geolocation: {
+            latitude: getGeolocation.coords ? getGeolocation.coords.latitude : "",
+            longitude: getGeolocation.coords ? getGeolocation.coords.longitude : "",
+          },
         },
         config
       );
@@ -47,28 +54,31 @@ function PostBox({newPosts, setNewPosts}) {
   }
 
   return (
-    <CreatePostBox>
+    <CreatePostBox theme = {theme}>
       <ImageUser>
         <Link to={`/user/${userData.user?.id}`}>
           <img src={userData.user?.avatar} alt="" />
         </Link>
       </ImageUser>
-      <PostContent>
+      <PostContent theme = {theme}>
         <h1>What do you have to post today?</h1>
         <URL
           placeholder="http://..."
           onChange={(e) => setUrl(e.target.value)}
           value={url}
           disabled={clicked}
+          theme = {theme}
         ></URL>
         <Text
           placeholder="What's happening?"
           onChange={(e) => setText(e.target.value)}
           value={text}
           disabled={clicked}
+          theme = {theme}
         ></Text>
         <ButtonDiv>
-          <PublishButton onClick={toPublishPost} disabled={clicked}>
+          <LocationComponent setGetGeolocation={setGetGeolocation} theme = {theme}/>
+          <PublishButton onClick={toPublishPost} disabled={clicked} theme = {theme}>
             {clicked ? "Publishing..." : "Publish"}
           </PublishButton>
         </ButtonDiv>
@@ -84,7 +94,7 @@ const CreatePostBox = styled.div`
   width: 611px;
   height: 209px;
   border-radius: 16px;
-  background-color: #fff;
+  background-color: ${props => props.theme === "light" ? "#171717" : "#FFF"};
   display: flex;
   padding: 20px;
   margin-bottom: 20px;
@@ -99,7 +109,7 @@ const CreatePostBox = styled.div`
 
 const ImageUser = styled.div`
   width: 100%;
-  height: 100%;
+  height: 50px;
   display: flex;
   justify-content: center;
   margin-right: 15px;
@@ -124,7 +134,7 @@ const PostContent = styled.div`
     font-weight: 300;
     font-size: 20px;
     line-height: 24px;
-    color: #707070;
+    color: ${props => props.theme === "light" ? "#f1f1f1" : "#707070"};
   }
 
   @media screen and (max-width: 600px) {
@@ -139,12 +149,16 @@ const PostContent = styled.div`
 const URL = styled.input`
   width: 503px;
   height: 30px;
-  background: #efefef;
+  background: ${props => props.theme === "light" ? "#2a2a2a" : "#efefef"};
   border-radius: 5px;
   border: none;
   margin: 5px auto;
   padding-left: 10px;
+  color: ${props => props.theme === "light" ? "#fff" : "black"};
   font-family: "Lato", sans-serif;
+  :focus {
+    outline: none;
+  }
   @media screen and (max-width: 600px) {
     width: 100%;
   }
@@ -153,15 +167,19 @@ const URL = styled.input`
 const Text = styled.textarea`
   width: 503px;
   height: 66px;
-  background: #efefef;
+  background: ${props => props.theme === "light" ? "#2a2a2a" : "#efefef"};
+  color: ${props => props.theme === "light" ? "#fff" : "black"};
   border-radius: 5px;
   border: none;
-  margin: 0 auto 15px auto;
+  margin: 0 auto 5px auto;
   padding: 10px;
   word-break: break-word;
   word-break: break-all;
   resize: none;
   font-family: "Lato", sans-serif;
+  :focus {
+    outline: none;
+  }
   @media screen and (max-width: 600px) {
     width: 100%;
     margin-bottom: 6px;
@@ -171,7 +189,8 @@ const Text = styled.textarea`
 
 const ButtonDiv = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: flex-start;
 `;
 
 const PublishButton = styled.button`
@@ -191,5 +210,7 @@ const PublishButton = styled.button`
 
   @media (max-width: 600px) {
     height: 22px;
+    font-size: 13px;
+    line-height: 16px;
   }
 `;
