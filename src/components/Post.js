@@ -148,6 +148,11 @@ export default function Post({ postData,
     setIsOpen(true);
   }
 
+  function closeModalFromButton() {
+    setIsOpen(false);
+    setIsClicked(false)
+  }
+
   function closeModal (e) {
     if (modalRef.current === e.target) {
       setIsOpen(false);
@@ -321,8 +326,8 @@ export default function Post({ postData,
             <TopSection theme={theme}>
               <h2>{isClicked ? "Loading..." : "Are you sure you want to delete this post?"}</h2>
             </TopSection>
-            <ModalButtons>
-              <button disabled={isClicked} onClick={closeModal}>
+            <ModalButtons theme={theme}>
+              <button disabled={isClicked} onClick={closeModalFromButton}>
                 No, cancel
               </button>
               <button

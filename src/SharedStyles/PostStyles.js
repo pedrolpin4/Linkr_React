@@ -217,6 +217,7 @@ const NameAndLoc = styled.div`
 
 const EditInput = styled.textarea`
   width: 503px;
+  max-width: 99%;
   min-height: 44px;
   background: ${(props) => (props.theme === "light" ? "#DCDCDC" : "#FFFFFF")};
   border-radius: 7px;
@@ -243,7 +244,7 @@ const Modal = styled.div`
   background-color: ${(props) => (props.theme === "light" ? "#e2e2e2" : "#333333")};
   opacity: 1;
   z-index: 130;
-  border-radius: 50px;
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -283,7 +284,7 @@ const TopSection = styled.div`
 
   @media (max-width: 611px) {
     h2 {
-      font-size: 30px;
+      font-size: 26px;
       line-height: 30px;
     }
   };
@@ -314,12 +315,21 @@ const ModalButtons = styled.div`
     line-height: 22px;
     color: #1877f2;
     cursor: pointer;
+
+    @media (max-width: 400px) {
+      width: 100px;
+      font-size: 15px;
+    }
   }
 
   .second {
     background-color: #1877f2;
     color: #fff;
     margin-left: 27px;
+
+    @media (max-width: 400px) {
+      margin-left: 10px;
+    }
   }
 `;
 
