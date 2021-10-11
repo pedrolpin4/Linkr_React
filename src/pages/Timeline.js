@@ -124,8 +124,10 @@ function Timeline() {
         {isLoading ? (
           <Loading spinnerSize={30} />
         ) : following.length === 0 && posts.length === 0 ? (
-          <FeedbackMessage text="We didn't find any posts :(" />
-        ) : (
+          <FeedbackMessage text="You don't follow anyone yet. Please, search for profiles to follow. ;)" />
+        ) : following.length > 0 && posts.length === 0 ?
+          <FeedbackMessage text="We didn't find any posts :( " />
+          : (
           posts.map((post, index) => (
             <Post
               key={post.repostId ? post.repostId : post.id}
